@@ -8,13 +8,20 @@ title          | string    | not null
 author_name    | string    | not null, indexed
 cover_url      | string    | not null
 
+shelf = params[:shelf_id]
+book = params[:book_id]
+
+if shelf.is_default_shelf?
+
+end
+
 ## shelves
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
 user_id     | integer   | not null, foreign key (references users), indexed
-title       | string    | not null
-description | string    | not null
+title       | string    | not null, unique { scope: user_id }
+description | string    |
 
 ## shelf_assignment
 column name | data type | details

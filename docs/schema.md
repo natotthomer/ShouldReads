@@ -1,13 +1,12 @@
 # Schema Information
 
 ## books
-column name  | data type | details
--------------|-----------|-----------------------
-id           | integer   | not null, primary key
-title        | string    | not null
-isbn         | text      | not null
-author_id    | integer   | not null, foreign key (references users), indexed
-cover_url    | string    | not null
+column name    | data type | details
+---------------|-----------|-----------------------
+id             | integer   | not null, primary key
+title          | string    | not null
+author_name    | string    | not null, indexed
+cover_url      | string    | not null
 
 ## shelves
 column name | data type | details
@@ -16,6 +15,12 @@ id          | integer   | not null, primary key
 user_id     | integer   | not null, foreign key (references users), indexed
 title       | string    | not null
 description | string    | not null
+
+## shelf_assignment
+column name | data type | details
+------------|-----------|-----------------------
+shelf_id    | integer   | not null, foreign key (references shelves), indexed
+book_id     | integer   | not null, foreign key (references books), indexed
 
 ## tags
 column name | data type | details

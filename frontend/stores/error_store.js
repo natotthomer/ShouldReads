@@ -12,7 +12,7 @@ ErrorStore.formErrors = function (form) {
   }
 
   var result = {};
-  
+
   var errors;
   Object.keys(_errors).forEach(function (field) {
     errors = _errors[field];

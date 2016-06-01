@@ -39,7 +39,7 @@ SessionStore.currentUserHasBeenFetched = function () {
 };
 
 SessionStore.isUserLoggedIn = function () {
-  return !!_currentUser.id;
+  return !!_currentUser.username;
 };
 
 module.exports = SessionStore;

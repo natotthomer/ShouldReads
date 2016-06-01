@@ -7,7 +7,7 @@ class Api::SessionsController < ApplicationController
 
     if @user
       login!(@user)
-      render json: "api/users/show"
+      render "api/users/show"
     else
       render json: { base: ["Invalid username/password"] }, status: 401
     end
@@ -27,7 +27,7 @@ class Api::SessionsController < ApplicationController
   def show
     if current_user
       @user = current_user
-      render json: "api/users/show"
+      render "api/users/show"
     else
       render json: {}
     end

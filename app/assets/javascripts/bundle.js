@@ -64,8 +64,8 @@
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
-	  React.createElement(Route, { path: '/login', component: LoginForm }),
-	  React.createElement(Route, { path: '/signup', component: LoginForm })
+	  React.createElement(Route, { path: 'login', component: LoginForm }),
+	  React.createElement(Route, { path: 'signup', component: LoginForm })
 	);
 	
 	function _ensureLoggedIn(nextState, replace, asyncDoneCallback) {
@@ -25912,7 +25912,7 @@
 	};
 	
 	SessionStore.isUserLoggedIn = function () {
-	  return !!_currentUser.id;
+	  return !!_currentUser.username;
 	};
 	
 	module.exports = SessionStore;
@@ -25922,9 +25922,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var SessionActions = __webpack_require__(231);
+	var ErrorActions = __webpack_require__(259);
 	
 	var SessionApiUtil = {
-	  login: function (credentials) {
+	  login: function (credentials, callback) {
 	    $.ajax({
 	      url: "/api/session",
 	      type: "POST",
@@ -25932,15 +25933,16 @@
 	      success: function (currentUser) {
 	        console.log("Login success ()");
 	        SessionActions.receiveCurrentUser(currentUser);
+	        callback();
+	      },
+	      error: function (xhr) {
+	        console.log("Login error");
+	        var errors = xhr.responseJSON;
+	        ErrorActions.setErrors("login", errors);
 	      }
 	    });
 	  },
 	
-	  // error: function (xhr) {
-	  //   console.log("Login error");
-	  //   var errors = xhr.responseJSON;
-	  //   // ErrorActions.setErrors("login", errors);
-	  // }
 	  logout: function () {
 	    $.ajax({
 	      url: "/api/session",
@@ -25948,28 +25950,27 @@
 	      success: function () {
 	        console.log("Logout success");
 	        SessionActions.removeCurrentUser();
+	      },
+	      error: function () {
+	        console.log("Logout error");
 	      }
 	    });
 	  },
 	
-	  // error: function () {
-	  //   console.log("Logout error");
-	  //
-	  // }
 	  fetchCurrentUser: function () {
 	    $.ajax({
 	      url: "api/session",
 	      type: "GET",
 	      success: function (currentUser) {
 	        SessionActions.receiveCurrentUser(currentUser);
+	      },
+	      error: function (xhr) {
+	        console.log("Fetch error");
 	      }
 	    });
 	  }
 	};
 	
-	// error: function (xhr) {
-	//   console.log("Fetch error");
-	// }
 	module.exports = SessionApiUtil;
 
 /***/ },
@@ -32781,10 +32782,10 @@
 	
 	  componentDidMount: function () {
 	    SessionStore.addListener(this.forceUpdate.bind(this));
+	    SessionApiUtil.fetchCurrentUser();
 	  },
 	
 	  greeting: function () {
-	    // debugger;
 	    if (SessionStore.isUserLoggedIn()) {
 	      return React.createElement(
 	        'hgroup',
@@ -32822,10 +32823,10 @@
 	      null,
 	      React.createElement(
 	        'header',
-	        null,
+	        { className: 'main-header' },
 	        React.createElement(
 	          'h1',
-	          null,
+	          { className: 'title' },
 	          'ShouldReads'
 	        ),
 	        this.greeting()
@@ -32859,9 +32860,9 @@
 	    };
 	  },
 	
-	  // contextTypes: {
-	  //   router: React.PropTypes.object.isRequired
-	  // },
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 	
 	  componentDidMount: function () {
 	    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
@@ -32879,6 +32880,10 @@
 	    }
 	  },
 	
+	  redirectToHome: function () {
+	    this.context.router.push("/");
+	  },
+	
 	  handleSubmit: function (e) {
 	    e.preventDefault();
 	
@@ -32888,22 +32893,32 @@
 	    };
 	
 	    if (this.props.location.pathname === "/login") {
-	      SessionApiUtil.login(formData);
+	      SessionApiUtil.login(formData, this.redirectToHome);
 	    } else {
-	      UserApiUtil.signup(formData);
+	      UserApiUtil.signup(formData, this.redirectToHome);
 	    }
 	  },
 	
-	  // fieldErrors: function (field) {
-	  //   var errors = ErrorStore.formErrors(this.formType());
-	  //   if (!errors[field]) { return; }
-	  //
-	  //   var messages = errors[field].map(function (errorMsg, i) {
-	  //     return <li key={ i }>{ errorMsg }</li>;
-	  //   });
-	  //
-	  //   return <ul>{ messages }</ul>;
-	  // },
+	  fieldErrors: function (field) {
+	    var errors = ErrorStore.formErrors(this.formType());
+	    if (!errors[field]) {
+	      return;
+	    }
+	
+	    var messages = errors[field].map(function (errorMsg, i) {
+	      return React.createElement(
+	        'li',
+	        { key: i },
+	        errorMsg
+	      );
+	    });
+	
+	    return React.createElement(
+	      'ul',
+	      null,
+	      messages
+	    );
+	  },
 	
 	  formType: function () {
 	    return this.props.location.pathname.slice(1);
@@ -32934,9 +32949,6 @@
 	        'log in instead'
 	      );
 	    }
-	    // { this.fieldErrors("base") }
-	    // { this.fieldErrors("username") }
-	    // { this.fieldErrors("password") }
 	
 	    return React.createElement(
 	      'form',
@@ -32945,11 +32957,17 @@
 	      this.formType(),
 	      ' or ',
 	      navLink,
+	      this.fieldErrors("base"),
 	      React.createElement('br', null),
 	      React.createElement(
 	        'label',
 	        null,
-	        ' Username:',
+	        ' Username: ',
+	        React.createElement('br', null),
+	        ' ',
+	        React.createElement('br', null),
+	        this.fieldErrors("username"),
+	        React.createElement('br', null),
 	        React.createElement('input', { type: 'text', value: this.state.username, onChange: this.usernameChange })
 	      ),
 	      React.createElement('br', null),
@@ -32957,6 +32975,7 @@
 	        'label',
 	        null,
 	        ' Password:',
+	        this.fieldErrors("password"),
 	        React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange })
 	      ),
 	      React.createElement('br', null),
@@ -33034,7 +33053,6 @@
 	
 	var UserApiUtil = {
 	  signup: function (formData) {
-	    debugger;
 	    $.ajax({
 	      url: '/api/users',
 	      type: 'POST',
@@ -33046,7 +33064,7 @@
 	      error: function (xhr) {
 	        console.log('UserApiUtil#createAccount error');
 	        var errors = xhr.responseJSON;
-	        ErrorActions.setErrors("signup", errors);
+	        ErrorActions.setErrors("INVALID", errors);
 	      }
 	    });
 	  }

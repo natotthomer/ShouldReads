@@ -17,8 +17,8 @@ var SessionApiUtil = require('./util/session_api_util');
 // <IndexRoute component={BookIndex}/>
 var routes = (
   <Route path="/" component={App}>
-    <Route path="/login" component={LoginForm}/>
-    <Route path="/signup" component={LoginForm}/>
+    <Route path="login" component={LoginForm}/>
+    <Route path="signup" component={LoginForm}/>
   </Route>
 );
 

@@ -7,10 +7,10 @@ var App = React.createClass({
 
   componentDidMount: function () {
     SessionStore.addListener(this.forceUpdate.bind(this));
+    SessionApiUtil.fetchCurrentUser();
   },
 
   greeting: function(){
-    // debugger;
     if (SessionStore.isUserLoggedIn()) {
     	return (
     		<hgroup>
@@ -31,8 +31,8 @@ var App = React.createClass({
   render: function () {
     return (
       <div>
-        <header>
-          <h1>ShouldReads</h1>
+        <header className="main-header">
+          <h1 className="title">ShouldReads</h1>
           { this.greeting() }
         </header>
         {this.props.children}

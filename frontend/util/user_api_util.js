@@ -3,7 +3,6 @@ var ErrorActions = require('./../actions/error_actions');
 
 var UserApiUtil = {
   signup: function (formData) {
-    debugger;
     $.ajax({
       url: '/api/users',
       type: 'POST',
@@ -15,7 +14,7 @@ var UserApiUtil = {
       error: function (xhr) {
         console.log('UserApiUtil#createAccount error');
         var errors = xhr.responseJSON;
-        ErrorActions.setErrors("signup", errors);
+        ErrorActions.setErrors("INVALID", errors);
       }
     });
   }

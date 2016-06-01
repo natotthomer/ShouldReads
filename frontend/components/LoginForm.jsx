@@ -14,9 +14,9 @@ var LoginForm = React.createClass({
     };
   },
 
-  // contextTypes: {
-  //   router: React.PropTypes.object.isRequired
-  // },
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
 
   componentDidMount: function () {
     this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
@@ -34,6 +34,10 @@ var LoginForm = React.createClass({
     }
   },
 
+  redirectToHome: function () {
+    this.context.router.push("/");
+  },
+
 	handleSubmit: function (e) {
 		e.preventDefault();
 
@@ -43,22 +47,22 @@ var LoginForm = React.createClass({
 		};
 
     if (this.props.location.pathname === "/login") {
-      SessionApiUtil.login(formData);
+      SessionApiUtil.login(formData, this.redirectToHome);
     } else {
-      UserApiUtil.signup(formData);
+      UserApiUtil.signup(formData, this.redirectToHome);
     }
 	},
 
-  // fieldErrors: function (field) {
-  //   var errors = ErrorStore.formErrors(this.formType());
-  //   if (!errors[field]) { return; }
-  //
-  //   var messages = errors[field].map(function (errorMsg, i) {
-  //     return <li key={ i }>{ errorMsg }</li>;
-  //   });
-  //
-  //   return <ul>{ messages }</ul>;
-  // },
+  fieldErrors: function (field) {
+    var errors = ErrorStore.formErrors(this.formType());
+    if (!errors[field]) { return; }
+
+    var messages = errors[field].map(function (errorMsg, i) {
+      return <li key={ i }>{ errorMsg }</li>;
+    });
+
+    return <ul>{ messages }</ul>;
+  },
 
   formType: function () {
     return this.props.location.pathname.slice(1);
@@ -81,21 +85,21 @@ var LoginForm = React.createClass({
     } else {
       navLink = <Link to="/login">log in instead</Link>;
     }
-    // { this.fieldErrors("base") }
-    // { this.fieldErrors("username") }
-    // { this.fieldErrors("password") }
 
 		return (
 			<form onSubmit={this.handleSubmit}>
         Welcome to ShouldReads! Please { this.formType() } or { navLink }
+        { this.fieldErrors("base") }
 
         <br />
-				<label> Username:
+				<label> Username: <br/> <br/>
+        { this.fieldErrors("username") }<br/>
 					<input type="text" value={this.state.username} onChange={this.usernameChange}/>
 				</label>
 
         <br />
 				<label> Password:
+        { this.fieldErrors("password") }
 					<input type="password" value={this.state.password} onChange={this.passwordChange}/>
 				</label>
 

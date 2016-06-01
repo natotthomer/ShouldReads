@@ -1,7 +1,8 @@
 var SessionActions = require('./../actions/session_actions.js');
+var ErrorActions = require('./../actions/error_actions.js');
 
 var SessionApiUtil = {
-  login: function (credentials) {
+  login: function (credentials, callback) {
     $.ajax({
       url: "/api/session",
       type: "POST",
@@ -9,12 +10,13 @@ var SessionApiUtil = {
       success: function (currentUser) {
         console.log("Login success ()");
         SessionActions.receiveCurrentUser(currentUser);
+        callback();
       },
-      // error: function (xhr) {
-      //   console.log("Login error");
-      //   var errors = xhr.responseJSON;
-      //   // ErrorActions.setErrors("login", errors);
-      // }
+      error: function (xhr) {
+        console.log("Login error");
+        var errors = xhr.responseJSON;
+        ErrorActions.setErrors("login", errors);
+      }
     });
   },
 
@@ -26,10 +28,10 @@ var SessionApiUtil = {
         console.log("Logout success");
         SessionActions.removeCurrentUser();
       },
-      // error: function () {
-      //   console.log("Logout error");
-      //
-      // }
+      error: function () {
+        console.log("Logout error");
+
+      }
     });
   },
 
@@ -40,9 +42,9 @@ var SessionApiUtil = {
       success: function (currentUser) {
         SessionActions.receiveCurrentUser(currentUser);
       },
-      // error: function (xhr) {
-      //   console.log("Fetch error");
-      // }
+      error: function (xhr) {
+        console.log("Fetch error");
+      }
     });
   }
 };

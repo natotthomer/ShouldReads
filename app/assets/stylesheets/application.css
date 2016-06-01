@@ -13,3 +13,21 @@
  *= require_tree .
  *= require_self
  */
+
+body, head, h1, h2, h3, h4, h5, h6, p, span, div, a, img,
+ul, li, form, label, input, textarea, table, article,
+figure, figcaption, footer, header, hgroup, section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+}
+
+.main-header {
+  height: 100px
+}
+
+.nav {
+
+}

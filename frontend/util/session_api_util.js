@@ -10,11 +10,11 @@ var SessionApiUtil = {
         console.log("Login success ()");
         SessionActions.receiveCurrentUser(currentUser);
       },
-      error: function (xhr) {
-        console.log("Login error");
-        var errors = xhr.responseJSON;
-        // ErrorActions.setErrors("login", errors);
-      }
+      // error: function (xhr) {
+      //   console.log("Login error");
+      //   var errors = xhr.responseJSON;
+      //   // ErrorActions.setErrors("login", errors);
+      // }
     });
   },
 
@@ -26,10 +26,10 @@ var SessionApiUtil = {
         console.log("Logout success");
         SessionActions.removeCurrentUser();
       },
-      error: function () {
-        console.log("Logout error");
-
-      }
+      // error: function () {
+      //   console.log("Logout error");
+      //
+      // }
     });
   },
 
@@ -40,9 +40,9 @@ var SessionApiUtil = {
       success: function (currentUser) {
         SessionActions.receiveCurrentUser(currentUser);
       },
-      error: function (xhr) {
-        console.log("Fetch error");
-      }
+      // error: function (xhr) {
+      //   console.log("Fetch error");
+      // }
     });
   }
 };

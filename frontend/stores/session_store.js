@@ -1,5 +1,5 @@
-var AppDispatcher = require('./../dispatcher/');
-var Store = require('flux/utils').store;
+var AppDispatcher = require('./../dispatcher/dispatcher');
+var Store = require('flux/utils').Store;
 var SessionConstants = require('./../constants/session_constants');
 
 var SessionStore = new Store(AppDispatcher);
@@ -19,11 +19,11 @@ function _logout () {
 
 SessionStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
-    case: SessionConstants.LOGIN:
+    case SessionConstants.LOGIN:
       _login(payload.currentUser);
       SessionStore.__emitChange();
       break;
-    case: SessionConstants.LOGOUT:
+    case SessionConstants.LOGOUT:
       _logout();
       SessionStore.__emitChange();
       break;

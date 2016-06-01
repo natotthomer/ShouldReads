@@ -77,8 +77,8 @@ ShouldReads will allow users to do the following:
 the API.
 
 - [x] create `Book` model
-  - [ ] set up validations/constraints
-- [ ] seed the database with a small amount of test data
+  - [x] set up validations/constraints
+- [x] seed the database with a small amount of test data
 - [ ] CRUD API for books (`BooksController`)
 - [ ] jBuilder views for books
 - [ ] setup Webpack & Flux scaffold

@@ -17,15 +17,17 @@ ActiveRecord::Schema.define(version: 20160601200504) do
   enable_extension "plpgsql"
 
   create_table "books", force: :cascade do |t|
-    t.string   "title",       null: false
-    t.string   "author_name", null: false
-    t.string   "cover_url",   null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "title",        null: false
+    t.string   "author_fname", null: false
+    t.string   "author_lname", null: false
+    t.string   "cover_url"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
-  add_index "books", ["author_name", "title"], name: "index_books_on_author_name_and_title", unique: true, using: :btree
-  add_index "books", ["author_name"], name: "index_books_on_author_name", using: :btree
+  add_index "books", ["author_fname"], name: "index_books_on_author_fname", using: :btree
+  add_index "books", ["author_lname"], name: "index_books_on_author_lname", using: :btree
+  add_index "books", ["title", "author_fname", "author_lname"], name: "index_books_on_title_and_author_fname_and_author_lname", unique: true, using: :btree
   add_index "books", ["title"], name: "index_books_on_title", using: :btree
 
   create_table "users", force: :cascade do |t|

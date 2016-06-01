@@ -33025,18 +33025,18 @@
 	          { className: 'login-fields' },
 	          React.createElement(
 	            'label',
-	            { className: 'username-input' },
+	            null,
 	            'Username:',
-	            React.createElement('input', { className: 'login-field', type: 'text', value: this.state.username, onChange: this.usernameChange }),
+	            React.createElement('input', { type: 'text', value: this.state.username, onChange: this.usernameChange }),
 	            ' ',
 	            React.createElement('br', null),
 	            this.fieldErrors("username")
 	          ),
 	          React.createElement(
 	            'label',
-	            { className: 'password-input' },
+	            null,
 	            'Password:',
-	            React.createElement('input', { className: 'login-field', type: 'password', value: this.state.password, onChange: this.passwordChange }),
+	            React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange }),
 	            ' ',
 	            React.createElement('br', null),
 	            this.fieldErrors("password")

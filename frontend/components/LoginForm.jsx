@@ -87,25 +87,43 @@ var LoginForm = React.createClass({
     }
 
 		return (
-			<form onSubmit={this.handleSubmit}>
-        Welcome to ShouldReads! Please { this.formType() } or { navLink }
-        { this.fieldErrors("base") }
+      <div>
+  			<form onSubmit={this.handleSubmit} className="login-form">
+          <h1>Welcome to ShouldReads!</h1> <br/><br/>
 
-        <br />
-				<label> Username: <br/> <br/>
-        { this.fieldErrors("username") }<br/>
-					<input type="text" value={this.state.username} onChange={this.usernameChange}/>
-				</label>
+          Please { this.formType() } or { navLink }
+          { this.fieldErrors("base") }
 
-        <br />
-				<label> Password:
-        { this.fieldErrors("password") }
-					<input type="password" value={this.state.password} onChange={this.passwordChange}/>
-				</label>
-
-        <br />
-				<input type="submit" value="Submit" />
-			</form>
+          <br />
+          <table>
+            <tr>
+      				<label className="username-input">
+                <td>
+                  Username:
+                </td>
+                <td>
+                  { this.fieldErrors("username") }
+        					<input type="text" value={this.state.username} onChange={this.usernameChange}/>
+                </td>
+      				</label>
+            </tr>
+            <tr>
+      				<label className="password-input">
+                <td>
+                  Password:
+                </td>
+                <td>
+                  { this.fieldErrors("password") }
+          				<input type="password" value={this.state.password} onChange={this.passwordChange}/>
+                </td>
+      				</label>
+            </tr>
+          </table>
+          <div className="login-button">
+            <input className="login-button" type="submit" value="Submit" />
+          </div>
+  			</form>
+      </div>
 		);
 	}
 });

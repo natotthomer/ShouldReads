@@ -29,13 +29,18 @@ var App = React.createClass({
   },
 
   render: function () {
+
     return (
       <div>
-        <header className="main-header">
-          <h1 className="title">ShouldReads</h1>
-          { this.greeting() }
+        <header className="header">
+          <div className="header-nav">
+            <h1 className="header-logo"><a href="/" className="logo-link">ShouldReads</a></h1>
+          </div>
         </header>
-        {this.props.children}
+        <section className="main">
+          { this.greeting() }
+          {this.props.children}
+        </section>
       </div>
     )
   }

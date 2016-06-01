@@ -15,19 +15,90 @@
  */
 
 body, head, h1, h2, h3, h4, h5, h6, p, span, div, a, img,
-ul, li, form, label, input, textarea, table, article,
+ul, li, label, textarea, table, article,
 figure, figcaption, footer, header, hgroup, section {
   margin: 0;
   padding: 0;
   border: 0;
+  outline: 0;
   font-size: 100%;
   font: inherit;
+  box-sizing: inherit;
+  text-decoration: inherit;
+  text-align: inherit;
+  color: inherit;
+  background: transparent;
 }
 
-.main-header {
-  height: 100px
+.clearfix:after {
+  content: "";
+  clear: both;
+  display: block;
 }
 
-.nav {
+body {
+  font-weight: 400;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  color: #555555;
+}
 
+a {
+  color: black;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.header {
+  background-color: #b48484;
+  border-bottom: 1px solid black;
+  height: 50px;
+  margin-bottom: 16px;
+}
+
+.header-nav {
+  width: 1000px;
+  margin: auto;
+}
+
+.header-logo {
+  padding: 13px 20px;
+  font-size: 24px;
+  font-weight: bold;
+  z-index: 10;
+  float: left;
+}
+
+.header-list {
+  float: right;
+}
+
+.main {
+  margin: auto;
+  width: 1000px;
+  padding: 10px;
+}
+
+form > h1 {
+  font-size: 25px;
+}
+
+.login-form {
+  position: relative;
+  border: 1px solid black;
+  background: #baac9a;
+  display: block;
+  margin: auto;
+  padding: 100px;
+  width: 300px;
+}
+
+.login-button {
+  margin: auto;
+}
+
+.logo-link:hover {
+  text-decoration: none;
 }

@@ -7,6 +7,7 @@ var _errors = {};
 var _form = "";
 
 ErrorStore.formErrors = function (form) {
+
   if (form !== _form) {
     return {};
   }

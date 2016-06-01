@@ -32983,18 +32983,21 @@
 	
 	  render: function () {
 	    var navLink;
+	    var submitText;
 	    if (this.formType() === "login") {
 	      navLink = React.createElement(
 	        Link,
 	        { to: '/signup' },
 	        'sign up instead'
 	      );
+	      submitText = "Sign In";
 	    } else {
 	      navLink = React.createElement(
 	        Link,
 	        { to: '/login' },
 	        'log in instead'
 	      );
+	      submitText = "Sign Up";
 	    }
 	
 	    return React.createElement(
@@ -33010,59 +33013,39 @@
 	        ),
 	        ' ',
 	        React.createElement('br', null),
-	        React.createElement('br', null),
 	        'Please ',
 	        this.formType(),
 	        ' or ',
 	        navLink,
-	        this.fieldErrors("base"),
+	        ' ',
 	        React.createElement('br', null),
+	        this.fieldErrors("base"),
 	        React.createElement(
-	          'table',
-	          null,
+	          'section',
+	          { className: 'login-fields' },
 	          React.createElement(
-	            'tr',
-	            null,
-	            React.createElement(
-	              'label',
-	              { className: 'username-input' },
-	              React.createElement(
-	                'td',
-	                null,
-	                'Username:'
-	              ),
-	              React.createElement(
-	                'td',
-	                null,
-	                this.fieldErrors("username"),
-	                React.createElement('input', { type: 'text', value: this.state.username, onChange: this.usernameChange })
-	              )
-	            )
+	            'label',
+	            { className: 'username-input' },
+	            'Username:',
+	            React.createElement('input', { className: 'login-field', type: 'text', value: this.state.username, onChange: this.usernameChange }),
+	            ' ',
+	            React.createElement('br', null),
+	            this.fieldErrors("username")
 	          ),
 	          React.createElement(
-	            'tr',
-	            null,
-	            React.createElement(
-	              'label',
-	              { className: 'password-input' },
-	              React.createElement(
-	                'td',
-	                null,
-	                'Password:'
-	              ),
-	              React.createElement(
-	                'td',
-	                null,
-	                this.fieldErrors("password"),
-	                React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange })
-	              )
-	            )
+	            'label',
+	            { className: 'password-input' },
+	            'Password:',
+	            React.createElement('input', { className: 'login-field', type: 'password', value: this.state.password, onChange: this.passwordChange }),
+	            ' ',
+	            React.createElement('br', null),
+	            this.fieldErrors("password")
 	          )
 	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'login-button' },
-	          React.createElement('input', { className: 'login-button', type: 'submit', value: 'Submit' })
+	          React.createElement('input', { className: 'login-button', type: 'submit', value: submitText })
 	        )
 	      )
 	    );
@@ -33084,6 +33067,7 @@
 	var _form = "";
 	
 	ErrorStore.formErrors = function (form) {
+	
 	  if (form !== _form) {
 	    return {};
 	  }
@@ -33140,7 +33124,7 @@
 	      error: function (xhr) {
 	        console.log('UserApiUtil#createAccount error');
 	        var errors = xhr.responseJSON;
-	        ErrorActions.setErrors("INVALID", errors);
+	        ErrorActions.setErrors("signup", errors);
 	      }
 	    });
 	  }

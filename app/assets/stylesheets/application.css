@@ -15,7 +15,7 @@
  */
 
 body, head, h1, h2, h3, h4, h5, h6, p, span, div, a, img,
-ul, li, label, textarea, table, article,
+ul, li, label, textarea, table, article, button,
 figure, figcaption, footer, header, hgroup, section {
   margin: 0;
   padding: 0;
@@ -53,7 +53,7 @@ a:hover {
 
 .header {
   background-color: #b48484;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #baac9a;
   height: 50px;
   margin-bottom: 16px;
 }
@@ -67,7 +67,6 @@ a:hover {
   padding: 13px 20px;
   font-size: 24px;
   font-weight: bold;
-  z-index: 10;
   float: left;
 }
 
@@ -78,7 +77,7 @@ a:hover {
 .main {
   margin: auto;
   width: 1000px;
-  padding: 10px;
+
 }
 
 form > h1 {
@@ -87,7 +86,7 @@ form > h1 {
 
 .login-form {
   position: relative;
-  border: 1px solid black;
+  border: 1px solid #b48484;
   background: #baac9a;
   display: block;
   margin: auto;
@@ -95,9 +94,39 @@ form > h1 {
   width: 300px;
 }
 
-.login-button {
+.login-button-container {
   margin: auto;
 }
+
+.login-button {
+  margin: auto;
+  width: 100px;
+  /*padding: 10px 20px;*/
+  font-weight: bold;
+  background: #382110;
+  border: none;
+  border-radius: 3px;
+  color: #fffff7;
+  font-size: 13px
+  padding-top: 7px;
+  height: 28px;
+}
+
+.login-fields {
+  margin: auto;
+  width: 250px;
+  padding-top: 10px;
+  background: yellow;
+}
+
+/*.login-field {
+  float: right;
+  padding: 1px;
+}
+
+.password-field {
+  padding: 1px;
+}*/
 
 .logo-link:hover {
   text-decoration: none;

@@ -4,7 +4,7 @@
 column name    | data type | details
 ---------------|-----------|-----------------------
 id             | integer   | not null, primary key
-title          | string    | not null
+title          | string    | not null, indexed
 author_name    | string    | not null, indexed
 cover_url      | string    | not null
 

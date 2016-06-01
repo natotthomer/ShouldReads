@@ -14,7 +14,7 @@ var UserApiUtil = {
       error: function (xhr) {
         console.log('UserApiUtil#createAccount error');
         var errors = xhr.responseJSON;
-        ErrorActions.setErrors("INVALID", errors);
+        ErrorActions.setErrors("signup", errors);
       }
     });
   }

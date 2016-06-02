@@ -3,17 +3,17 @@ var Link = require('react-router').Link;
 var SessionStore = require('./../stores/session_store');
 var SessionApiUtil = require('./../util/session_api_util');
 var ShelfIndex = require('./ShelfIndex');
+var ShelfIndexItem = require('./ShelfIndexItem');
 
-var Sidebar = React.createClass({
-
+var ShelvesView = React.createClass({
   render: function () {
     return (
-      <div className="sidebar-main">
+      <div className="clearfix">
         <ShelfIndex/>
       </div>
     );
+    // <ShelfDetail/>
   }
-
 });
 
-module.exports = Sidebar;
+module.exports = ShelvesView;

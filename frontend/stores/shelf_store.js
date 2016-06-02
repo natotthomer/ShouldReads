@@ -8,7 +8,6 @@ var _shelves = {};
 
 var resetShelves = function (shelves) {
   _shelves = {};
-  // debugger;
   shelves.forEach(function (shelf) {
     _shelves[shelf.id] = shelf;
   });

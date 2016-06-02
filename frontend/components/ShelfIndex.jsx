@@ -27,12 +27,14 @@ var ShelfIndex = React.createClass({
   render: function () {
     return (
       <div className="shelf-index">
+        My Shelves <br/><br/>
         <ul>
           {
             this.state.shelves.map(function (shelf) {
               return (<ShelfIndexItem key={shelf.id} shelf={shelf}/>);
             })
           }
+          {this.props.children}
         </ul>
       </div>
     );

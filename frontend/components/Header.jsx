@@ -1,12 +1,16 @@
 var React = require('react');
 var Link = require('react-router').Link;
+
 var SessionStore = require('./../stores/session_store');
 var SessionApiUtil = require('./../util/session_api_util');
+
 var LoginForm = require('./LoginForm');
 var SignupForm = require('./SignupForm');
 var Dashboard = require('./Dashboard');
+var ShelvesView = require('./ShelvesView');
+var Homepage = require('./Homepage');
 
-var App = React.createClass({
+var Header = React.createClass({
 
   componentDidMount: function () {
     SessionStore.addListener(this.forceUpdate.bind(this));
@@ -24,18 +28,6 @@ var App = React.createClass({
     } else {
       return (
         <LoginForm/>
-      );
-    }
-  },
-
-  main: function () {
-    if (SessionStore.isUserLoggedIn()) {
-      return (
-        <Dashboard/>
-      );
-    } else {
-      return (
-        <SignupForm/>
       );
     }
   },
@@ -60,12 +52,12 @@ var App = React.createClass({
           </div>
         </header>
         <section className="main gradient">
-          { this.main() }
           {this.props.children}
+
         </section>
       </div>
     )
   }
 })
 
-module.exports = App;
+module.exports = Header;

@@ -1,6 +1,6 @@
 ## React Components
 
-* `App`
+* `Header`
   * `NavBar`
     * `Search`
     * `BookIndex`

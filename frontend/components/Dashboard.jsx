@@ -16,8 +16,8 @@ var Dashboard = React.createClass({
 
   render: function () {
     return (
-      <div>
-        <h1>in the dashboard</h1>
+      <div className="clearfix">
+        <h1 className="dashboard-left">in the dashboard</h1>
         <Sidebar/>
       </div>
     );

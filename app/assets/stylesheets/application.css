@@ -38,6 +38,7 @@ figure, figcaption, footer, header, hgroup, section {
   text-align: inherit;
   color: inherit;
   background: transparent;
+  list-style: none;
 }
 
 .clearfix:after {
@@ -163,4 +164,25 @@ form > a {
       white,
       #baac9a 55%
     );
+}
+
+.dashboard-left {
+  float: left;
+  text-align: center;
+}
+
+.sidebar-main {
+  float: right;
+  padding: 10px;
+}
+
+.sidebar-main a {
+  color: black;
+}
+
+.shelf-index {
+  float: left;
+  border: 1px solid black;
+  margin: 10px;
+  padding: 10px;
 }

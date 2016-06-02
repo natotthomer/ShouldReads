@@ -52,24 +52,22 @@
 	var Route = ReactRouter.Router;
 	var IndexRoute = ReactRouter.IndexRoute;
 	var hashHistory = ReactRouter.hashHistory;
+	var SessionStore = __webpack_require__(229);
+	var SessionApiUtil = __webpack_require__(252);
 	
-	var App = __webpack_require__(229);
+	var Header = __webpack_require__(277);
+	var Homepage = __webpack_require__(276);
+	var ShelfIndex = __webpack_require__(263);
+	var BookShow = __webpack_require__(273);
 	var LoginForm = __webpack_require__(257);
-	var BookIndex = __webpack_require__(260);
-	var ShelfIndex = __webpack_require__(261);
-	var ShelfShow = __webpack_require__(269);
-	var BookShow = __webpack_require__(270);
+	var BookIndex = __webpack_require__(274);
+	var ShelvesView = __webpack_require__(271);
 	
-	var SessionStore = __webpack_require__(230);
-	var SessionApiUtil = __webpack_require__(253);
-	
-	// <IndexRoute component={BookIndex}/>
-	// <IndexRoute component={BookIndex}/>
-	// <Route path="books" component={BookIndex}/>
 	var routes = React.createElement(
 	  Route,
-	  { path: '/', component: App },
-	  React.createElement(Route, { path: '(users/:userId/)shelves', component: ShelfIndex, onEnter: _ensureLoggedIn }),
+	  { path: '/', component: Header },
+	  React.createElement(IndexRoute, { component: Homepage }),
+	  React.createElement(Route, { path: '(users/:userId/)shelves', component: ShelvesView, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: 'books/:bookId', component: BookShow, onEnter: _ensureLoggedIn })
 	);
 	
@@ -90,7 +88,11 @@
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  var root = document.getElementById("content");
-	  ReactDOM.render(React.createElement(Router, { history: hashHistory, routes: routes }), root);
+	  ReactDOM.render(React.createElement(
+	    Router,
+	    { history: hashHistory },
+	    routes
+	  ), root);
 	});
 
 /***/ },
@@ -25876,104 +25878,9 @@
 /* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(168).Link;
-	var SessionStore = __webpack_require__(230);
-	var SessionApiUtil = __webpack_require__(253);
-	var LoginForm = __webpack_require__(257);
-	var SignupForm = __webpack_require__(271);
-	var Dashboard = __webpack_require__(272);
-	
-	var App = React.createClass({
-	  displayName: 'App',
-	
-	
-	  componentDidMount: function () {
-	    SessionStore.addListener(this.forceUpdate.bind(this));
-	    SessionApiUtil.fetchCurrentUser();
-	  },
-	
-	  greeting: function () {
-	    if (SessionStore.isUserLoggedIn()) {
-	      return React.createElement(
-	        'nav',
-	        null,
-	        React.createElement(
-	          'h2',
-	          null,
-	          'Hi, ',
-	          SessionStore.currentUser().username,
-	          '!'
-	        ),
-	        React.createElement('input', { type: 'submit', value: 'logout', onClick: SessionApiUtil.logout })
-	      );
-	    } else {
-	      return React.createElement(LoginForm, null);
-	    }
-	  },
-	
-	  main: function () {
-	    if (SessionStore.isUserLoggedIn()) {
-	      return React.createElement(Dashboard, null);
-	    } else {
-	      return React.createElement(SignupForm, null);
-	    }
-	  },
-	
-	  render: function () {
-	    if (!SessionStore.currentUserHasBeenFetched()) {
-	      return React.createElement('div', null);
-	    }
-	
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'header',
-	        { className: 'header' },
-	        React.createElement(
-	          'div',
-	          { className: 'header-nav' },
-	          React.createElement(
-	            'h1',
-	            { className: 'header-logo' },
-	            React.createElement(
-	              'a',
-	              { href: '/', className: 'logo-link' },
-	              React.createElement(
-	                'span',
-	                { className: 'header-logo-left' },
-	                'should'
-	              ),
-	              'reads'
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'header-session-nav' },
-	            this.greeting()
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'section',
-	        { className: 'main gradient' },
-	        this.main(),
-	        this.props.children
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = App;
-
-/***/ },
-/* 230 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(231);
-	var Store = __webpack_require__(235).Store;
-	var SessionConstants = __webpack_require__(252);
+	var AppDispatcher = __webpack_require__(230);
+	var Store = __webpack_require__(234).Store;
+	var SessionConstants = __webpack_require__(251);
 	
 	var SessionStore = new Store(AppDispatcher);
 	
@@ -26018,15 +25925,15 @@
 	module.exports = SessionStore;
 
 /***/ },
-/* 231 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(232).Dispatcher;
+	var Dispatcher = __webpack_require__(231).Dispatcher;
 	
 	module.exports = new Dispatcher();
 
 /***/ },
-/* 232 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26038,11 +25945,11 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Dispatcher = __webpack_require__(233);
+	module.exports.Dispatcher = __webpack_require__(232);
 
 
 /***/ },
-/* 233 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26064,7 +25971,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(234);
+	var invariant = __webpack_require__(233);
 	
 	var _prefix = 'ID_';
 	
@@ -26279,7 +26186,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 234 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26334,7 +26241,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 235 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26346,15 +26253,15 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Container = __webpack_require__(236);
-	module.exports.MapStore = __webpack_require__(239);
-	module.exports.Mixin = __webpack_require__(251);
-	module.exports.ReduceStore = __webpack_require__(240);
-	module.exports.Store = __webpack_require__(241);
+	module.exports.Container = __webpack_require__(235);
+	module.exports.MapStore = __webpack_require__(238);
+	module.exports.Mixin = __webpack_require__(250);
+	module.exports.ReduceStore = __webpack_require__(239);
+	module.exports.Store = __webpack_require__(240);
 
 
 /***/ },
-/* 236 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26376,10 +26283,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStoreGroup = __webpack_require__(237);
+	var FluxStoreGroup = __webpack_require__(236);
 	
-	var invariant = __webpack_require__(234);
-	var shallowEqual = __webpack_require__(238);
+	var invariant = __webpack_require__(233);
+	var shallowEqual = __webpack_require__(237);
 	
 	var DEFAULT_OPTIONS = {
 	  pure: true,
@@ -26537,7 +26444,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 237 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26556,7 +26463,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(234);
+	var invariant = __webpack_require__(233);
 	
 	/**
 	 * FluxStoreGroup allows you to execute a callback on every dispatch after
@@ -26618,7 +26525,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 238 */
+/* 237 */
 /***/ function(module, exports) {
 
 	/**
@@ -26673,7 +26580,7 @@
 	module.exports = shallowEqual;
 
 /***/ },
-/* 239 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26694,10 +26601,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxReduceStore = __webpack_require__(240);
-	var Immutable = __webpack_require__(250);
+	var FluxReduceStore = __webpack_require__(239);
+	var Immutable = __webpack_require__(249);
 	
-	var invariant = __webpack_require__(234);
+	var invariant = __webpack_require__(233);
 	
 	/**
 	 * This is a simple store. It allows caching key value pairs. An implementation
@@ -26823,7 +26730,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 240 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26844,10 +26751,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStore = __webpack_require__(241);
+	var FluxStore = __webpack_require__(240);
 	
-	var abstractMethod = __webpack_require__(249);
-	var invariant = __webpack_require__(234);
+	var abstractMethod = __webpack_require__(248);
+	var invariant = __webpack_require__(233);
 	
 	var FluxReduceStore = (function (_FluxStore) {
 	  _inherits(FluxReduceStore, _FluxStore);
@@ -26930,7 +26837,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 241 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26949,11 +26856,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _require = __webpack_require__(242);
+	var _require = __webpack_require__(241);
 	
 	var EventEmitter = _require.EventEmitter;
 	
-	var invariant = __webpack_require__(234);
+	var invariant = __webpack_require__(233);
 	
 	/**
 	 * This class should be extended by the stores in your application, like so:
@@ -27113,7 +27020,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 242 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -27126,14 +27033,14 @@
 	 */
 	
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(243)
+	  EventEmitter: __webpack_require__(242)
 	};
 	
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 243 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -27152,11 +27059,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var EmitterSubscription = __webpack_require__(244);
-	var EventSubscriptionVendor = __webpack_require__(246);
+	var EmitterSubscription = __webpack_require__(243);
+	var EventSubscriptionVendor = __webpack_require__(245);
 	
-	var emptyFunction = __webpack_require__(248);
-	var invariant = __webpack_require__(247);
+	var emptyFunction = __webpack_require__(247);
+	var invariant = __webpack_require__(246);
 	
 	/**
 	 * @class BaseEventEmitter
@@ -27330,7 +27237,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 244 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -27351,7 +27258,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var EventSubscription = __webpack_require__(245);
+	var EventSubscription = __webpack_require__(244);
 	
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -27383,7 +27290,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 245 */
+/* 244 */
 /***/ function(module, exports) {
 
 	/**
@@ -27437,7 +27344,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 246 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -27456,7 +27363,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(247);
+	var invariant = __webpack_require__(246);
 	
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -27546,7 +27453,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 247 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -27601,7 +27508,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 248 */
+/* 247 */
 /***/ function(module, exports) {
 
 	/**
@@ -27643,7 +27550,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 249 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -27660,7 +27567,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(234);
+	var invariant = __webpack_require__(233);
 	
 	function abstractMethod(className, methodName) {
 	   true ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Subclasses of %s must override %s() with their own implementation.', className, methodName) : invariant(false) : undefined;
@@ -27670,7 +27577,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 250 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32654,7 +32561,7 @@
 	}));
 
 /***/ },
-/* 251 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -32671,9 +32578,9 @@
 	
 	'use strict';
 	
-	var FluxStoreGroup = __webpack_require__(237);
+	var FluxStoreGroup = __webpack_require__(236);
 	
-	var invariant = __webpack_require__(234);
+	var invariant = __webpack_require__(233);
 	
 	/**
 	 * `FluxContainer` should be preferred over this mixin, but it requires using
@@ -32777,7 +32684,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 252 */
+/* 251 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -32786,11 +32693,11 @@
 	};
 
 /***/ },
-/* 253 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var SessionActions = __webpack_require__(254);
-	var ErrorActions = __webpack_require__(255);
+	var SessionActions = __webpack_require__(253);
+	var ErrorActions = __webpack_require__(254);
 	
 	var SessionApiUtil = {
 	  login: function (credentials, callback) {
@@ -32842,13 +32749,13 @@
 	module.exports = SessionApiUtil;
 
 /***/ },
-/* 254 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(230);
-	var AppDispatcher = __webpack_require__(231);
-	var SessionConstants = __webpack_require__(252);
+	var SessionStore = __webpack_require__(229);
+	var AppDispatcher = __webpack_require__(230);
+	var SessionConstants = __webpack_require__(251);
 	
 	var SessionActions = {
 	  receiveCurrentUser: function (currentUser) {
@@ -32868,11 +32775,11 @@
 	module.exports = SessionActions;
 
 /***/ },
-/* 255 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AppDispatcher = __webpack_require__(231);
-	var ErrorConstants = __webpack_require__(256);
+	var AppDispatcher = __webpack_require__(230);
+	var ErrorConstants = __webpack_require__(255);
 	
 	var ErrorActions = {
 	  setErrors: function (form, errors) {
@@ -32893,7 +32800,7 @@
 	module.exports = ErrorActions;
 
 /***/ },
-/* 256 */
+/* 255 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -32902,13 +32809,14 @@
 	};
 
 /***/ },
+/* 256 */,
 /* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
-	var SessionApiUtil = __webpack_require__(253);
-	var SessionStore = __webpack_require__(230);
+	var SessionApiUtil = __webpack_require__(252);
+	var SessionStore = __webpack_require__(229);
 	var ErrorStore = __webpack_require__(258);
 	var UserApiUtil = __webpack_require__(259);
 	
@@ -33035,9 +32943,9 @@
 /* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(235).Store;
-	var AppDispatcher = __webpack_require__(231);
-	var ErrorConstants = __webpack_require__(256);
+	var Store = __webpack_require__(234).Store;
+	var AppDispatcher = __webpack_require__(230);
+	var ErrorConstants = __webpack_require__(255);
 	var ErrorStore = new Store(AppDispatcher);
 	
 	var _errors = {};
@@ -33085,8 +32993,8 @@
 /* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var SessionActions = __webpack_require__(254);
-	var ErrorActions = __webpack_require__(255);
+	var SessionActions = __webpack_require__(253);
+	var ErrorActions = __webpack_require__(254);
 	
 	var UserApiUtil = {
 	  signup: function (formData) {
@@ -33115,356 +33023,8 @@
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
-	var SessionStore = __webpack_require__(230);
-	var SessionApiUtil = __webpack_require__(253);
-	
-	var BookIndex = React.createClass({
-	  displayName: 'BookIndex',
-	
-	  componentDidMount: function () {},
-	
-	  render: function () {
-	    return;
-	    React.createElement(
-	      'section',
-	      null,
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'h1',
-	        null,
-	        'in the BookIndex'
-	      )
-	    );
-	  }
-	});
-
-/***/ },
-/* 261 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ShelfStore = __webpack_require__(262);
-	var ShelfIndexItem = __webpack_require__(264);
-	var ClientActions = __webpack_require__(265);
-	
-	var ShelfIndex = React.createClass({
-	  displayName: 'ShelfIndex',
-	
-	  getInitialState: function () {
-	
-	    return { shelves: [] };
-	  },
-	
-	  componentDidMount: function () {
-	    this.shelfListener = ShelfStore.addListener(this.getShelves);
-	    ClientActions.fetchShelves();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.shelfListener.remove();
-	  },
-	
-	  getShelves: function () {
-	    this.setState({ shelves: ShelfStore.all() });
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'shelf-index' },
-	      React.createElement(
-	        'ul',
-	        null,
-	        this.state.shelves.map(function (shelf) {
-	          return React.createElement(ShelfIndexItem, { key: shelf.id, shelf: shelf });
-	        })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = ShelfIndex;
-
-/***/ },
-/* 262 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(231);
-	var Store = __webpack_require__(235).Store;
-	var ShelfConstants = __webpack_require__(263);
-	
-	var ShelfStore = new Store(AppDispatcher);
-	
-	var _shelves = {};
-	
-	var resetShelves = function (shelves) {
-	  _shelves = {};
-	  // debugger;
-	  shelves.forEach(function (shelf) {
-	    _shelves[shelf.id] = shelf;
-	  });
-	};
-	
-	var setShelf = function (shelf) {
-	  _shelves[shelf.id] = shelf;
-	};
-	
-	var removeShelf = function (shelf) {
-	  delete _shelves[shelf.id];
-	};
-	
-	ShelfStore.all = function () {
-	  return Object.keys(_shelves).map(function (shelfId) {
-	    return _shelves[shelfId];
-	  });
-	};
-	
-	ShelfStore.find = function (id) {
-	  return _shelves[id];
-	};
-	
-	ShelfStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case ShelfConstants.SHELVES_RECEIVED:
-	      resetShelves(payload.shelves);
-	      break;
-	    case ShelfConstants.SHELF_RECEIVED:
-	      setShelf(payload.shelf);
-	      break;
-	    case ShelfConstants.SHELF_REMOVED:
-	      removeShelf(payload.shelf);
-	      break;
-	  }
-	
-	  this.__emitChange();
-	};
-	
-	module.exports = ShelfStore;
-
-/***/ },
-/* 263 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	  SHELVES_RECEIVED: "SHELVES_RECEIVED",
-	  SHELF_RECEIVED: "SHELF_RECEIVED",
-	  SHELF_REMOVED: "SHELF_REMOVED"
-	};
-
-/***/ },
-/* 264 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(168).Link;
-	var ClientActions = __webpack_require__(265);
-	var hashHistory = __webpack_require__(168).hashHistory;
-	
-	var ShelfIndexItem = React.createClass({
-	  displayName: 'ShelfIndexItem',
-	
-	  render: function () {
-	    var shelf = this.props.shelf;
-	    return React.createElement(
-	      'li',
-	      null,
-	      React.createElement(
-	        Link,
-	        { to: "/shelves/" + this.props.shelf.id },
-	        shelf.title
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = ShelfIndexItem;
-
-/***/ },
-/* 265 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ApiUtil = __webpack_require__(266);
-	
-	var ClientActions = {
-	  fetchBooks: ApiUtil.fetchBooks,
-	  createBook: ApiUtil.createBook,
-	  fetchShelves: ApiUtil.fetchShelves,
-	  fetchShelf: ApiUtil.fetchShelf
-	};
-	
-	module.exports = ClientActions;
-
-/***/ },
-/* 266 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ServerActions = __webpack_require__(267);
-	
-	var ApiUtil = {
-	  fetchBooks: function () {
-	    $.ajax({
-	      url: "api/books",
-	      success: function (books) {
-	        ServerActions.receiveAllBooks(books);
-	      }
-	    });
-	  },
-	  //
-	  // createBook: function (data) {
-	  //   $.ajax({
-	  //     url: "api/book",
-	  //     type: "POST",
-	  //     data: { book: data },
-	  //     success: function (book) {
-	  //       ServerActions.receiveBook(book);
-	  //     }
-	  //   });
-	  // },
-	  fetchShelves: function () {
-	    $.ajax({
-	      url: "api/shelves",
-	      success: function (shelves) {
-	        ServerActions.receiveAllShelves(shelves);
-	      }
-	    });
-	  },
-	
-	  fetchShelf: function (id) {
-	    $.ajax({
-	      url: "api/shelves/" + id,
-	      success: function (shelf) {
-	        ServerActions.receiveSingleShelf(shelf);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = ApiUtil;
-
-/***/ },
-/* 267 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(231);
-	var BookConstants = __webpack_require__(268);
-	var ShelfConstants = __webpack_require__(263);
-	
-	var ServerActions = {
-	  receiveAllBooks: function (books) {
-	    AppDispatcher.dispatch({
-	      actionType: BookConstants.BOOKS_RECEIVED,
-	      books: books
-	    });
-	  },
-	  receiveSingleBook: function (book) {
-	    AppDispatcher.dispatch({
-	      actionType: BookConstants.BOOK_RECEIVED,
-	      book: book
-	    });
-	  },
-	  receiveAllShelves: function (shelves) {
-	    AppDispatcher.dispatch({
-	      actionType: ShelfConstants.SHELVES_RECEIVED,
-	      shelves: shelves
-	    });
-	  },
-	  receiveSingleShelf: function (shelf) {
-	    AppDispatcher.dispatch({
-	      actionType: shelfConstants.SHELF_RECEIVED,
-	      shelf: shelf
-	    });
-	  }
-	};
-	
-	module.exports = ServerActions;
-
-/***/ },
-/* 268 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	  BOOKS_RECEIVED: "BOOKS_RECEIVED",
-	  BOOK_RECEIVED: "BOOK_RECEIVED",
-	  BOOK_REMOVED: "BOOK_REMOVED"
-	};
-
-/***/ },
-/* 269 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ShelfStore = __webpack_require__(262);
-	var ClientActions = __webpack_require__(265);
-	var Link = __webpack_require__(168).Link;
-	
-	var ShelfShow = React.createClass({
-	  displayName: 'ShelfShow',
-	
-	  getInitialState: function () {
-	    var potentialShelf = ShelfStore.find(this.props.params.shelfId);
-	    return { shelf: potentialShelf ? potentialShelf : {} };
-	  },
-	
-	  componentDidMount: function () {
-	    this.shelfListener = ShelfStore.addListener(this.handleChange);
-	    ClientActions.fetchShelf(this.props.params.shelfId);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.shelfListener.remove();
-	  },
-	
-	  handleChange: function () {
-	    var potentialShelf = ShelfStore.find(this.props.params.shelfId);
-	    this.setState({ shelf: potentialShelf ? potentialShelf : {} });
-	  },
-	
-	  render: function () {
-	    var shelf = this.state.shelf;
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'h3',
-	        null,
-	        shelf.title
-	      ),
-	      React.createElement(
-	        'p',
-	        null,
-	        shelf.description
-	      ),
-	      React.createElement('ul', null),
-	      React.createElement(
-	        Link,
-	        { to: '/shelves' },
-	        'Back to all Shelves'
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = ShelfShow;
-
-/***/ },
-/* 270 */
-/***/ function(module, exports) {
-
-
-
-/***/ },
-/* 271 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(168).Link;
-	var SessionApiUtil = __webpack_require__(253);
-	var SessionStore = __webpack_require__(230);
+	var SessionApiUtil = __webpack_require__(252);
+	var SessionStore = __webpack_require__(229);
 	var ErrorStore = __webpack_require__(258);
 	var UserApiUtil = __webpack_require__(259);
 	
@@ -33604,14 +33164,14 @@
 	module.exports = LoginForm;
 
 /***/ },
-/* 272 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
-	var SessionStore = __webpack_require__(230);
-	var SessionApiUtil = __webpack_require__(253);
-	var Sidebar = __webpack_require__(273);
+	var SessionStore = __webpack_require__(229);
+	var SessionApiUtil = __webpack_require__(252);
+	var Sidebar = __webpack_require__(262);
 	
 	var Dashboard = React.createClass({
 	  displayName: 'Dashboard',
@@ -33626,10 +33186,10 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'clearfix' },
 	      React.createElement(
 	        'h1',
-	        null,
+	        { className: 'dashboard-left' },
 	        'in the dashboard'
 	      ),
 	      React.createElement(Sidebar, null)
@@ -33641,24 +33201,23 @@
 	module.exports = Dashboard;
 
 /***/ },
-/* 273 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
-	var SessionStore = __webpack_require__(230);
-	var SessionApiUtil = __webpack_require__(253);
-	var ShelfIndex = __webpack_require__(261);
+	var SessionStore = __webpack_require__(229);
+	var SessionApiUtil = __webpack_require__(252);
+	var ShelfIndex = __webpack_require__(263);
 	
 	var Sidebar = React.createClass({
 	  displayName: 'Sidebar',
 	
 	
 	  render: function () {
-	    // debugger;
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'sidebar-main' },
 	      React.createElement(ShelfIndex, null)
 	    );
 	  }
@@ -33666,6 +33225,448 @@
 	});
 	
 	module.exports = Sidebar;
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ShelfStore = __webpack_require__(264);
+	var ShelfIndexItem = __webpack_require__(266);
+	var ClientActions = __webpack_require__(267);
+	
+	var ShelfIndex = React.createClass({
+	  displayName: 'ShelfIndex',
+	
+	  getInitialState: function () {
+	
+	    return { shelves: [] };
+	  },
+	
+	  componentDidMount: function () {
+	    this.shelfListener = ShelfStore.addListener(this.getShelves);
+	    ClientActions.fetchShelves();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.shelfListener.remove();
+	  },
+	
+	  getShelves: function () {
+	    this.setState({ shelves: ShelfStore.all() });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'shelf-index' },
+	      'My Shelves ',
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'ul',
+	        null,
+	        this.state.shelves.map(function (shelf) {
+	          return React.createElement(ShelfIndexItem, { key: shelf.id, shelf: shelf });
+	        }),
+	        this.props.children
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ShelfIndex;
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(230);
+	var Store = __webpack_require__(234).Store;
+	var ShelfConstants = __webpack_require__(265);
+	
+	var ShelfStore = new Store(AppDispatcher);
+	
+	var _shelves = {};
+	
+	var resetShelves = function (shelves) {
+	  _shelves = {};
+	  shelves.forEach(function (shelf) {
+	    _shelves[shelf.id] = shelf;
+	  });
+	};
+	
+	var setShelf = function (shelf) {
+	  _shelves[shelf.id] = shelf;
+	};
+	
+	var removeShelf = function (shelf) {
+	  delete _shelves[shelf.id];
+	};
+	
+	ShelfStore.all = function () {
+	  return Object.keys(_shelves).map(function (shelfId) {
+	    return _shelves[shelfId];
+	  });
+	};
+	
+	ShelfStore.find = function (id) {
+	  return _shelves[id];
+	};
+	
+	ShelfStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case ShelfConstants.SHELVES_RECEIVED:
+	      resetShelves(payload.shelves);
+	      break;
+	    case ShelfConstants.SHELF_RECEIVED:
+	      setShelf(payload.shelf);
+	      break;
+	    case ShelfConstants.SHELF_REMOVED:
+	      removeShelf(payload.shelf);
+	      break;
+	  }
+	
+	  this.__emitChange();
+	};
+	
+	module.exports = ShelfStore;
+
+/***/ },
+/* 265 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  SHELVES_RECEIVED: "SHELVES_RECEIVED",
+	  SHELF_RECEIVED: "SHELF_RECEIVED",
+	  SHELF_REMOVED: "SHELF_REMOVED"
+	};
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	var ClientActions = __webpack_require__(267);
+	var hashHistory = __webpack_require__(168).hashHistory;
+	
+	var ShelfIndexItem = React.createClass({
+	  displayName: 'ShelfIndexItem',
+	
+	  render: function () {
+	    var shelf = this.props.shelf;
+	    return React.createElement(
+	      'li',
+	      null,
+	      React.createElement(
+	        Link,
+	        { to: "shelves" },
+	        shelf.title
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ShelfIndexItem;
+
+/***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ApiUtil = __webpack_require__(268);
+	
+	var ClientActions = {
+	  fetchBooks: ApiUtil.fetchBooks,
+	  createBook: ApiUtil.createBook,
+	  fetchShelves: ApiUtil.fetchShelves,
+	  fetchShelf: ApiUtil.fetchShelf
+	};
+	
+	module.exports = ClientActions;
+
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ServerActions = __webpack_require__(269);
+	
+	var ApiUtil = {
+	  fetchBooks: function () {
+	    $.ajax({
+	      url: "api/books",
+	      success: function (books) {
+	        ServerActions.receiveAllBooks(books);
+	      }
+	    });
+	  },
+	  //
+	  // createBook: function (data) {
+	  //   $.ajax({
+	  //     url: "api/book",
+	  //     type: "POST",
+	  //     data: { book: data },
+	  //     success: function (book) {
+	  //       ServerActions.receiveBook(book);
+	  //     }
+	  //   });
+	  // },
+	  fetchShelves: function () {
+	    $.ajax({
+	      url: "api/shelves",
+	      success: function (shelves) {
+	        ServerActions.receiveAllShelves(shelves);
+	      }
+	    });
+	  },
+	
+	  fetchShelf: function (id) {
+	    $.ajax({
+	      url: "api/shelves/" + id,
+	      success: function (shelf) {
+	        ServerActions.receiveSingleShelf(shelf);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = ApiUtil;
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(230);
+	var BookConstants = __webpack_require__(270);
+	var ShelfConstants = __webpack_require__(265);
+	
+	var ServerActions = {
+	  receiveAllBooks: function (books) {
+	    AppDispatcher.dispatch({
+	      actionType: BookConstants.BOOKS_RECEIVED,
+	      books: books
+	    });
+	  },
+	  receiveSingleBook: function (book) {
+	    AppDispatcher.dispatch({
+	      actionType: BookConstants.BOOK_RECEIVED,
+	      book: book
+	    });
+	  },
+	  receiveAllShelves: function (shelves) {
+	    AppDispatcher.dispatch({
+	      actionType: ShelfConstants.SHELVES_RECEIVED,
+	      shelves: shelves
+	    });
+	  },
+	  receiveSingleShelf: function (shelf) {
+	    AppDispatcher.dispatch({
+	      actionType: shelfConstants.SHELF_RECEIVED,
+	      shelf: shelf
+	    });
+	  }
+	};
+	
+	module.exports = ServerActions;
+
+/***/ },
+/* 270 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  BOOKS_RECEIVED: "BOOKS_RECEIVED",
+	  BOOK_RECEIVED: "BOOK_RECEIVED",
+	  BOOK_REMOVED: "BOOK_REMOVED"
+	};
+
+/***/ },
+/* 271 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	var SessionStore = __webpack_require__(229);
+	var SessionApiUtil = __webpack_require__(252);
+	var ShelfIndex = __webpack_require__(263);
+	var ShelfIndexItem = __webpack_require__(266);
+	
+	var ShelvesView = React.createClass({
+	  displayName: 'ShelvesView',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'clearfix' },
+	      React.createElement(ShelfIndex, null)
+	    );
+	    // <ShelfDetail/>
+	  }
+	});
+	
+	module.exports = ShelvesView;
+
+/***/ },
+/* 272 */,
+/* 273 */
+/***/ function(module, exports) {
+
+
+
+/***/ },
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	var SessionStore = __webpack_require__(229);
+	var SessionApiUtil = __webpack_require__(252);
+	
+	var BookIndex = React.createClass({
+	  displayName: 'BookIndex',
+	
+	  componentDidMount: function () {},
+	
+	  render: function () {
+	    return;
+	    React.createElement(
+	      'section',
+	      null,
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'h1',
+	        null,
+	        'in the BookIndex'
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 275 */,
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	var SessionStore = __webpack_require__(229);
+	var SessionApiUtil = __webpack_require__(252);
+	var LoginForm = __webpack_require__(257);
+	var SignupForm = __webpack_require__(260);
+	var Dashboard = __webpack_require__(261);
+	var ShelvesView = __webpack_require__(271);
+	
+	var Homepage = React.createClass({
+	  displayName: 'Homepage',
+	
+	  toRender: function () {
+	    if (SessionStore.isUserLoggedIn()) {
+	      return React.createElement(Dashboard, null);
+	    } else {
+	      return React.createElement(SignupForm, null);
+	    }
+	  },
+	
+	  render: function () {
+	    return this.toRender();
+	  }
+	});
+	
+	module.exports = Homepage;
+
+/***/ },
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	
+	var SessionStore = __webpack_require__(229);
+	var SessionApiUtil = __webpack_require__(252);
+	
+	var LoginForm = __webpack_require__(257);
+	var SignupForm = __webpack_require__(260);
+	var Dashboard = __webpack_require__(261);
+	var ShelvesView = __webpack_require__(271);
+	var Homepage = __webpack_require__(276);
+	
+	var Header = React.createClass({
+	  displayName: 'Header',
+	
+	
+	  componentDidMount: function () {
+	    SessionStore.addListener(this.forceUpdate.bind(this));
+	    SessionApiUtil.fetchCurrentUser();
+	  },
+	
+	  greeting: function () {
+	    if (SessionStore.isUserLoggedIn()) {
+	      return React.createElement(
+	        'nav',
+	        null,
+	        React.createElement(
+	          'h2',
+	          null,
+	          'Hi, ',
+	          SessionStore.currentUser().username,
+	          '!'
+	        ),
+	        React.createElement('input', { type: 'submit', value: 'logout', onClick: SessionApiUtil.logout })
+	      );
+	    } else {
+	      return React.createElement(LoginForm, null);
+	    }
+	  },
+	
+	  render: function () {
+	    if (!SessionStore.currentUserHasBeenFetched()) {
+	      return React.createElement('div', null);
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'header',
+	        { className: 'header' },
+	        React.createElement(
+	          'div',
+	          { className: 'header-nav' },
+	          React.createElement(
+	            'h1',
+	            { className: 'header-logo' },
+	            React.createElement(
+	              'a',
+	              { href: '/', className: 'logo-link' },
+	              React.createElement(
+	                'span',
+	                { className: 'header-logo-left' },
+	                'should'
+	              ),
+	              'reads'
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'header-session-nav' },
+	            this.greeting()
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'section',
+	        { className: 'main gradient' },
+	        this.props.children
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Header;
 
 /***/ }
 /******/ ]);

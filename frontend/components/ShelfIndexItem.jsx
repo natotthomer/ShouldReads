@@ -8,7 +8,7 @@ var ShelfIndexItem = React.createClass({
     var shelf = this.props.shelf;
     return (
       <li>
-        <Link to={"/shelves/" + this.props.shelf.id}>{shelf.title}</Link>
+        <Link to={"shelves"}>{shelf.title}</Link>
       </li>
     );
   }

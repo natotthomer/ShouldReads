@@ -75,10 +75,10 @@ the API.
 - [x] create `Book` model
   - [x] set up validations/constraints
 - [x] seed the database with a small amount of test data
-- [ ] CRUD API for books (`BooksController`)
+- [x] CRUD API for books (`BooksController`)
 - [x] jBuilder views for books
   - [ ] want to make this more DRY
-- [ ] setup Webpack & Flux scaffold
+- [s] setup Webpack & Flux scaffold
   - what does this mean?
 - [x] setup `APIUtil` to interact with the API
 - [ ] test out API interaction in the console.
@@ -92,8 +92,8 @@ user interface.
 - [ ] setup the flux loop with skeleton files
 - [ ] setup React Router
 - implement each book component, building out the flux loop as needed.
-  - [ ] `BooksIndex`
-  - [ ] `BookIndexItem`
+  - [x] `BooksIndex`
+  - [x] `BookIndexItem`
   - [ ] `BookForm`
 - [ ] save Books to the DB when the form loses focus or is left idle
   after editing.

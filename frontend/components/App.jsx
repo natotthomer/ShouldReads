@@ -20,25 +20,27 @@ var App = React.createClass({
     	);
     } else if (["/login", "/signup"].indexOf(this.props.location.pathname) === -1) {
       return (
-        <nav>
-          <Link to="/login" activeClassName="current">Login</Link>
-          <Link to="/signup" activeClassName="current">Sign up!</Link>
+        <nav className="header-session-nav">
+          <Link className="header-session-button" to="/login" activeClassName="current">Login</Link> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Link className="header-session-button" to="/signup" activeClassName="current">Sign up</Link>
         </nav>
       );
     }
   },
 
   render: function () {
-
+    debugger;
     return (
       <div>
         <header className="header">
           <div className="header-nav">
-            <h1 className="header-logo"><a href="/" className="logo-link">ShouldReads</a></h1>
+            <h1 className="header-logo"><a href="/" className="logo-link"><span className="header-logo-left">Should</span>reads</a></h1>
+            <div>
+              { this.greeting() }
+            </div>
           </div>
         </header>
         <section className="main">
-          { this.greeting() }
           {this.props.children}
         </section>
       </div>

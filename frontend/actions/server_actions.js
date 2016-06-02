@@ -8,7 +8,7 @@ var ApiActions = {
       books: books
     });
   },
-  receiveSingleBench: function(book){
+  receiveSingleBook: function(book){
     AppDispatcher.dispatch({
       actionType: BookConstants.BOOK_RECEIVED,
       book: book

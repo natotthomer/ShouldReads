@@ -91,7 +91,7 @@ var LoginForm = React.createClass({
 
 		return (
       <div>
-  			<form onSubmit={this.handleSubmit} className="login-form">
+  			<form onSubmit={this.handleSubmit} className="login-form gradient">
           <h1>Welcome to ShouldReads!</h1> <br/>
 
           Please { this.formType() } or { navLink } <br/>
@@ -108,7 +108,7 @@ var LoginForm = React.createClass({
         				<input type="password" value={this.state.password} onChange={this.passwordChange}/> <br/>
                 { this.fieldErrors("password") }
     				</label>
-          </section>
+          </section><br/>
           <div className="login-button">
             <input className="login-button" type="submit" value={submitText} />
           </div>

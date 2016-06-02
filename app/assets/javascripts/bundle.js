@@ -25902,23 +25902,24 @@
 	    } else if (["/login", "/signup"].indexOf(this.props.location.pathname) === -1) {
 	      return React.createElement(
 	        'nav',
-	        null,
+	        { className: 'header-session-nav' },
 	        React.createElement(
 	          Link,
-	          { to: '/login', activeClassName: 'current' },
+	          { className: 'header-session-button', to: '/login', activeClassName: 'current' },
 	          'Login'
 	        ),
+	        '      ',
 	        React.createElement(
 	          Link,
-	          { to: '/signup', activeClassName: 'current' },
-	          'Sign up!'
+	          { className: 'header-session-button', to: '/signup', activeClassName: 'current' },
+	          'Sign up'
 	        )
 	      );
 	    }
 	  },
 	
 	  render: function () {
-	
+	    debugger;
 	    return React.createElement(
 	      'div',
 	      null,
@@ -25934,15 +25935,24 @@
 	            React.createElement(
 	              'a',
 	              { href: '/', className: 'logo-link' },
-	              'ShouldReads'
+	              React.createElement(
+	                'span',
+	                { className: 'header-logo-left' },
+	                'Should'
+	              ),
+	              'reads'
 	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            null,
+	            this.greeting()
 	          )
 	        )
 	      ),
 	      React.createElement(
 	        'section',
 	        { className: 'main' },
-	        this.greeting(),
 	        this.props.children
 	      )
 	    );
@@ -33005,7 +33015,7 @@
 	      null,
 	      React.createElement(
 	        'form',
-	        { onSubmit: this.handleSubmit, className: 'login-form' },
+	        { onSubmit: this.handleSubmit, className: 'login-form gradient' },
 	        React.createElement(
 	          'h1',
 	          null,
@@ -33042,6 +33052,7 @@
 	            this.fieldErrors("password")
 	          )
 	        ),
+	        React.createElement('br', null),
 	        React.createElement(
 	          'div',
 	          { className: 'login-button' },
@@ -33147,6 +33158,7 @@
 	  componentDidMount: function () {},
 	
 	  render: function () {
+	    return;
 	    React.createElement(
 	      'h1',
 	      null,

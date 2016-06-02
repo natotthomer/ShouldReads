@@ -9,8 +9,11 @@ var BookIndex = React.createClass({
   },
 
   render: function () {
-    <h1>
-      in the BookIndex
-    </h1>
+    return
+    (
+      <h1>
+        in the BookIndex
+      </h1>
+    );
   }
 });

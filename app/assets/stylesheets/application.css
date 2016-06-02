@@ -13,6 +13,16 @@
  *= require_tree .
  *= require_self
  */
+/*
+  colors:
+    #f4f1ea (linen)
+    #baac9a
+    #B49284
+    #b48484
+    #382110
+    #fffff7
+    #554130
+ */
 
 body, head, h1, h2, h3, h4, h5, h6, p, span, div, a, img,
 ul, li, label, textarea, table, article, button,
@@ -37,14 +47,10 @@ figure, figcaption, footer, header, hgroup, section {
 }
 
 body {
-  font-weight: 400;
+  font-weight: 200;
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   color: #555555;
-}
-
-a {
-  color: black;
 }
 
 a:hover {
@@ -52,32 +58,54 @@ a:hover {
 }
 
 .header {
-  background-color: #b48484;
+  background-color: #f4f1ea;
   border-bottom: 1px solid #baac9a;
   height: 50px;
-  margin-bottom: 16px;
+  /*margin-bottom: 16px;*/
 }
 
 .header-nav {
   width: 1000px;
   margin: auto;
+  color: #554130;
 }
 
 .header-logo {
-  padding: 13px 20px;
-  font-size: 24px;
-  font-weight: bold;
+  padding: 5px 20px;
+  font-size: 34px;
   float: left;
+}
+
+.header-logo-left {
+  font-weight: 100;
 }
 
 .header-list {
   float: right;
 }
 
+.header-session-nav {
+  padding: 15px;
+  float: right;
+}
+
+.header-session-button {
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.header-session-button:hover {
+  text-decoration: none;
+  background: #C7C1B3;
+}
+
 .main {
   margin: auto;
   width: 1000px;
-
+  padding-top: 16px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  background: #baac9a;
 }
 
 form > h1 {
@@ -86,12 +114,14 @@ form > h1 {
 
 .login-form {
   position: relative;
-  border: 1px solid #b48484;
+  /*border: 1px solid #b48484;*/
   background: #baac9a;
   display: block;
   margin: auto;
   padding: 100px;
   width: 300px;
+  /*border: 30px solid baac9a;*/
+  border-radius: 10px;
 }
 
 .login-button-container {
@@ -101,8 +131,7 @@ form > h1 {
 .login-button {
   margin: auto;
   width: 100px;
-  /*padding: 10px 20px;*/
-  font-weight: bold;
+  /*font-weight: bold;*/
   background: #382110;
   border: none;
   border-radius: 3px;
@@ -110,15 +139,28 @@ form > h1 {
   font-size: 13px
   padding-top: 7px;
   height: 28px;
+  cursor: pointer;
+}
+
+.login-button:hover {
 }
 
 .login-fields {
   margin: auto;
   width: 250px;
   padding-top: 10px;
-  background: yellow;
+  /*background: yellow;*/
 }
 
 .logo-link:hover {
   text-decoration: none;
+}
+
+.gradient {
+  background-image:
+    radial-gradient(
+      circle,
+      white,
+      #baac9a 65%
+    );
 }

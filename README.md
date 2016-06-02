@@ -1,9 +1,5 @@
 # ShouldReads
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
-
-
 ## Heroku Link
 
 http://should-reads.herokuapp.com/
@@ -17,11 +13,11 @@ at a minimum, satisfy the following criteria by the end of Week 9:
 - [ ] New account creation, login, and guest/demo login
 - [ ] Bug-free, easy-to-use navigation
 - [ ] Adequate seed data to show depth and breadth of site's features
-- [ ] Hosting on Heroku
+- [x] Hosting on Heroku
 - [ ] Visually-appealing (and matching) CSS styling
 - [ ] A production README
 - [ ] Bare-minimum features to be a GoodReads clone:
-  - [ ] Book creation (importing Amazon API??)
+  - [ ] Book creation
   - [ ] Book editing
   - [ ] Create Book Ratings, Reviews, Shelves
   - [ ] Mark Books as "want to read", "read", and "currently reading"
@@ -84,7 +80,7 @@ the API.
   - [ ] want to make this more DRY
 - [ ] setup Webpack & Flux scaffold
   - what does this mean?
-- [ ] setup `APIUtil` to interact with the API
+- [x] setup `APIUtil` to interact with the API
 - [ ] test out API interaction in the console.
 
 

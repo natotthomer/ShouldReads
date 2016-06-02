@@ -60,28 +60,30 @@ ShouldReads will allow users to do the following:
 
 ## Implementation Timeline
 
-### Phase 1: Backend setup and User Authentication (0.5 days)
+### Phase 1: Backend setup and User Authentication (1.5 days)
 
 **Objective:** Functioning rails project with Authentication
 
-- [ ] create new project
-- [ ] create `User` model
-- [ ] authentication
-- [ ] user sign-up/sign-in pages
-- [ ] user logout
-- [ ] blank landing page after sign-in
+- [x] create new project
+- [x] create `User` model
+- [x] authentication
+- [x] user sign-up/sign-in pages
+- [x] user logout
+- [x] blank landing page after sign-in
 
-### Phase 2: Books Model, API, and basic APIUtil (1.5 days)
+### Phase 2: Books Model, API, and basic APIUtil (1 days)
 
 **Objective:** Books can be created, read, edited and destroyed through
 the API.
 
-- [ ] create `Book` model
-  - [ ] set up validations/constraints
-- [ ] seed the database with a small amount of test data
+- [x] create `Book` model
+  - [x] set up validations/constraints
+- [x] seed the database with a small amount of test data
 - [ ] CRUD API for books (`BooksController`)
-- [ ] jBuilder views for books
+- [x] jBuilder views for books
+  - [ ] want to make this more DRY
 - [ ] setup Webpack & Flux scaffold
+  - what does this mean?
 - [ ] setup `APIUtil` to interact with the API
 - [ ] test out API interaction in the console.
 

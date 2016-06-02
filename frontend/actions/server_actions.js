@@ -1,19 +1,32 @@
-var AppDispatcher = require('../dispatcher/dispatcher');
-var BookConstants = require('../constants/book_constants');
+var AppDispatcher = require('./../dispatcher/dispatcher');
+var BookConstants = require('./../constants/book_constants');
+var ShelfConstants = require('./../constants/shelf_constants');
 
-var ApiActions = {
-  receiveAll: function(books){
+var ServerActions = {
+  receiveAllBooks: function (books) {
     AppDispatcher.dispatch({
       actionType: BookConstants.BOOKS_RECEIVED,
       books: books
     });
   },
-  receiveSingleBook: function(book){
+  receiveSingleBook: function (book) {
     AppDispatcher.dispatch({
       actionType: BookConstants.BOOK_RECEIVED,
       book: book
     });
+  },
+  receiveAllShelves: function (shelves) {
+    AppDispatcher.dispatch({
+      actionType: ShelfConstants.SHELVES_RECEIVED,
+      shelves: shelves
+    });
+  },
+  receiveSingleShelf: function (shelf) {
+    AppDispatcher.dispatch({
+      actionType: shelfConstants.SHELF_RECEIVED,
+      shelf: shelf
+    });
   }
 };
 
-module.exports = ApiActions;
+module.exports = ServerActions;

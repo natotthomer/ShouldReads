@@ -46,7 +46,7 @@ var LoginForm = React.createClass({
 			password: this.state.password
 		};
 
-    SessionApiUtil.login(formData, this.redirectToHome);
+    UserApiUtil.signup(formData, this.redirectToHome);
 	},
 
   fieldErrors: function (field) {
@@ -61,7 +61,7 @@ var LoginForm = React.createClass({
   },
 
   formType: function () {
-    return "login";
+    return "signup";
   },
 
   usernameChange: function (e) {
@@ -77,24 +77,26 @@ var LoginForm = React.createClass({
 	render: function () {
 		return (
       <div>
-  			<form onSubmit={this.handleSubmit} group="clearfix">
+  			<form onSubmit={this.handleSubmit}>
+          <h1>Welcome to Shouldreads!</h1> <br/>
 
           { this.fieldErrors("base") }
-
-          <section className="login-fields">
-    				<label>
-                Username:
-      					<input type="text" value={this.state.username} onChange={this.usernameChange}/>
-                { this.fieldErrors("username") }
-    				</label>
-    				<label>
-              Password:
-        				<input type="password" value={this.state.password} onChange={this.passwordChange}/>
-                { this.fieldErrors("password") }
-    				</label>
-          </section>
-          <div className="login-button">
-            <input className="login-button" type="submit" value="Sign In" />
+          <div className="signup-form">
+            <section className="login-fields">
+      				<label>
+                  Username:
+        					<input type="text" value={this.state.username} onChange={this.usernameChange}/> <br/>
+                  { this.fieldErrors("username") }
+      				</label>
+      				<label>
+                Password:
+          				<input type="password" value={this.state.password} onChange={this.passwordChange}/> <br/>
+                  { this.fieldErrors("password") }
+      				</label>
+            </section><br/>
+            <div className="login-button">
+              <input className="login-button" type="submit" value="Sign up!" />
+            </div>
           </div>
   			</form>
       </div>

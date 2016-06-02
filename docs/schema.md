@@ -1,12 +1,13 @@
 # Schema Information
 
 ## books
-column name    | data type | details
----------------|-----------|-----------------------
-id             | integer   | not null, primary key
-title          | string    | not null, indexed
-author_name    | string    | not null, indexed
-cover_url      | string    | not null
+column name     | data type | details
+----------------|-----------|-----------------------
+id              | integer   | not null, primary key
+title           | string    | not null, indexed
+author_fname    |           |
+author_lname    | string    | not null, indexed
+cover_url       | string    | not null
 
 shelf = params[:shelf_id]
 book = params[:book_id]

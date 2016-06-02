@@ -2,21 +2,19 @@ var React = require('react');
 var Link = require('react-router').Link;
 var SessionStore = require('./../stores/session_store');
 var SessionApiUtil = require('./../util/session_api_util');
+var ShelfIndex = require('./ShelfIndex');
 
-var BookIndex = React.createClass({
-  componentDidMount: function () {
-
-  },
+var Sidebar = React.createClass({
 
   render: function () {
-    return
-    (
-      <section>
-      <br/><br/><br/><br/><br/><br/>
-        <h1>
-          in the BookIndex
-        </h1>
-      </section>
+    // debugger;
+    return (
+      <div>
+        <ShelfIndex/>
+      </div>
     );
   }
+
 });
+
+module.exports = Sidebar;

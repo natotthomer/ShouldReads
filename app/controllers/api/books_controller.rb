@@ -1,9 +1,5 @@
 class Api::BooksController < ApplicationController
 
-  def new
-    @book = Book.new
-  end
-
   def create
     @book = Book.new(book_params)
 
@@ -15,25 +11,9 @@ class Api::BooksController < ApplicationController
     end
   end
 
-  def show
-    @book = Book.find(params[:id])
-    render "api/books/show"
-  end
-
   def index
-    @books = Book.all
+    @books = current_user.books
     render "api/users/"
-  end
-
-  def edit
-    @book = Book.find(params[:id])
-
-    # Does this seem right? And again with the status codes
-    if @book
-      render "api/books/show"
-    else
-      render json: @book.errors, status: 422
-    end
   end
 
   def update

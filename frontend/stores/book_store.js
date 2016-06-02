@@ -22,6 +22,10 @@ var removeBook = function (book) {
   delete _books[book.id];
 };
 
+BookStore.find = function (id) {
+  return _books[id];
+};
+
 BookStore.all = function () {
   return Object({}, _books);
 };

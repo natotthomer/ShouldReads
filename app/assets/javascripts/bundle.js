@@ -56,16 +56,21 @@
 	var App = __webpack_require__(229);
 	var LoginForm = __webpack_require__(257);
 	var BookIndex = __webpack_require__(260);
+	var ShelfIndex = __webpack_require__(261);
+	var ShelfShow = __webpack_require__(269);
+	var BookShow = __webpack_require__(270);
 	
 	var SessionStore = __webpack_require__(230);
 	var SessionApiUtil = __webpack_require__(253);
 	
 	// <IndexRoute component={BookIndex}/>
+	// <IndexRoute component={BookIndex}/>
+	// <Route path="books" component={BookIndex}/>
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
-	  React.createElement(Route, { path: 'login', component: LoginForm }),
-	  React.createElement(Route, { path: 'signup', component: LoginForm })
+	  React.createElement(Route, { path: '(users/:userId/)shelves', component: ShelfIndex, onEnter: _ensureLoggedIn }),
+	  React.createElement(Route, { path: 'books/:bookId', component: BookShow, onEnter: _ensureLoggedIn })
 	);
 	
 	function _ensureLoggedIn(nextState, replace, asyncDoneCallback) {
@@ -25875,6 +25880,9 @@
 	var Link = __webpack_require__(168).Link;
 	var SessionStore = __webpack_require__(230);
 	var SessionApiUtil = __webpack_require__(253);
+	var LoginForm = __webpack_require__(257);
+	var SignupForm = __webpack_require__(271);
+	var Dashboard = __webpack_require__(272);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -25888,7 +25896,7 @@
 	  greeting: function () {
 	    if (SessionStore.isUserLoggedIn()) {
 	      return React.createElement(
-	        'hgroup',
+	        'nav',
 	        null,
 	        React.createElement(
 	          'h2',
@@ -25899,27 +25907,24 @@
 	        ),
 	        React.createElement('input', { type: 'submit', value: 'logout', onClick: SessionApiUtil.logout })
 	      );
-	    } else if (["/login", "/signup"].indexOf(this.props.location.pathname) === -1) {
-	      return React.createElement(
-	        'nav',
-	        { className: 'header-session-nav' },
-	        React.createElement(
-	          Link,
-	          { className: 'header-session-button', to: '/login', activeClassName: 'current' },
-	          'Login'
-	        ),
-	        '      ',
-	        React.createElement(
-	          Link,
-	          { className: 'header-session-button', to: '/signup', activeClassName: 'current' },
-	          'Sign up'
-	        )
-	      );
+	    } else {
+	      return React.createElement(LoginForm, null);
+	    }
+	  },
+	
+	  main: function () {
+	    if (SessionStore.isUserLoggedIn()) {
+	      return React.createElement(Dashboard, null);
+	    } else {
+	      return React.createElement(SignupForm, null);
 	    }
 	  },
 	
 	  render: function () {
-	    debugger;
+	    if (!SessionStore.currentUserHasBeenFetched()) {
+	      return React.createElement('div', null);
+	    }
+	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -25938,21 +25943,22 @@
 	              React.createElement(
 	                'span',
 	                { className: 'header-logo-left' },
-	                'Should'
+	                'should'
 	              ),
 	              'reads'
 	            )
 	          ),
 	          React.createElement(
 	            'div',
-	            null,
+	            { className: 'header-session-nav' },
 	            this.greeting()
 	          )
 	        )
 	      ),
 	      React.createElement(
 	        'section',
-	        { className: 'main' },
+	        { className: 'main gradient' },
+	        this.main(),
 	        this.props.children
 	      )
 	    );
@@ -32949,11 +32955,7 @@
 	      password: this.state.password
 	    };
 	
-	    if (this.props.location.pathname === "/login") {
-	      SessionApiUtil.login(formData, this.redirectToHome);
-	    } else {
-	      UserApiUtil.signup(formData, this.redirectToHome);
-	    }
+	    SessionApiUtil.login(formData, this.redirectToHome);
 	  },
 	
 	  fieldErrors: function (field) {
@@ -32978,7 +32980,7 @@
 	  },
 	
 	  formType: function () {
-	    return this.props.location.pathname.slice(1);
+	    return "login";
 	  },
 	
 	  usernameChange: function (e) {
@@ -32992,43 +32994,12 @@
 	  },
 	
 	  render: function () {
-	    var navLink;
-	    var submitText;
-	    if (this.formType() === "login") {
-	      navLink = React.createElement(
-	        Link,
-	        { to: '/signup' },
-	        'sign up instead'
-	      );
-	      submitText = "Sign In";
-	    } else {
-	      navLink = React.createElement(
-	        Link,
-	        { to: '/login' },
-	        'log in instead'
-	      );
-	      submitText = "Sign Up";
-	    }
-	
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement(
 	        'form',
-	        { onSubmit: this.handleSubmit, className: 'login-form gradient' },
-	        React.createElement(
-	          'h1',
-	          null,
-	          'Welcome to ShouldReads!'
-	        ),
-	        ' ',
-	        React.createElement('br', null),
-	        'Please ',
-	        this.formType(),
-	        ' or ',
-	        navLink,
-	        ' ',
-	        React.createElement('br', null),
+	        { onSubmit: this.handleSubmit, group: 'clearfix' },
 	        this.fieldErrors("base"),
 	        React.createElement(
 	          'section',
@@ -33038,8 +33009,6 @@
 	            null,
 	            'Username:',
 	            React.createElement('input', { type: 'text', value: this.state.username, onChange: this.usernameChange }),
-	            ' ',
-	            React.createElement('br', null),
 	            this.fieldErrors("username")
 	          ),
 	          React.createElement(
@@ -33047,16 +33016,13 @@
 	            null,
 	            'Password:',
 	            React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange }),
-	            ' ',
-	            React.createElement('br', null),
 	            this.fieldErrors("password")
 	          )
 	        ),
-	        React.createElement('br', null),
 	        React.createElement(
 	          'div',
 	          { className: 'login-button' },
-	          React.createElement('input', { className: 'login-button', type: 'submit', value: submitText })
+	          React.createElement('input', { className: 'login-button', type: 'submit', value: 'Sign In' })
 	        )
 	      )
 	    );
@@ -33148,7 +33114,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Link = __webpack_require__(168);
+	var Link = __webpack_require__(168).Link;
 	var SessionStore = __webpack_require__(230);
 	var SessionApiUtil = __webpack_require__(253);
 	
@@ -33160,12 +33126,546 @@
 	  render: function () {
 	    return;
 	    React.createElement(
-	      'h1',
+	      'section',
 	      null,
-	      'in the BookIndex'
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'h1',
+	        null,
+	        'in the BookIndex'
+	      )
 	    );
 	  }
 	});
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ShelfStore = __webpack_require__(262);
+	var ShelfIndexItem = __webpack_require__(264);
+	var ClientActions = __webpack_require__(265);
+	
+	var ShelfIndex = React.createClass({
+	  displayName: 'ShelfIndex',
+	
+	  getInitialState: function () {
+	
+	    return { shelves: [] };
+	  },
+	
+	  componentDidMount: function () {
+	    this.shelfListener = ShelfStore.addListener(this.getShelves);
+	    ClientActions.fetchShelves();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.shelfListener.remove();
+	  },
+	
+	  getShelves: function () {
+	    this.setState({ shelves: ShelfStore.all() });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'shelf-index' },
+	      React.createElement(
+	        'ul',
+	        null,
+	        this.state.shelves.map(function (shelf) {
+	          return React.createElement(ShelfIndexItem, { key: shelf.id, shelf: shelf });
+	        })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ShelfIndex;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(231);
+	var Store = __webpack_require__(235).Store;
+	var ShelfConstants = __webpack_require__(263);
+	
+	var ShelfStore = new Store(AppDispatcher);
+	
+	var _shelves = {};
+	
+	var resetShelves = function (shelves) {
+	  _shelves = {};
+	  // debugger;
+	  shelves.forEach(function (shelf) {
+	    _shelves[shelf.id] = shelf;
+	  });
+	};
+	
+	var setShelf = function (shelf) {
+	  _shelves[shelf.id] = shelf;
+	};
+	
+	var removeShelf = function (shelf) {
+	  delete _shelves[shelf.id];
+	};
+	
+	ShelfStore.all = function () {
+	  return Object.keys(_shelves).map(function (shelfId) {
+	    return _shelves[shelfId];
+	  });
+	};
+	
+	ShelfStore.find = function (id) {
+	  return _shelves[id];
+	};
+	
+	ShelfStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case ShelfConstants.SHELVES_RECEIVED:
+	      resetShelves(payload.shelves);
+	      break;
+	    case ShelfConstants.SHELF_RECEIVED:
+	      setShelf(payload.shelf);
+	      break;
+	    case ShelfConstants.SHELF_REMOVED:
+	      removeShelf(payload.shelf);
+	      break;
+	  }
+	
+	  this.__emitChange();
+	};
+	
+	module.exports = ShelfStore;
+
+/***/ },
+/* 263 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  SHELVES_RECEIVED: "SHELVES_RECEIVED",
+	  SHELF_RECEIVED: "SHELF_RECEIVED",
+	  SHELF_REMOVED: "SHELF_REMOVED"
+	};
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	var ClientActions = __webpack_require__(265);
+	var hashHistory = __webpack_require__(168).hashHistory;
+	
+	var ShelfIndexItem = React.createClass({
+	  displayName: 'ShelfIndexItem',
+	
+	  render: function () {
+	    var shelf = this.props.shelf;
+	    return React.createElement(
+	      'li',
+	      null,
+	      React.createElement(
+	        Link,
+	        { to: "/shelves/" + this.props.shelf.id },
+	        shelf.title
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ShelfIndexItem;
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ApiUtil = __webpack_require__(266);
+	
+	var ClientActions = {
+	  fetchBooks: ApiUtil.fetchBooks,
+	  createBook: ApiUtil.createBook,
+	  fetchShelves: ApiUtil.fetchShelves,
+	  fetchShelf: ApiUtil.fetchShelf
+	};
+	
+	module.exports = ClientActions;
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ServerActions = __webpack_require__(267);
+	
+	var ApiUtil = {
+	  fetchBooks: function () {
+	    $.ajax({
+	      url: "api/books",
+	      success: function (books) {
+	        ServerActions.receiveAllBooks(books);
+	      }
+	    });
+	  },
+	  //
+	  // createBook: function (data) {
+	  //   $.ajax({
+	  //     url: "api/book",
+	  //     type: "POST",
+	  //     data: { book: data },
+	  //     success: function (book) {
+	  //       ServerActions.receiveBook(book);
+	  //     }
+	  //   });
+	  // },
+	  fetchShelves: function () {
+	    $.ajax({
+	      url: "api/shelves",
+	      success: function (shelves) {
+	        ServerActions.receiveAllShelves(shelves);
+	      }
+	    });
+	  },
+	
+	  fetchShelf: function (id) {
+	    $.ajax({
+	      url: "api/shelves/" + id,
+	      success: function (shelf) {
+	        ServerActions.receiveSingleShelf(shelf);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = ApiUtil;
+
+/***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(231);
+	var BookConstants = __webpack_require__(268);
+	var ShelfConstants = __webpack_require__(263);
+	
+	var ServerActions = {
+	  receiveAllBooks: function (books) {
+	    AppDispatcher.dispatch({
+	      actionType: BookConstants.BOOKS_RECEIVED,
+	      books: books
+	    });
+	  },
+	  receiveSingleBook: function (book) {
+	    AppDispatcher.dispatch({
+	      actionType: BookConstants.BOOK_RECEIVED,
+	      book: book
+	    });
+	  },
+	  receiveAllShelves: function (shelves) {
+	    AppDispatcher.dispatch({
+	      actionType: ShelfConstants.SHELVES_RECEIVED,
+	      shelves: shelves
+	    });
+	  },
+	  receiveSingleShelf: function (shelf) {
+	    AppDispatcher.dispatch({
+	      actionType: shelfConstants.SHELF_RECEIVED,
+	      shelf: shelf
+	    });
+	  }
+	};
+	
+	module.exports = ServerActions;
+
+/***/ },
+/* 268 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  BOOKS_RECEIVED: "BOOKS_RECEIVED",
+	  BOOK_RECEIVED: "BOOK_RECEIVED",
+	  BOOK_REMOVED: "BOOK_REMOVED"
+	};
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ShelfStore = __webpack_require__(262);
+	var ClientActions = __webpack_require__(265);
+	var Link = __webpack_require__(168).Link;
+	
+	var ShelfShow = React.createClass({
+	  displayName: 'ShelfShow',
+	
+	  getInitialState: function () {
+	    var potentialShelf = ShelfStore.find(this.props.params.shelfId);
+	    return { shelf: potentialShelf ? potentialShelf : {} };
+	  },
+	
+	  componentDidMount: function () {
+	    this.shelfListener = ShelfStore.addListener(this.handleChange);
+	    ClientActions.fetchShelf(this.props.params.shelfId);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.shelfListener.remove();
+	  },
+	
+	  handleChange: function () {
+	    var potentialShelf = ShelfStore.find(this.props.params.shelfId);
+	    this.setState({ shelf: potentialShelf ? potentialShelf : {} });
+	  },
+	
+	  render: function () {
+	    var shelf = this.state.shelf;
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h3',
+	        null,
+	        shelf.title
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        shelf.description
+	      ),
+	      React.createElement('ul', null),
+	      React.createElement(
+	        Link,
+	        { to: '/shelves' },
+	        'Back to all Shelves'
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ShelfShow;
+
+/***/ },
+/* 270 */
+/***/ function(module, exports) {
+
+
+
+/***/ },
+/* 271 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	var SessionApiUtil = __webpack_require__(253);
+	var SessionStore = __webpack_require__(230);
+	var ErrorStore = __webpack_require__(258);
+	var UserApiUtil = __webpack_require__(259);
+	
+	var LoginForm = React.createClass({
+	  displayName: 'LoginForm',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      username: "",
+	      password: ""
+	    };
+	  },
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  componentDidMount: function () {
+	    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
+	    this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.errorListener.remove();
+	    this.sessionListener.remove();
+	  },
+	
+	  redirectIfLoggedIn: function () {
+	    if (SessionStore.isUserLoggedIn()) {
+	      this.context.router.push("/");
+	    }
+	  },
+	
+	  redirectToHome: function () {
+	    this.context.router.push("/");
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	
+	    var formData = {
+	      username: this.state.username,
+	      password: this.state.password
+	    };
+	
+	    UserApiUtil.signup(formData, this.redirectToHome);
+	  },
+	
+	  fieldErrors: function (field) {
+	    var errors = ErrorStore.formErrors(this.formType());
+	    if (!errors[field]) {
+	      return;
+	    }
+	
+	    var messages = errors[field].map(function (errorMsg, i) {
+	      return React.createElement(
+	        'li',
+	        { key: i },
+	        errorMsg
+	      );
+	    });
+	
+	    return React.createElement(
+	      'ul',
+	      null,
+	      messages
+	    );
+	  },
+	
+	  formType: function () {
+	    return "signup";
+	  },
+	
+	  usernameChange: function (e) {
+	    var newUsername = e.target.value;
+	    this.setState({ username: newUsername });
+	  },
+	
+	  passwordChange: function (e) {
+	    var newPassword = e.target.value;
+	    this.setState({ password: newPassword });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'Welcome to Shouldreads!'
+	        ),
+	        ' ',
+	        React.createElement('br', null),
+	        this.fieldErrors("base"),
+	        React.createElement(
+	          'div',
+	          { className: 'signup-form' },
+	          React.createElement(
+	            'section',
+	            { className: 'login-fields' },
+	            React.createElement(
+	              'label',
+	              null,
+	              'Username:',
+	              React.createElement('input', { type: 'text', value: this.state.username, onChange: this.usernameChange }),
+	              ' ',
+	              React.createElement('br', null),
+	              this.fieldErrors("username")
+	            ),
+	            React.createElement(
+	              'label',
+	              null,
+	              'Password:',
+	              React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange }),
+	              ' ',
+	              React.createElement('br', null),
+	              this.fieldErrors("password")
+	            )
+	          ),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'div',
+	            { className: 'login-button' },
+	            React.createElement('input', { className: 'login-button', type: 'submit', value: 'Sign up!' })
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = LoginForm;
+
+/***/ },
+/* 272 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	var SessionStore = __webpack_require__(230);
+	var SessionApiUtil = __webpack_require__(253);
+	var Sidebar = __webpack_require__(273);
+	
+	var Dashboard = React.createClass({
+	  displayName: 'Dashboard',
+	
+	
+	  getInitialState: function () {
+	    return { shelves: [], user: {} };
+	  },
+	
+	  componentDidMount: function () {},
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        'in the dashboard'
+	      ),
+	      React.createElement(Sidebar, null)
+	    );
+	  }
+	
+	});
+	
+	module.exports = Dashboard;
+
+/***/ },
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	var SessionStore = __webpack_require__(230);
+	var SessionApiUtil = __webpack_require__(253);
+	var ShelfIndex = __webpack_require__(261);
+	
+	var Sidebar = React.createClass({
+	  displayName: 'Sidebar',
+	
+	
+	  render: function () {
+	    // debugger;
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(ShelfIndex, null)
+	    );
+	  }
+	
+	});
+	
+	module.exports = Sidebar;
 
 /***/ }
 /******/ ]);

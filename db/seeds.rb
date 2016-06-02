@@ -7,6 +7,16 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 Book.destroy_all
+Shelf.destroy_all
+
+shelves = Shelf.create([
+    { title: "Fantasy & Science Fiction", user_id: 1, description: "Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
+      augue sagittis in. Fusce et velit non lacus placerat vehicula."},
+    { title: "Philosophy & Theory", user_id: 1, description: "Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
+      augue sagittis in. Fusce et velit non lacus placerat vehicula."}
+  ])
 
 books = Book.create([
     { title: "Grapes of Wrath", author_fname: "John", author_lname: "Steinbeck" },

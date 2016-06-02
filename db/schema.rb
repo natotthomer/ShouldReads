@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160601200504) do
+ActiveRecord::Schema.define(version: 20160602134127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,20 @@ ActiveRecord::Schema.define(version: 20160601200504) do
   add_index "books", ["author_lname"], name: "index_books_on_author_lname", using: :btree
   add_index "books", ["title", "author_fname", "author_lname"], name: "index_books_on_title_and_author_fname_and_author_lname", unique: true, using: :btree
   add_index "books", ["title"], name: "index_books_on_title", using: :btree
+
+  create_table "shelf_assignments", force: :cascade do |t|
+    t.integer "shelf_id", null: false
+    t.integer "book_id",  null: false
+  end
+
+  create_table "shelves", force: :cascade do |t|
+    t.integer "user_id",     null: false
+    t.string  "title",       null: false
+    t.text    "description"
+  end
+
+  add_index "shelves", ["title"], name: "index_shelves_on_title", using: :btree
+  add_index "shelves", ["user_id"], name: "index_shelves_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username",        null: false

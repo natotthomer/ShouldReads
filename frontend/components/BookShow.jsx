@@ -17,9 +17,12 @@ var BookShow = React.createClass({
   },
 
   componentDidMount: function () {
-    debugger;
     this.bookListener = BookStore.addListener(this.getBook);
     ClientActions.fetchBook(this.props.params.bookId);
+  },
+
+  componentWillUnmount: function () {
+    this.bookListener.remove();
   },
 
   getBook: function () {

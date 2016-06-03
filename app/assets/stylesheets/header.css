@@ -1,7 +1,7 @@
 .header {
   background-color: #f4f1ea;
   border-bottom: 1px solid #baac9a;
-  height: 44px;
+  height: 48px;
 }
 
 .header-nav {
@@ -14,9 +14,6 @@
   padding: 2px 20px;
   font-size: 30px;
   float: left;
-}
-
-.header-logo-link {
   font-weight: 100;
 }
 
@@ -47,5 +44,5 @@
 
 .greeting {
   display: inline;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
 }

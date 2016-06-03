@@ -25,7 +25,6 @@ var ShelfForm = React.createClass({
 
   handleSubmit: function (e) {
     e.preventDefault();
-    debugger;
     var shelfData = {
       title: this.state.title,
       description: this.state.description,

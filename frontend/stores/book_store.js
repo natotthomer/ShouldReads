@@ -35,7 +35,7 @@ BookStore.__onDispatch = function (payload) {
     case BookConstants.BOOKS_RECEIVED:
       resetBooks(payload.books);
       break;
-    case BookConstants.BOOKS_RECEIVED:
+    case BookConstants.BOOK_RECEIVED:
       setBook(payload.book);
       break;
     case BookConstants.BOOK_REMOVED:

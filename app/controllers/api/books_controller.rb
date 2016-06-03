@@ -3,7 +3,6 @@ class Api::BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
 
-    # what status codes do I actually want to put in here?
     if @book.save
       render "api/books/show"
     else
@@ -14,6 +13,10 @@ class Api::BooksController < ApplicationController
   def index
     @books = current_user.books
     render "api/books/index"
+  end
+
+  def show
+    @book = Book.find(params[:id])
   end
 
   def update

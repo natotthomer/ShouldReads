@@ -32840,7 +32840,7 @@
 	    if (SessionStore.isUserLoggedIn()) {
 	      return React.createElement(
 	        'div',
-	        { className: 'greeting-div' },
+	        { className: 'greeting-div clearfix' },
 	        React.createElement(
 	          'section',
 	          { className: 'greeting' },
@@ -32848,7 +32848,7 @@
 	          SessionStore.currentUser().username,
 	          '!'
 	        ),
-	        '   ',
+	        '  ',
 	        React.createElement('input', { type: 'submit', value: 'logout', onClick: SessionApiUtil.logout, className: 'login-button' })
 	      );
 	    } else {
@@ -32866,7 +32866,7 @@
 	      null,
 	      React.createElement(
 	        'header',
-	        { className: 'header clearfix' },
+	        { className: 'header' },
 	        React.createElement(
 	          'div',
 	          { className: 'header-nav clearfix' },
@@ -32875,7 +32875,7 @@
 	            { className: 'header-logo' },
 	            React.createElement(
 	              'a',
-	              { href: '/', className: 'header-logo-link' },
+	              { href: '/#/', className: 'header-logo-link' },
 	              'should',
 	              React.createElement(
 	                'span',
@@ -32997,7 +32997,6 @@
 	      React.createElement(
 	        'form',
 	        { onSubmit: this.handleSubmit },
-	        this.fieldErrors("base"),
 	        React.createElement(
 	          'section',
 	          { className: 'login-fields clearfix' },
@@ -33005,21 +33004,25 @@
 	            'label',
 	            { className: 'login-form-el' },
 	            'Username:',
-	            React.createElement('input', { className: 'header-input', type: 'text', value: this.state.username, onChange: this.usernameChange }),
-	            this.fieldErrors("username")
+	            React.createElement('input', { className: 'header-input', type: 'text', value: this.state.username, onChange: this.usernameChange })
 	          ),
 	          ' ',
 	          React.createElement(
 	            'label',
 	            { className: 'login-form-el' },
 	            'Password:',
-	            React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange }),
-	            this.fieldErrors("password")
+	            React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange })
+	          ),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'div',
+	            { className: 'login-errors-div' },
+	            this.fieldErrors("base")
 	          )
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'login-button' },
+	          { className: 'login-button-div' },
 	          React.createElement('input', { className: 'login-button', type: 'submit', value: 'Sign In' })
 	        )
 	      )
@@ -33791,7 +33794,7 @@
 	    case BookConstants.BOOKS_RECEIVED:
 	      resetBooks(payload.books);
 	      break;
-	    case BookConstants.BOOKS_RECEIVED:
+	    case BookConstants.BOOK_RECEIVED:
 	      setBook(payload.book);
 	      break;
 	    case BookConstants.BOOK_REMOVED:
@@ -33854,9 +33857,12 @@
 	  },
 	
 	  componentDidMount: function () {
-	    debugger;
 	    this.bookListener = BookStore.addListener(this.getBook);
 	    ClientActions.fetchBook(this.props.params.bookId);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.bookListener.remove();
 	  },
 	
 	  getBook: function () {
@@ -33964,7 +33970,6 @@
 	
 	  handleSubmit: function (e) {
 	    e.preventDefault();
-	    debugger;
 	    var shelfData = {
 	      title: this.state.title,
 	      description: this.state.description,

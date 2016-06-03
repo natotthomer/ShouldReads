@@ -22,7 +22,7 @@
 
 .login-button {
   margin: auto;
-  float: left;
+  float: right;
   width: 60px;
   background: #382110;
   border: none;
@@ -41,4 +41,16 @@
   margin: auto;
   width: 350px;
   float: left;
+}
+
+.login-errors-div {
+  margin: auto;
+  text-align: center;
+  font-size: 10px;
+  display: block;
+  padding-bottom: 1px;
+}
+
+.login-errors-ul {
+
 }

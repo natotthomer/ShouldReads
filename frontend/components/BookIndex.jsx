@@ -33,13 +33,11 @@ var BookIndex = React.createClass({
         <div/>
       );
     }
-    // debugger;
-    // <li>{this.props.books[0].title}</li>
+
     return (
       <ul>
         {
           this.props.books.map(function (book) {
-
             return (<BookIndexItem book={book} key={book.id}/>);
           })
         }

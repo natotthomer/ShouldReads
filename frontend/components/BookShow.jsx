@@ -8,9 +8,32 @@ var BookStore = require('./../stores/book_store');
 var BookIndexItem = require('./BookIndexItem');
 
 var BookShow = React.createClass({
+  getInitialState: function () {
+    return ({ book: BookStore.find(this.props.params.bookId)});
+  },
+
+  componentWillReceiveProps: function (newProps) {
+    this.setState({ book: newProps.book });
+  },
+
+  componentDidMount: function () {
+    debugger;
+    this.bookListener = BookStore.addListener(this.getBook);
+    ClientActions.fetchBook(this.props.params.bookId);
+  },
+
+  getBook: function () {
+    this.setState({ book: BookStore.find(this.props.params.bookId)});
+  },
+
   render: function () {
+    if (!SessionStore.currentUserHasBeenFetched() || this.state.book === undefined) {
+      return (<div/>);
+    }
     return (
-      <div>in bookshow</div>
+      <div className="book-show">
+        <div className="book-show-title">{this.state.book.title}</div><br/><br/>
+      </div>
     );
   }
 });

@@ -35,7 +35,7 @@ var ShelfDetail = React.createClass({
     if (!SessionStore.currentUserHasBeenFetched() || this.state.shelf === undefined) {
       return (<div/>);
     }
-    debugger;
+
     return (
       <div className="shelf-detail">
         <div className="shelf-detail-title">{this.state.shelf.title}</div> <br/><br/>

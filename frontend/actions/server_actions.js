@@ -9,18 +9,21 @@ var ServerActions = {
       books: books
     });
   },
+
   receiveSingleBook: function (book) {
     AppDispatcher.dispatch({
       actionType: BookConstants.BOOK_RECEIVED,
       book: book
     });
   },
+
   receiveAllShelves: function (shelves) {
     AppDispatcher.dispatch({
       actionType: ShelfConstants.SHELVES_RECEIVED,
       shelves: shelves
     });
   },
+
   receiveSingleShelf: function (shelf) {
     AppDispatcher.dispatch({
       actionType: ShelfConstants.SHELF_RECEIVED,

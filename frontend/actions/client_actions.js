@@ -5,7 +5,8 @@ var ClientActions = {
   fetchBook: ApiUtil.fetchBook,
   createBook: ApiUtil.createBook,
   fetchShelves: ApiUtil.fetchShelves,
-  fetchShelf: ApiUtil.fetchShelf
+  fetchShelf: ApiUtil.fetchShelf,
+  createShelf: ApiUtil.createShelf
 };
 
 module.exports = ClientActions;

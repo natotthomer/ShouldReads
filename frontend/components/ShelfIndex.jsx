@@ -1,5 +1,6 @@
 var React = require('react');
 var ShelfStore = require('./../stores/shelf_store');
+var Link = require('react-router').Link;
 var ShelfIndexItem = require('./ShelfIndexItem');
 var ClientActions = require('./../actions/client_actions');
 
@@ -35,7 +36,9 @@ var ShelfIndex = React.createClass({
                 return (<ShelfIndexItem key={shelf.id} shelf={shelf}/>);
               })
             }
-          </ul>
+          </ul><br/><br/>
+          <Link to={"shelves/new"}>create a new shelf</Link>
+
         </div>
       );
     } else {

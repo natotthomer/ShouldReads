@@ -25,7 +25,7 @@
  */
 
 body, head, h1, h2, h3, h4, h5, h6, p, span, div, a, img,
-ul, li, label, textarea, table, article, button,
+ul, li, label, table, article, button,
 figure, figcaption, footer, header, hgroup, section {
   margin: 0;
   padding: 0;

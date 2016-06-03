@@ -6,6 +6,7 @@ var hashHistory = require('react-router').hashHistory;
 var ShelfIndexItem = React.createClass({
   render: function () {
     var shelf = this.props.shelf;
+
     return (
       <li>
         <Link to={"shelves/"+shelf.id}>{shelf.title}</Link>

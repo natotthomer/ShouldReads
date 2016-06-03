@@ -45,6 +45,18 @@ var ApiUtil = {
         ServerActions.receiveSingleShelf(shelf);
       }
     });
+  },
+
+  createShelf: function (data, redirectToShelf) {
+    $.ajax({
+      url: "api/shelves/",
+      type: "POST",
+      data: { shelf: data },
+      success: function (shelf) {
+        ServerActions.receiveSingleShelf(shelf);
+        redirectToShelf(shelf.id);
+      }
+    });
   }
 };
 

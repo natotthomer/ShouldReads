@@ -43,7 +43,7 @@ var Header = React.createClass({
           <div className="header-nav clearfix">
             <h1 className="header-logo">
               <a href="/" className="header-logo-link">
-                <span className="header-logo-left">should</span>reads
+                should<span className="header-logo-right">reads</span>
               </a>
             </h1>
             { this.greeting() }

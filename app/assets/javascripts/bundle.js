@@ -59,11 +59,13 @@
 	var Homepage = __webpack_require__(277);
 	var BookShow = __webpack_require__(276);
 	var ShelvesView = __webpack_require__(271);
+	var ShelfForm = __webpack_require__(278);
 	
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: Header },
 	  React.createElement(IndexRoute, { component: Homepage }),
+	  React.createElement(Route, { path: 'shelves/', component: ShelfForm, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: '(users/:userId/)shelves/:shelfId', component: ShelvesView, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: 'books/:bookId', component: BookShow, onEnter: _ensureLoggedIn })
 	);
@@ -32874,12 +32876,12 @@
 	            React.createElement(
 	              'a',
 	              { href: '/', className: 'header-logo-link' },
+	              'should',
 	              React.createElement(
 	                'span',
-	                { className: 'header-logo-left' },
-	                'should'
-	              ),
-	              'reads'
+	                { className: 'header-logo-right' },
+	                'reads'
+	              )
 	            )
 	          ),
 	          this.greeting()
@@ -33320,6 +33322,7 @@
 
 	var React = __webpack_require__(1);
 	var ShelfStore = __webpack_require__(264);
+	var Link = __webpack_require__(168).Link;
 	var ShelfIndexItem = __webpack_require__(266);
 	var ClientActions = __webpack_require__(267);
 	
@@ -33359,6 +33362,13 @@
 	          this.state.shelves.map(function (shelf) {
 	            return React.createElement(ShelfIndexItem, { key: shelf.id, shelf: shelf });
 	          })
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement(
+	          Link,
+	          { to: "shelves/new" },
+	          'create a new shelf'
 	        )
 	      );
 	    } else {
@@ -33448,6 +33458,7 @@
 	
 	  render: function () {
 	    var shelf = this.props.shelf;
+	
 	    return React.createElement(
 	      'li',
 	      null,
@@ -33473,7 +33484,8 @@
 	  fetchBook: ApiUtil.fetchBook,
 	  createBook: ApiUtil.createBook,
 	  fetchShelves: ApiUtil.fetchShelves,
-	  fetchShelf: ApiUtil.fetchShelf
+	  fetchShelf: ApiUtil.fetchShelf,
+	  createShelf: ApiUtil.createShelf
 	};
 	
 	module.exports = ClientActions;
@@ -33529,6 +33541,18 @@
 	        ServerActions.receiveSingleShelf(shelf);
 	      }
 	    });
+	  },
+	
+	  createShelf: function (data, redirectToShelf) {
+	    $.ajax({
+	      url: "api/shelves/",
+	      type: "POST",
+	      data: { shelf: data },
+	      success: function (shelf) {
+	        ServerActions.receiveSingleShelf(shelf);
+	        redirectToShelf(shelf.id);
+	      }
+	    });
 	  }
 	};
 	
@@ -33549,18 +33573,21 @@
 	      books: books
 	    });
 	  },
+	
 	  receiveSingleBook: function (book) {
 	    AppDispatcher.dispatch({
 	      actionType: BookConstants.BOOK_RECEIVED,
 	      book: book
 	    });
 	  },
+	
 	  receiveAllShelves: function (shelves) {
 	    AppDispatcher.dispatch({
 	      actionType: ShelfConstants.SHELVES_RECEIVED,
 	      shelves: shelves
 	    });
 	  },
+	
 	  receiveSingleShelf: function (shelf) {
 	    AppDispatcher.dispatch({
 	      actionType: ShelfConstants.SHELF_RECEIVED,
@@ -33595,11 +33622,6 @@
 	
 	var ShelvesView = React.createClass({
 	  displayName: 'ShelvesView',
-	
-	
-	  componentWillReceiveProps: function () {
-	    this.forceUpdate();
-	  },
 	
 	  render: function () {
 	    return React.createElement(
@@ -33656,7 +33678,7 @@
 	    if (!SessionStore.currentUserHasBeenFetched() || this.state.shelf === undefined) {
 	      return React.createElement('div', null);
 	    }
-	    debugger;
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'shelf-detail' },
@@ -33715,13 +33737,11 @@
 	    if (!SessionStore.currentUserHasBeenFetched()) {
 	      return React.createElement('div', null);
 	    }
-	    // debugger;
-	    // <li>{this.props.books[0].title}</li>
+	
 	    return React.createElement(
 	      'ul',
 	      null,
 	      this.props.books.map(function (book) {
-	
 	        return React.createElement(BookIndexItem, { book: book, key: book.id });
 	      })
 	    );
@@ -33800,7 +33820,7 @@
 	      null,
 	      React.createElement(
 	        Link,
-	        { to: '#' },
+	        { to: "books/" + this.props.book.id },
 	        this.props.book.title
 	      )
 	    );
@@ -33825,11 +33845,38 @@
 	var BookShow = React.createClass({
 	  displayName: 'BookShow',
 	
+	  getInitialState: function () {
+	    return { book: BookStore.find(this.props.params.bookId) };
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ book: newProps.book });
+	  },
+	
+	  componentDidMount: function () {
+	    debugger;
+	    this.bookListener = BookStore.addListener(this.getBook);
+	    ClientActions.fetchBook(this.props.params.bookId);
+	  },
+	
+	  getBook: function () {
+	    this.setState({ book: BookStore.find(this.props.params.bookId) });
+	  },
+	
 	  render: function () {
+	    if (!SessionStore.currentUserHasBeenFetched() || this.state.book === undefined) {
+	      return React.createElement('div', null);
+	    }
 	    return React.createElement(
 	      'div',
-	      null,
-	      'in bookshow'
+	      { className: 'book-show' },
+	      React.createElement(
+	        'div',
+	        { className: 'book-show-title' },
+	        this.state.book.title
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('br', null)
 	    );
 	  }
 	});
@@ -33883,6 +33930,81 @@
 	});
 	
 	module.exports = Homepage;
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(229);
+	var ErrorStore = __webpack_require__(258);
+	var ClientActions = __webpack_require__(267);
+	var ShelfStore = __webpack_require__(264);
+	
+	var ShelfForm = React.createClass({
+	  displayName: 'ShelfForm',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return { title: "", description: "", user: SessionStore.currentUser().id };
+	  },
+	
+	  titleChange: function (e) {
+	    var newTitle = e.target.value;
+	    this.setState({ title: newTitle });
+	  },
+	
+	  descriptionChange: function (e) {
+	    var newDescription = e.target.value;
+	    this.setState({ description: newDescription });
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    debugger;
+	    var shelfData = {
+	      title: this.state.title,
+	      description: this.state.description,
+	      user_id: SessionStore.currentUser().id
+	    };
+	    ClientActions.createShelf(shelfData, this.redirectToShelves);
+	  },
+	
+	  redirectToShelves: function (shelfId) {
+	    this.context.router.push("shelves/" + shelfId);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'form',
+	        { className: 'shelf-form', onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'Create a new Shelf'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        'Title: ',
+	        React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange }),
+	        React.createElement('br', null),
+	        'Description: ',
+	        React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange }),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement('input', { type: 'submit', value: 'Create Shelf' })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ShelfForm;
 
 /***/ }
 /******/ ]);

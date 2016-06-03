@@ -56,8 +56,8 @@
 	var SessionApiUtil = __webpack_require__(252);
 	
 	var Header = __webpack_require__(256);
-	var Homepage = __webpack_require__(273);
-	var BookShow = __webpack_require__(274);
+	var Homepage = __webpack_require__(277);
+	var BookShow = __webpack_require__(276);
 	var ShelvesView = __webpack_require__(271);
 	
 	var routes = React.createElement(
@@ -32823,7 +32823,7 @@
 	var SignupForm = __webpack_require__(260);
 	var Dashboard = __webpack_require__(261);
 	var ShelvesView = __webpack_require__(271);
-	var Homepage = __webpack_require__(273);
+	var Homepage = __webpack_require__(277);
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
@@ -33626,7 +33626,7 @@
 	var ShelfStore = __webpack_require__(264);
 	var ShelfIndex = __webpack_require__(263);
 	var ShelfIndexItem = __webpack_require__(266);
-	var BookIndex = __webpack_require__(275);
+	var BookIndex = __webpack_require__(273);
 	
 	var ShelfDetail = React.createClass({
 	  displayName: 'ShelfDetail',
@@ -33684,86 +33684,11 @@
 	var Link = __webpack_require__(168).Link;
 	var SessionStore = __webpack_require__(229);
 	var SessionApiUtil = __webpack_require__(252);
-	var LoginForm = __webpack_require__(257);
-	var SignupForm = __webpack_require__(260);
-	var Dashboard = __webpack_require__(261);
-	var ShelvesView = __webpack_require__(271);
-	
-	var Homepage = React.createClass({
-	  displayName: 'Homepage',
-	
-	
-	  getInitialState: function () {
-	    return { poop: {} };
-	  },
-	
-	  componentDidMount: function () {
-	    this.sessionListener = SessionStore.addListener(this.onLogout);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.sessionListener.remove();
-	  },
-	
-	  onLogout: function () {
-	    this.setState({});
-	  },
-	
-	  toRender: function () {
-	    if (SessionStore.isUserLoggedIn()) {
-	      return React.createElement(Dashboard, null);
-	    } else {
-	      return React.createElement(SignupForm, null);
-	    }
-	  },
-	
-	  render: function () {
-	    return this.toRender();
-	  }
-	});
-	
-	module.exports = Homepage;
-
-/***/ },
-/* 274 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(168).Link;
-	var SessionStore = __webpack_require__(229);
-	var SessionApiUtil = __webpack_require__(252);
 	var ClientActions = __webpack_require__(267);
 	
-	var BookStore = __webpack_require__(276);
-	var BookIndexItem = __webpack_require__(277);
-	
-	var BookShow = React.createClass({
-	  displayName: 'BookShow',
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      'in bookshow'
-	    );
-	  }
-	});
-	
-	module.exports = BookShow;
-
-/***/ },
-/* 275 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(168).Link;
-	var SessionStore = __webpack_require__(229);
-	var SessionApiUtil = __webpack_require__(252);
-	var ClientActions = __webpack_require__(267);
-	
-	var BookStore = __webpack_require__(276);
-	var BookIndexItem = __webpack_require__(277);
-	var BookShow = __webpack_require__(274);
+	var BookStore = __webpack_require__(274);
+	var BookIndexItem = __webpack_require__(275);
+	var BookShow = __webpack_require__(276);
 	
 	var BookIndex = React.createClass({
 	  displayName: 'BookIndex',
@@ -33806,7 +33731,7 @@
 	module.exports = BookIndex;
 
 /***/ },
-/* 276 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(230);
@@ -33859,12 +33784,12 @@
 	module.exports = BookStore;
 
 /***/ },
-/* 277 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
-	var BookStore = __webpack_require__(276);
+	var BookStore = __webpack_require__(274);
 	
 	var BookIndexItem = React.createClass({
 	  displayName: 'BookIndexItem',
@@ -33883,6 +33808,81 @@
 	});
 	
 	module.exports = BookIndexItem;
+
+/***/ },
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	var SessionStore = __webpack_require__(229);
+	var SessionApiUtil = __webpack_require__(252);
+	var ClientActions = __webpack_require__(267);
+	
+	var BookStore = __webpack_require__(274);
+	var BookIndexItem = __webpack_require__(275);
+	
+	var BookShow = React.createClass({
+	  displayName: 'BookShow',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'in bookshow'
+	    );
+	  }
+	});
+	
+	module.exports = BookShow;
+
+/***/ },
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	var SessionStore = __webpack_require__(229);
+	var SessionApiUtil = __webpack_require__(252);
+	var LoginForm = __webpack_require__(257);
+	var SignupForm = __webpack_require__(260);
+	var Dashboard = __webpack_require__(261);
+	var ShelvesView = __webpack_require__(271);
+	
+	var Homepage = React.createClass({
+	  displayName: 'Homepage',
+	
+	
+	  getInitialState: function () {
+	    return { poop: {} };
+	  },
+	
+	  componentDidMount: function () {
+	    this.sessionListener = SessionStore.addListener(this.onLogout);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.sessionListener.remove();
+	  },
+	
+	  onLogout: function () {
+	    this.setState({});
+	  },
+	
+	  toRender: function () {
+	    if (SessionStore.isUserLoggedIn()) {
+	      return React.createElement(Dashboard, null);
+	    } else {
+	      return React.createElement(SignupForm, null);
+	    }
+	  },
+	
+	  render: function () {
+	    return this.toRender();
+	  }
+	});
+	
+	module.exports = Homepage;
 
 /***/ }
 /******/ ]);

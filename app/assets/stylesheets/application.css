@@ -58,47 +58,6 @@ a:hover {
   text-decoration: underline;
 }
 
-.header {
-  background-color: #f4f1ea;
-  border-bottom: 1px solid #baac9a;
-  height: 44px;
-}
-
-.header-nav {
-  width: 1000px;
-  margin: auto;
-  color: #554130;
-}
-
-.header-logo {
-  padding: 2px 20px;
-  font-size: 30px;
-  float: left;
-}
-
-.header-logo-left {
-  font-weight: 100;
-}
-
-.header-list {
-  float: right;
-}
-
-.header-session-nav {
-  padding: 10px;
-  float: right;
-}
-
-.header-session-button {
-  padding: 10px;
-  border-radius: 4px;
-}
-
-.header-session-button:hover {
-  text-decoration: none;
-  background: #C7C1B3;
-}
-
 .main {
   margin: auto;
   width: 1000px;
@@ -116,47 +75,6 @@ form > a {
   color: black;
 }
 
-.login-form {
-  position: relative;
-  text-align: center;
-  background: transparent;
-  display: block;
-  margin: auto;
-  padding: 120px;
-  width: 300px;
-  border-radius: 10px;
-}
-
-.login-button-container {
-  margin: auto;
-}
-
-.login-button {
-  margin: auto;
-  width: 100px;
-  background: #382110;
-  border: none;
-  border-radius: 3px;
-  color: #fffff7;
-  font-size: 13px;
-  height: 28px;
-  cursor: pointer;
-}
-
-.login-button:hover {
-  background: #554130;
-}
-
-.login-fields {
-  margin: auto;
-  width: 250px;
-  padding-top: 10px;
-}
-
-.logo-link:hover {
-  text-decoration: none;
-}
-
 .gradient {
   background-image:
     radial-gradient(
@@ -164,25 +82,10 @@ form > a {
       white,
       #baac9a 55%
     );
+  min-height: 500px;
 }
 
 .dashboard-left {
   float: left;
   text-align: center;
-}
-
-.sidebar-main {
-  float: right;
-  padding: 10px;
-}
-
-.sidebar-main a {
-  color: black;
-}
-
-.shelf-index {
-  float: left;
-  border: 1px solid black;
-  margin: 10px;
-  padding: 10px;
 }

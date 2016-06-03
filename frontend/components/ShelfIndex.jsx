@@ -3,11 +3,10 @@ var ShelfStore = require('./../stores/shelf_store');
 var ShelfIndexItem = require('./ShelfIndexItem');
 var ClientActions = require('./../actions/client_actions');
 
-
+var SessionStore = require('./../stores/session_store');
 
 var ShelfIndex = React.createClass({
   getInitialState: function () {
-
     return ({ shelves: [] });
   },
 
@@ -25,19 +24,24 @@ var ShelfIndex = React.createClass({
   },
 
   render: function () {
-    return (
-      <div className="shelf-index">
-        My Shelves <br/><br/>
-        <ul>
-          {
-            this.state.shelves.map(function (shelf) {
-              return (<ShelfIndexItem key={shelf.id} shelf={shelf}/>);
-            })
-          }
-          {this.props.children}
-        </ul>
-      </div>
-    );
+    if (SessionStore.currentUserHasBeenFetched()) {
+      return (
+
+        <div className="shelf-index">
+          My Shelves <br/><br/>
+          <ul>
+            {
+              this.state.shelves.map(function (shelf) {
+                return (<ShelfIndexItem key={shelf.id} shelf={shelf}/>);
+              })
+            }
+          </ul>
+        </div>
+      );
+    } else {
+      return (<div/>)
+    }
+
   }
 });
 

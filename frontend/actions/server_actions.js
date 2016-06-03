@@ -23,7 +23,7 @@ var ServerActions = {
   },
   receiveSingleShelf: function (shelf) {
     AppDispatcher.dispatch({
-      actionType: shelfConstants.SHELF_RECEIVED,
+      actionType: ShelfConstants.SHELF_RECEIVED,
       shelf: shelf
     });
   }

@@ -8,6 +8,23 @@ var Dashboard = require('./Dashboard');
 var ShelvesView = require('./ShelvesView');
 
 var Homepage = React.createClass({
+
+  getInitialState: function (){
+    return ({ poop: {} });
+  },
+
+  componentDidMount: function () {
+    this.sessionListener = SessionStore.addListener(this.onLogout);
+  },
+
+  componentWillUnmount: function () {
+    this.sessionListener.remove();
+  },
+
+  onLogout: function () {
+    this.setState({});
+  },
+
   toRender: function () {
     if (SessionStore.isUserLoggedIn()) {
       return (

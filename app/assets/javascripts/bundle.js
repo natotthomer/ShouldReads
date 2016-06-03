@@ -55,23 +55,21 @@
 	var SessionStore = __webpack_require__(229);
 	var SessionApiUtil = __webpack_require__(252);
 	
-	var Header = __webpack_require__(277);
-	var Homepage = __webpack_require__(276);
-	var ShelfIndex = __webpack_require__(263);
-	var BookShow = __webpack_require__(273);
-	var LoginForm = __webpack_require__(257);
-	var BookIndex = __webpack_require__(274);
+	var Header = __webpack_require__(256);
+	var Homepage = __webpack_require__(273);
+	var BookShow = __webpack_require__(274);
 	var ShelvesView = __webpack_require__(271);
 	
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: Header },
 	  React.createElement(IndexRoute, { component: Homepage }),
-	  React.createElement(Route, { path: '(users/:userId/)shelves', component: ShelvesView, onEnter: _ensureLoggedIn }),
+	  React.createElement(Route, { path: '(users/:userId/)shelves/:shelfId', component: ShelvesView, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: 'books/:bookId', component: BookShow, onEnter: _ensureLoggedIn })
 	);
 	
 	function _ensureLoggedIn(nextState, replace, asyncDoneCallback) {
+	  var sessionListener = SessionStore.addListener(redirectIfNotLoggedIn);
 	  if (SessionStore.currentUserHasBeenFetched()) {
 	    redirectIfNotLoggedIn();
 	  } else {
@@ -82,6 +80,7 @@
 	    if (!SessionStore.isUserLoggedIn()) {
 	      replace('/login');
 	    }
+	    sessionListener.remove();
 	    asyncDoneCallback();
 	  }
 	}
@@ -25890,12 +25889,12 @@
 	function _login(currentUser) {
 	  _currentUser = currentUser;
 	  _currentUserHasBeenFetched = true;
-	};
+	}
 	
 	function _logout() {
 	  _currentUser = {};
 	  _currentUserHasBeenFetched = true;
-	};
+	}
 	
 	SessionStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
@@ -32732,12 +32731,14 @@
 	    });
 	  },
 	
-	  fetchCurrentUser: function () {
+	  fetchCurrentUser: function (callback) {
 	    $.ajax({
 	      url: "api/session",
 	      type: "GET",
 	      success: function (currentUser) {
 	        SessionActions.receiveCurrentUser(currentUser);
+	        callback = callback || function () {};
+	        callback();
 	      },
 	      error: function (xhr) {
 	        console.log("Fetch error");
@@ -32809,7 +32810,93 @@
 	};
 
 /***/ },
-/* 256 */,
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	
+	var SessionStore = __webpack_require__(229);
+	var SessionApiUtil = __webpack_require__(252);
+	
+	var LoginForm = __webpack_require__(257);
+	var SignupForm = __webpack_require__(260);
+	var Dashboard = __webpack_require__(261);
+	var ShelvesView = __webpack_require__(271);
+	var Homepage = __webpack_require__(273);
+	
+	var Header = React.createClass({
+	  displayName: 'Header',
+	
+	
+	  componentDidMount: function () {
+	    SessionStore.addListener(this.forceUpdate.bind(this));
+	    SessionApiUtil.fetchCurrentUser();
+	  },
+	
+	  greeting: function () {
+	    if (SessionStore.isUserLoggedIn()) {
+	      return React.createElement(
+	        'div',
+	        { className: 'greeting-div' },
+	        React.createElement(
+	          'section',
+	          { className: 'greeting' },
+	          'Hi, ',
+	          SessionStore.currentUser().username,
+	          '!'
+	        ),
+	        '   ',
+	        React.createElement('input', { type: 'submit', value: 'logout', onClick: SessionApiUtil.logout, className: 'login-button' })
+	      );
+	    } else {
+	      return React.createElement(LoginForm, null);
+	    }
+	  },
+	
+	  render: function () {
+	    if (!SessionStore.currentUserHasBeenFetched()) {
+	      return React.createElement('div', null);
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'header',
+	        { className: 'header clearfix' },
+	        React.createElement(
+	          'div',
+	          { className: 'header-nav clearfix' },
+	          React.createElement(
+	            'h1',
+	            { className: 'header-logo' },
+	            React.createElement(
+	              'a',
+	              { href: '/', className: 'header-logo-link' },
+	              React.createElement(
+	                'span',
+	                { className: 'header-logo-left' },
+	                'should'
+	              ),
+	              'reads'
+	            )
+	          ),
+	          this.greeting()
+	        )
+	      ),
+	      React.createElement(
+	        'section',
+	        { className: 'main gradient' },
+	        this.props.children
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Header;
+
+/***/ },
 /* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -32904,24 +32991,25 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'header-nav-login clearfix' },
 	      React.createElement(
 	        'form',
-	        { onSubmit: this.handleSubmit, group: 'clearfix' },
+	        { onSubmit: this.handleSubmit },
 	        this.fieldErrors("base"),
 	        React.createElement(
 	          'section',
-	          { className: 'login-fields' },
+	          { className: 'login-fields clearfix' },
 	          React.createElement(
 	            'label',
-	            null,
+	            { className: 'login-form-el' },
 	            'Username:',
-	            React.createElement('input', { type: 'text', value: this.state.username, onChange: this.usernameChange }),
+	            React.createElement('input', { className: 'header-input', type: 'text', value: this.state.username, onChange: this.usernameChange }),
 	            this.fieldErrors("username")
 	          ),
+	          ' ',
 	          React.createElement(
 	            'label',
-	            null,
+	            { className: 'login-form-el' },
 	            'Password:',
 	            React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange }),
 	            this.fieldErrors("password")
@@ -33152,7 +33240,7 @@
 	          React.createElement('br', null),
 	          React.createElement(
 	            'div',
-	            { className: 'login-button' },
+	            { className: 'signup-button' },
 	            React.createElement('input', { className: 'login-button', type: 'submit', value: 'Sign up!' })
 	          )
 	        )
@@ -33235,11 +33323,12 @@
 	var ShelfIndexItem = __webpack_require__(266);
 	var ClientActions = __webpack_require__(267);
 	
+	var SessionStore = __webpack_require__(229);
+	
 	var ShelfIndex = React.createClass({
 	  displayName: 'ShelfIndex',
 	
 	  getInitialState: function () {
-	
 	    return { shelves: [] };
 	  },
 	
@@ -33257,21 +33346,24 @@
 	  },
 	
 	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'shelf-index' },
-	      'My Shelves ',
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'ul',
-	        null,
-	        this.state.shelves.map(function (shelf) {
-	          return React.createElement(ShelfIndexItem, { key: shelf.id, shelf: shelf });
-	        }),
-	        this.props.children
-	      )
-	    );
+	    if (SessionStore.currentUserHasBeenFetched()) {
+	      return React.createElement(
+	        'div',
+	        { className: 'shelf-index' },
+	        'My Shelves ',
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'ul',
+	          null,
+	          this.state.shelves.map(function (shelf) {
+	            return React.createElement(ShelfIndexItem, { key: shelf.id, shelf: shelf });
+	          })
+	        )
+	      );
+	    } else {
+	      return React.createElement('div', null);
+	    }
 	  }
 	});
 	
@@ -33361,7 +33453,7 @@
 	      null,
 	      React.createElement(
 	        Link,
-	        { to: "shelves" },
+	        { to: "shelves/" + shelf.id },
 	        shelf.title
 	      )
 	    );
@@ -33378,6 +33470,7 @@
 	
 	var ClientActions = {
 	  fetchBooks: ApiUtil.fetchBooks,
+	  fetchBook: ApiUtil.fetchBook,
 	  createBook: ApiUtil.createBook,
 	  fetchShelves: ApiUtil.fetchShelves,
 	  fetchShelf: ApiUtil.fetchShelf
@@ -33397,6 +33490,15 @@
 	      url: "api/books",
 	      success: function (books) {
 	        ServerActions.receiveAllBooks(books);
+	      }
+	    });
+	  },
+	
+	  fetchBook: function (id) {
+	    $.ajax({
+	      url: "api/books/" + id,
+	      success: function (book) {
+	        ServerActions.receiveSingleBook(book);
 	      }
 	    });
 	  },
@@ -33461,7 +33563,7 @@
 	  },
 	  receiveSingleShelf: function (shelf) {
 	    AppDispatcher.dispatch({
-	      actionType: shelfConstants.SHELF_RECEIVED,
+	      actionType: ShelfConstants.SHELF_RECEIVED,
 	      shelf: shelf
 	    });
 	  }
@@ -33489,66 +33591,93 @@
 	var SessionApiUtil = __webpack_require__(252);
 	var ShelfIndex = __webpack_require__(263);
 	var ShelfIndexItem = __webpack_require__(266);
+	var ShelfDetail = __webpack_require__(272);
 	
 	var ShelvesView = React.createClass({
 	  displayName: 'ShelvesView',
+	
+	
+	  componentWillReceiveProps: function () {
+	    this.forceUpdate();
+	  },
 	
 	  render: function () {
 	    return React.createElement(
 	      'div',
 	      { className: 'clearfix' },
-	      React.createElement(ShelfIndex, null)
+	      React.createElement(ShelfIndex, null),
+	      React.createElement(ShelfDetail, { shelfId: this.props.params.shelfId })
 	    );
-	    // <ShelfDetail/>
 	  }
 	});
 	
 	module.exports = ShelvesView;
 
 /***/ },
-/* 272 */,
-/* 273 */
-/***/ function(module, exports) {
-
-
-
-/***/ },
-/* 274 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
 	var SessionStore = __webpack_require__(229);
 	var SessionApiUtil = __webpack_require__(252);
+	var ClientActions = __webpack_require__(267);
 	
-	var BookIndex = React.createClass({
-	  displayName: 'BookIndex',
+	var ShelfStore = __webpack_require__(264);
+	var ShelfIndex = __webpack_require__(263);
+	var ShelfIndexItem = __webpack_require__(266);
+	var BookIndex = __webpack_require__(275);
 	
-	  componentDidMount: function () {},
+	var ShelfDetail = React.createClass({
+	  displayName: 'ShelfDetail',
+	
+	  getInitialState: function () {
+	    return { shelf: ShelfStore.find(this.props.shelfId) };
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ shelf: ShelfStore.find(newProps.shelfId) });
+	  },
+	
+	  componentDidMount: function () {
+	    this.shelfListener = ShelfStore.addListener(this.getShelf);
+	    ClientActions.fetchShelf(this.props.shelfId);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.shelfListener.remove();
+	  },
+	
+	  getShelf: function () {
+	    this.setState({ shelf: ShelfStore.find(this.props.shelfId) });
+	  },
 	
 	  render: function () {
-	    return;
-	    React.createElement(
-	      'section',
-	      null,
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
+	    if (!SessionStore.currentUserHasBeenFetched() || this.state.shelf === undefined) {
+	      return React.createElement('div', null);
+	    }
+	    debugger;
+	    return React.createElement(
+	      'div',
+	      { className: 'shelf-detail' },
 	      React.createElement(
-	        'h1',
-	        null,
-	        'in the BookIndex'
-	      )
+	        'div',
+	        { className: 'shelf-detail-title' },
+	        this.state.shelf.title
+	      ),
+	      ' ',
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(BookIndex, { books: this.state.shelf.books })
 	    );
+	    // {this.state.shelf.books}
 	  }
 	});
+	
+	module.exports = ShelfDetail;
 
 /***/ },
-/* 275 */,
-/* 276 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -33562,6 +33691,23 @@
 	
 	var Homepage = React.createClass({
 	  displayName: 'Homepage',
+	
+	
+	  getInitialState: function () {
+	    return { poop: {} };
+	  },
+	
+	  componentDidMount: function () {
+	    this.sessionListener = SessionStore.addListener(this.onLogout);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.sessionListener.remove();
+	  },
+	
+	  onLogout: function () {
+	    this.setState({});
+	  },
 	
 	  toRender: function () {
 	    if (SessionStore.isUserLoggedIn()) {
@@ -33579,94 +33725,164 @@
 	module.exports = Homepage;
 
 /***/ },
-/* 277 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
-	
 	var SessionStore = __webpack_require__(229);
 	var SessionApiUtil = __webpack_require__(252);
+	var ClientActions = __webpack_require__(267);
 	
-	var LoginForm = __webpack_require__(257);
-	var SignupForm = __webpack_require__(260);
-	var Dashboard = __webpack_require__(261);
-	var ShelvesView = __webpack_require__(271);
-	var Homepage = __webpack_require__(276);
+	var BookStore = __webpack_require__(276);
+	var BookIndexItem = __webpack_require__(277);
 	
-	var Header = React.createClass({
-	  displayName: 'Header',
+	var BookShow = React.createClass({
+	  displayName: 'BookShow',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'in bookshow'
+	    );
+	  }
+	});
+	
+	module.exports = BookShow;
+
+/***/ },
+/* 275 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	var SessionStore = __webpack_require__(229);
+	var SessionApiUtil = __webpack_require__(252);
+	var ClientActions = __webpack_require__(267);
+	
+	var BookStore = __webpack_require__(276);
+	var BookIndexItem = __webpack_require__(277);
+	var BookShow = __webpack_require__(274);
+	
+	var BookIndex = React.createClass({
+	  displayName: 'BookIndex',
 	
 	
-	  componentDidMount: function () {
-	    SessionStore.addListener(this.forceUpdate.bind(this));
-	    SessionApiUtil.fetchCurrentUser();
+	  getInitialState: function () {
+	    return { books: BookStore.all() };
 	  },
 	
-	  greeting: function () {
-	    if (SessionStore.isUserLoggedIn()) {
-	      return React.createElement(
-	        'nav',
-	        null,
-	        React.createElement(
-	          'h2',
-	          null,
-	          'Hi, ',
-	          SessionStore.currentUser().username,
-	          '!'
-	        ),
-	        React.createElement('input', { type: 'submit', value: 'logout', onClick: SessionApiUtil.logout })
-	      );
-	    } else {
-	      return React.createElement(LoginForm, null);
-	    }
+	  componentDidMount: function () {
+	    this.bookListener = BookStore.addListener(this.getBooks);
+	    ClientActions.fetchBooks();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.bookListener.remove();
+	  },
+	
+	  getBooks: function () {
+	    this.setState({ books: BookStore.all() });
 	  },
 	
 	  render: function () {
 	    if (!SessionStore.currentUserHasBeenFetched()) {
 	      return React.createElement('div', null);
 	    }
-	
+	    // debugger;
+	    // <li>{this.props.books[0].title}</li>
 	    return React.createElement(
-	      'div',
+	      'ul',
+	      null,
+	      this.props.books.map(function (book) {
+	
+	        return React.createElement(BookIndexItem, { book: book, key: book.id });
+	      })
+	    );
+	  }
+	});
+	
+	module.exports = BookIndex;
+
+/***/ },
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(230);
+	var Store = __webpack_require__(234).Store;
+	var BookConstants = __webpack_require__(270);
+	
+	var BookStore = new Store(AppDispatcher);
+	
+	var _books = {};
+	
+	var resetBooks = function (books) {
+	  _books = {};
+	
+	  books.forEach(function (book) {
+	    _books[book.id] = book;
+	  });
+	};
+	
+	var setBook = function (book) {
+	  _books[book.id] = book;
+	};
+	
+	var removeBook = function (book) {
+	  delete _books[book.id];
+	};
+	
+	BookStore.find = function (id) {
+	  return _books[id];
+	};
+	
+	BookStore.all = function () {
+	  return Object({}, _books);
+	};
+	
+	BookStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case BookConstants.BOOKS_RECEIVED:
+	      resetBooks(payload.books);
+	      break;
+	    case BookConstants.BOOKS_RECEIVED:
+	      setBook(payload.book);
+	      break;
+	    case BookConstants.BOOK_REMOVED:
+	      removeBook(payload.book);
+	      break;
+	  }
+	  this.__emitChange();
+	};
+	
+	module.exports = BookStore;
+
+/***/ },
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	var BookStore = __webpack_require__(276);
+	
+	var BookIndexItem = React.createClass({
+	  displayName: 'BookIndexItem',
+	
+	  render: function () {
+	    return React.createElement(
+	      'li',
 	      null,
 	      React.createElement(
-	        'header',
-	        { className: 'header' },
-	        React.createElement(
-	          'div',
-	          { className: 'header-nav' },
-	          React.createElement(
-	            'h1',
-	            { className: 'header-logo' },
-	            React.createElement(
-	              'a',
-	              { href: '/', className: 'logo-link' },
-	              React.createElement(
-	                'span',
-	                { className: 'header-logo-left' },
-	                'should'
-	              ),
-	              'reads'
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'header-session-nav' },
-	            this.greeting()
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'section',
-	        { className: 'main gradient' },
-	        this.props.children
+	        Link,
+	        { to: '#' },
+	        this.props.book.title
 	      )
 	    );
 	  }
 	});
 	
-	module.exports = Header;
+	module.exports = BookIndexItem;
 
 /***/ }
 /******/ ]);

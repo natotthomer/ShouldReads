@@ -9,6 +9,15 @@ var ApiUtil = {
       }
     });
   },
+
+  fetchBook: function (id) {
+    $.ajax({
+      url: "api/books/" + id,
+      success: function (book) {
+        ServerActions.receiveSingleBook(book);
+      }
+    });
+  },
   //
   // createBook: function (data) {
   //   $.ajax({

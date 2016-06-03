@@ -13,7 +13,7 @@ class Api::BooksController < ApplicationController
 
   def index
     @books = current_user.books
-    render "api/users/"
+    render "api/books/index"
   end
 
   def update

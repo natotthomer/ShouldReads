@@ -9,6 +9,11 @@ class Api::ShelvesController < ApplicationController
     end
   end
 
+  def show
+    @shelf = Shelf.find(params[:id])
+    render "api/shelves/show"
+  end
+
   def index
     @shelves = current_user.shelves
     render :index

@@ -35,12 +35,14 @@ var SessionApiUtil = {
     });
   },
 
-  fetchCurrentUser: function() {
+  fetchCurrentUser: function(callback) {
     $.ajax({
       url: "api/session",
       type: "GET",
       success: function (currentUser) {
         SessionActions.receiveCurrentUser(currentUser);
+        callback = callback || function () {};
+        callback();
       },
       error: function (xhr) {
         console.log("Fetch error");

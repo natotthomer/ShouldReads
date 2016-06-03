@@ -83,7 +83,6 @@ the API.
 - [x] setup `APIUtil` to interact with the API
 - [ ] test out API interaction in the console.
 
-
 ### Phase 3: Flux Architecture and Router (1.5 days)
 
 **Objective:** Books can be created, read, edited and destroyed with the
@@ -111,9 +110,9 @@ user interface.
 
 **Objective:** Books belong to Shelves, and can be viewed by shelf.
 
-- [ ] create `Shelf` model
+- [x] create `Shelf` model
 - build out API, Flux loop, and components for:
-  - [ ] Shelf CRUD
+  - [x] Shelf CRUD
   - [ ] adding books requires a shelf
   - [ ] moving books to a different shelf
   - [ ] viewing book by shelf

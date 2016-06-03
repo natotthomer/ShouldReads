@@ -11,21 +11,19 @@ var SessionApiUtil = require('./util/session_api_util');
 
 var Header = require('./components/Header.jsx');
 var Homepage = require('./components/Homepage.jsx');
-var ShelfIndex = require('./components/ShelfIndex');
 var BookShow = require('./components/BookShow');
-var LoginForm = require('./components/LoginForm.jsx');
-var BookIndex = require('./components/BookIndex');
 var ShelvesView = require('./components/ShelvesView');
 
 var routes = (
   <Route path="/" component={Header}>
     <IndexRoute component={Homepage}/>
-    <Route path="(users/:userId/)shelves" component={ShelvesView} onEnter={_ensureLoggedIn}/>
+    <Route path="(users/:userId/)shelves/:shelfId" component={ShelvesView} onEnter={_ensureLoggedIn}/>
     <Route path="books/:bookId" component={BookShow} onEnter={_ensureLoggedIn}/>
   </Route>
 );
 
 function _ensureLoggedIn(nextState, replace, asyncDoneCallback) {
+  var sessionListener = SessionStore.addListener(redirectIfNotLoggedIn);
   if (SessionStore.currentUserHasBeenFetched()) {
     redirectIfNotLoggedIn();
   } else {
@@ -36,6 +34,7 @@ function _ensureLoggedIn(nextState, replace, asyncDoneCallback) {
     if (!SessionStore.isUserLoggedIn()) {
       replace('/login');
     }
+    sessionListener.remove()
     asyncDoneCallback();
   }
 }

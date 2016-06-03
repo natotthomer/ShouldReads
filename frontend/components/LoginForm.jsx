@@ -76,22 +76,22 @@ var LoginForm = React.createClass({
 
 	render: function () {
 		return (
-      <div>
-  			<form onSubmit={this.handleSubmit} group="clearfix">
+      <div className="header-nav-login clearfix">
+  			<form onSubmit={this.handleSubmit}>
 
           { this.fieldErrors("base") }
 
-          <section className="login-fields">
-    				<label>
+          <section className="login-fields clearfix">
+    				<label className="login-form-el">
                 Username:
-      					<input type="text" value={this.state.username} onChange={this.usernameChange}/>
+      					<input className="header-input" type="text" value={this.state.username} onChange={this.usernameChange}/>
                 { this.fieldErrors("username") }
-    				</label>
-    				<label>
+    				</label>&nbsp;
+            <label className="login-form-el">
               Password:
-        				<input type="password" value={this.state.password} onChange={this.passwordChange}/>
-                { this.fieldErrors("password") }
-    				</label>
+              <input type="password" value={this.state.password} onChange={this.passwordChange}/>
+              { this.fieldErrors("password") }
+            </label>
           </section>
           <div className="login-button">
             <input className="login-button" type="submit" value="Sign In" />

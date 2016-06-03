@@ -20,10 +20,10 @@ var Header = React.createClass({
   greeting: function(){
     if (SessionStore.isUserLoggedIn()) {
     	return (
-    		<nav>
-    			<h2>Hi, {SessionStore.currentUser().username}!</h2>
-          <input type="submit" value="logout" onClick={ SessionApiUtil.logout } />
-    		</nav>
+    		<div className="greeting-div">
+    			<section className="greeting">Hi, {SessionStore.currentUser().username}!</section> &nbsp;&nbsp;
+          <input type="submit" value="logout" onClick={ SessionApiUtil.logout } className="login-button"/>
+    		</div>
     	);
     } else {
       return (
@@ -39,16 +39,14 @@ var Header = React.createClass({
 
     return (
       <div>
-        <header className="header">
-          <div className="header-nav">
+        <header className="header clearfix">
+          <div className="header-nav clearfix">
             <h1 className="header-logo">
-              <a href="/" className="logo-link">
+              <a href="/" className="header-logo-link">
                 <span className="header-logo-left">should</span>reads
               </a>
             </h1>
-            <div className="header-session-nav">
-              { this.greeting() }
-            </div>
+            { this.greeting() }
           </div>
         </header>
         <section className="main gradient">

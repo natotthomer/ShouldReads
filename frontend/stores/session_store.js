@@ -10,12 +10,12 @@ var _currentUserHasBeenFetched = false;
 function _login(currentUser) {
   _currentUser = currentUser;
   _currentUserHasBeenFetched = true;
-};
+}
 
 function _logout () {
   _currentUser = {};
   _currentUserHasBeenFetched = true;
-};
+}
 
 SessionStore.__onDispatch = function (payload) {
   switch (payload.actionType) {

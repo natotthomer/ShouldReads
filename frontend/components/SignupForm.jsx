@@ -94,7 +94,7 @@ var LoginForm = React.createClass({
                   { this.fieldErrors("password") }
       				</label>
             </section><br/>
-            <div className="login-button">
+            <div className="signup-button">
               <input className="login-button" type="submit" value="Sign up!" />
             </div>
           </div>

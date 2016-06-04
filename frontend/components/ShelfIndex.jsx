@@ -37,7 +37,7 @@ var ShelfIndex = React.createClass({
               })
             }
           </ul><br/><br/>
-          <Link to={"shelves/new"}>create a new shelf</Link>
+          <Link to={"shelves/new"}>create a new shelf...</Link>
 
         </div>
       );

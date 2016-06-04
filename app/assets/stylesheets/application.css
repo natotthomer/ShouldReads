@@ -59,12 +59,23 @@ a:hover {
 }
 
 .main {
+  padding: 20px;
+}
+
+.main-background {
   margin: auto;
   width: 1000px;
-  padding-top: 16px;
+  /*padding-top: 16px;*/
   border-left: 1px solid black;
   border-right: 1px solid black;
   background: #baac9a;
+  background-image:
+    radial-gradient(
+      circle,
+      white,
+      #baac9a 55%
+    );
+  min-height: 500px;
 }
 
 form > h1 {
@@ -75,17 +86,10 @@ form > a {
   color: black;
 }
 
-.gradient {
-  background-image:
-    radial-gradient(
-      circle,
-      white,
-      #baac9a 55%
-    );
-  min-height: 500px;
-}
-
-.dashboard-left {
+.dashboard-main {
+  padding: 10px;
+  border: 1px solid black;
+  margin: auto;
   float: left;
   text-align: center;
 }

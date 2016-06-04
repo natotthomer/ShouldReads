@@ -10,6 +10,7 @@ var ShelfForm = React.createClass({
   },
 
   getInitialState: function () {
+    debugger;
     return ({ title: "", description: "", user: SessionStore.currentUser().id });
   },
 

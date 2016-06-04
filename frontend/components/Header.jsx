@@ -49,9 +49,10 @@ var Header = React.createClass({
             { this.greeting() }
           </div>
         </header>
-        <section className="main gradient">
-          {this.props.children}
-
+        <section className="main-background">
+          <div className="main">
+            {this.props.children}
+          </div>
         </section>
       </div>
     )

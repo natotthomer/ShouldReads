@@ -18,17 +18,28 @@ var ApiUtil = {
       }
     });
   },
-  //
-  // createBook: function (data) {
-  //   $.ajax({
-  //     url: "api/book",
-  //     type: "POST",
-  //     data: { book: data },
-  //     success: function (book) {
-  //       ServerActions.receiveBook(book);
-  //     }
-  //   });
-  // },
+
+  createBook: function (data) {
+    $.ajax({
+      url: "api/book",
+      type: "POST",
+      data: { book: data },
+      success: function (book) {
+        ServerActions.receiveBook(book);
+      }
+    });
+  },
+
+  deleteBook: function (id) {
+    $.ajax({
+      url: "api/books/" + id,
+      type: "DELETE",
+      success: function (book) {
+        ServerActions.removeBook(book);
+      }
+    });
+  },
+
   fetchShelves: function () {
     $.ajax({
       url: "api/shelves",
@@ -55,6 +66,30 @@ var ApiUtil = {
       success: function (shelf) {
         ServerActions.receiveSingleShelf(shelf);
         redirectToShelf(shelf.id);
+      }
+    });
+  },
+
+  updateShelf: function (data) {
+    $.ajax({
+      url: "api/shelves/" + data.id,
+      type: "PATCH",
+      data: { shelf: { title: data.title, description: data.description }},
+      success: function (shelf) {
+        ServerActions.receiveSingleShelf(shelf);
+      }
+    });
+  },
+
+  removeShelf: function (id, redirectToHome) {
+    $.ajax({
+      url: "api/shelves/" + id,
+      type: "DELETE",
+      success: function (shelf) {
+        ServerActions.removeShelf(shelf);
+        if (!!redirectToHome) {
+          redirectToHome();
+        }
       }
     });
   }

@@ -36,6 +36,7 @@ var BookShow = React.createClass({
     return (
       <div className="book-show">
         <div className="book-show-title">{this.state.book.title}</div><br/><br/>
+        <div>{this.state.book.author_fname + " " + this.state.book.author_lname}</div>
       </div>
     );
   }

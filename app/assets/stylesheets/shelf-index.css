@@ -1,0 +1,16 @@
+.shelf-index {
+  float: left;
+  border: 1px solid black;
+  /*margin: 10px;*/
+  padding: 10px;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #555555;
+  font-weight: bolder;
+}
+
+.shelf-index a {
+  text-transform: none;
+  font-size: 12px;
+  color: black;
+}

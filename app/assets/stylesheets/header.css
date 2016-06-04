@@ -37,12 +37,19 @@
   font-weight: 300;
 }
 
+.greeting {
+  display: inline;
+  /*margin: 2px;*/
+  /*border: 1px solid black;*/
+}
+
+.logout-button-container {
+  float: right;
+}
+
 .greeting-div {
   float: right;
   padding: 10px;
-}
-
-.greeting {
-  display: inline;
-  /*border: 1px solid black;*/
+  height: 20px
+  margin: 3px;
 }

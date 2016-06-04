@@ -22,7 +22,9 @@ var Header = React.createClass({
     	return (
     		<div className="greeting-div clearfix">
     			<section className="greeting">Hi, {SessionStore.currentUser().username}!</section> &nbsp;
-          <input type="submit" value="logout" onClick={ SessionApiUtil.logout } className="login-button"/>
+          <div className="logout-button-container">
+            <input type="submit" value="logout" onClick={ SessionApiUtil.logout } className="login-button"/>
+          </div>
     		</div>
     	);
     } else {
@@ -33,7 +35,7 @@ var Header = React.createClass({
   },
 
   render: function () {
-    if (!SessionStore.currentUserHasBeenFetched()) {
+    if (!SessionStore.currentUser()) {
       return (<div/>)
     }
 

@@ -59,7 +59,7 @@ a:hover {
 }
 
 .main {
-  padding: 20px;
+  padding: 25px;
 }
 
 .main-background {
@@ -90,6 +90,7 @@ form > a {
   padding: 10px;
   border: 1px solid black;
   margin: auto;
+  width: 704px;
   float: left;
   text-align: center;
 }

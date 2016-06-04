@@ -15,7 +15,25 @@ shelves = Shelf.create([
       augue sagittis in. Fusce et velit non lacus placerat vehicula."},
     { title: "Philosophy & Theory", user_id: 1, description: "Lorem ipsum dolor
       sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
-      augue sagittis in. Fusce et velit non lacus placerat vehicula."}
+      augue sagittis in. Fusce et velit non lacus placerat vehicula."},
+    { title: "Goosebumps", user_id: 6, description: "Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
+      augue sagittis in. Fusce et velit non lacus placerat vehicula."},
+    { title: "Box Car Children", user_id: 6, description: "Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
+      augue sagittis in. Fusce et velit non lacus placerat vehicula."},
+    { title: "Judy Blume", user_id: 6, description: "Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
+      augue sagittis in. Fusce et velit non lacus placerat vehicula."},
+    { title: "Harry Potter", user_id: 6, description: "Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
+      augue sagittis in. Fusce et velit non lacus placerat vehicula."},
+    { title: "Wizard of Oz", user_id: 6, description: "Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
+      augue sagittis in. Fusce et velit non lacus placerat vehicula."},
+    { title: "Fiction", user_id: 1, description: "Lorem ipsum dolor
+      sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
+      augue sagittis in. Fusce et velit non lacus placerat vehicula."},
   ])
 
 books = Book.create([
@@ -36,4 +54,8 @@ books = Book.create([
     { title: "The River Why", author_fname: "David James", author_lname: "Duncan" },
     { title: "A River Runs Through It", author_fname: "Norman", author_lname: "Maclean" },
     { title: "The Name of the Wind", author_fname: "Patrick", author_lname: "Rothfuss" }
+  ])
+
+  shelf_assignments = ShelfAssignment.create([
+
   ])

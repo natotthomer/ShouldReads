@@ -35,16 +35,17 @@ ShelfStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case ShelfConstants.SHELVES_RECEIVED:
       resetShelves(payload.shelves);
+      this.__emitChange();
       break;
     case ShelfConstants.SHELF_RECEIVED:
       setShelf(payload.shelf);
+      this.__emitChange();
       break;
     case ShelfConstants.SHELF_REMOVED:
       removeShelf(payload.shelf);
+      this.__emitChange();
       break;
   }
-
-  this.__emitChange();
 };
 
 module.exports = ShelfStore;

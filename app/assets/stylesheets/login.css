@@ -8,6 +8,7 @@
 
 .login-button-container {
   margin: auto;
+  float: right;
 }
 
 .login-form-el {
@@ -22,7 +23,6 @@
 
 .login-button {
   margin: auto;
-  float: right;
   width: 60px;
   background: #382110;
   border: none;

@@ -29,6 +29,13 @@ var ServerActions = {
       actionType: ShelfConstants.SHELF_RECEIVED,
       shelf: shelf
     });
+  },
+
+  removeShelf: function (shelf) {
+    AppDispatcher.dispatch({
+      actionType: ShelfConstants.SHELF_REMOVED,
+      shelf: shelf
+    });
   }
 };
 

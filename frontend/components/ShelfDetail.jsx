@@ -10,8 +10,12 @@ var ShelfIndexItem = require('./ShelfIndexItem');
 var BookIndex = require('./BookIndex');
 
 var ShelfDetail = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function () {
-    return ({ shelf: ShelfStore.find(this.props.shelfId)});
+    return ({ shelf: ShelfStore.find(this.props.shelfId) });
   },
 
   componentWillReceiveProps: function (newProps) {
@@ -31,6 +35,18 @@ var ShelfDetail = React.createClass({
     this.setState({ shelf: ShelfStore.find(this.props.shelfId)});
   },
 
+  removeShelf: function () {
+    ClientActions.removeShelf(this.props.shelfId, this.redirectToHome);
+  },
+
+  redirectToHome: function () {
+    this.context.router.push("/");
+  },
+
+  updateShelf: function () {
+    this.context.router.push("/shelves/" + this.props.shelfId + "/edit");
+  },
+
   render: function () {
     if (!SessionStore.currentUserHasBeenFetched() || this.state.shelf === undefined) {
       return (<div/>);
@@ -38,7 +54,18 @@ var ShelfDetail = React.createClass({
 
     return (
       <div className="shelf-detail">
-        <div className="shelf-detail-title">{this.state.shelf.title}</div> <br/><br/>
+        <div className="shelf-header clearfix">
+          <div className="shelf-detail-title">{this.state.shelf.title}</div>
+          <form onSubmit={this.removeShelf} className="update-delete-shelf">
+            <input type="submit" className="shelf-button" value="delete this shelf"/>
+          </form>
+          <form className="update-delete-shelf">
+          </form>
+          <form onSubmit={this.updateShelf} className="update-delete-shelf">
+            <input type="submit" className="shelf-button" value="edit this shelf"/>
+          </form>
+        </div>
+        <div className="shelf-description">{this.state.shelf.description}</div> <br/>
         <BookIndex books={this.state.shelf.books}/>
       </div>
     );

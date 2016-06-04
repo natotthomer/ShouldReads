@@ -18,6 +18,22 @@ class Api::ShelvesController < ApplicationController
     render :index
   end
 
+  def update
+    @shelf = Shelf.find(params[:id])
+
+    if @shelf.update(shelf_params)
+      render :show
+    end
+  end
+
+  def destroy
+    @shelf = Shelf.find(params[:id])
+
+    if @shelf.destroy
+      render :show
+    end
+  end
+
   def shelf_params
     params.require(:shelf).permit(:user_id, :title, :description, :username)
   end

@@ -60,13 +60,16 @@
 	var BookShow = __webpack_require__(274);
 	var ShelvesView = __webpack_require__(275);
 	var ShelfForm = __webpack_require__(278);
+	var ShelfEdit = __webpack_require__(279);
 	var BookIndex = __webpack_require__(272);
+	var BookForm = __webpack_require__(280);
 	
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: Header },
 	  React.createElement(IndexRoute, { component: Homepage }),
 	  React.createElement(Route, { path: 'shelves/new', component: ShelfForm, onEnter: _ensureLoggedIn }),
+	  React.createElement(Route, { path: 'shelves/:shelfId/edit', component: ShelfEdit, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: '(users/:userId/)shelves/:shelfId', component: ShelvesView, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: 'books', component: BookIndex, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: 'books/:bookId', component: BookShow, onEnter: _ensureLoggedIn })
@@ -32851,7 +32854,11 @@
 	          '!'
 	        ),
 	        '  ',
-	        React.createElement('input', { type: 'submit', value: 'logout', onClick: SessionApiUtil.logout, className: 'login-button' })
+	        React.createElement(
+	          'div',
+	          { className: 'logout-button-container' },
+	          React.createElement('input', { type: 'submit', value: 'logout', onClick: SessionApiUtil.logout, className: 'login-button' })
+	        )
 	      );
 	    } else {
 	      return React.createElement(LoginForm, null);
@@ -32859,7 +32866,7 @@
 	  },
 	
 	  render: function () {
-	    if (!SessionStore.currentUserHasBeenFetched()) {
+	    if (!SessionStore.currentUser()) {
 	      return React.createElement('div', null);
 	    }
 	
@@ -33028,7 +33035,7 @@
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'login-button-div' },
+	          { className: 'login-button-container' },
 	          React.createElement('input', { className: 'login-button', type: 'submit', value: 'Sign In' })
 	        )
 	      )
@@ -33106,7 +33113,6 @@
 	        SessionActions.receiveCurrentUser(currentUser);
 	      },
 	      error: function (xhr) {
-	        console.log('UserApiUtil#createAccount error');
 	        var errors = xhr.responseJSON;
 	        ErrorActions.setErrors("signup", errors);
 	      }
@@ -33383,7 +33389,16 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'sidebar-main' },
-	      React.createElement(ShelfIndex, null)
+	      React.createElement(ShelfIndex, null),
+	      React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          Link,
+	          { to: 'books/new' },
+	          'Add a book'
+	        )
+	      )
 	    );
 	  }
 	
@@ -33495,16 +33510,17 @@
 	  switch (payload.actionType) {
 	    case ShelfConstants.SHELVES_RECEIVED:
 	      resetShelves(payload.shelves);
+	      this.__emitChange();
 	      break;
 	    case ShelfConstants.SHELF_RECEIVED:
 	      setShelf(payload.shelf);
+	      this.__emitChange();
 	      break;
 	    case ShelfConstants.SHELF_REMOVED:
 	      removeShelf(payload.shelf);
+	      this.__emitChange();
 	      break;
 	  }
-	
-	  this.__emitChange();
 	};
 	
 	module.exports = ShelfStore;
@@ -33555,12 +33571,31 @@
 	var ApiUtil = __webpack_require__(270);
 	
 	var ClientActions = {
-	  fetchBooks: ApiUtil.fetchBooks,
-	  fetchBook: ApiUtil.fetchBook,
-	  createBook: ApiUtil.createBook,
-	  fetchShelves: ApiUtil.fetchShelves,
-	  fetchShelf: ApiUtil.fetchShelf,
-	  createShelf: ApiUtil.createShelf
+	  fetchBooks: function () {
+	    ApiUtil.fetchBooks();
+	  },
+	  fetchBook: function (id) {
+	    ApiUtil.fetchBook(id);
+	  },
+	  createBook: function (data) {
+	    ApiUtil.createBook(data);
+	  },
+	
+	  fetchShelves: function () {
+	    ApiUtil.fetchShelves();
+	  },
+	  fetchShelf: function (id) {
+	    ApiUtil.fetchShelf(id);
+	  },
+	  createShelf: function (data) {
+	    ApiUtil.createShelf(data);
+	  },
+	  removeShelf: function (id) {
+	    ApiUtil.removeShelf(id);
+	  },
+	  updateShelf: function (data) {
+	    ApiUtil.updateShelf(data);
+	  }
 	};
 	
 	module.exports = ClientActions;
@@ -33589,17 +33624,28 @@
 	      }
 	    });
 	  },
-	  //
-	  // createBook: function (data) {
-	  //   $.ajax({
-	  //     url: "api/book",
-	  //     type: "POST",
-	  //     data: { book: data },
-	  //     success: function (book) {
-	  //       ServerActions.receiveBook(book);
-	  //     }
-	  //   });
-	  // },
+	
+	  createBook: function (data) {
+	    $.ajax({
+	      url: "api/book",
+	      type: "POST",
+	      data: { book: data },
+	      success: function (book) {
+	        ServerActions.receiveBook(book);
+	      }
+	    });
+	  },
+	
+	  deleteBook: function (id) {
+	    $.ajax({
+	      url: "api/books/" + id,
+	      type: "DELETE",
+	      success: function (book) {
+	        ServerActions.removeBook(book);
+	      }
+	    });
+	  },
+	
 	  fetchShelves: function () {
 	    $.ajax({
 	      url: "api/shelves",
@@ -33626,6 +33672,30 @@
 	      success: function (shelf) {
 	        ServerActions.receiveSingleShelf(shelf);
 	        redirectToShelf(shelf.id);
+	      }
+	    });
+	  },
+	
+	  updateShelf: function (data) {
+	    $.ajax({
+	      url: "api/shelves/" + data.id,
+	      type: "PATCH",
+	      data: { shelf: { title: data.title, description: data.description } },
+	      success: function (shelf) {
+	        ServerActions.receiveSingleShelf(shelf);
+	      }
+	    });
+	  },
+	
+	  removeShelf: function (id, redirectToHome) {
+	    $.ajax({
+	      url: "api/shelves/" + id,
+	      type: "DELETE",
+	      success: function (shelf) {
+	        ServerActions.removeShelf(shelf);
+	        if (!!redirectToHome) {
+	          redirectToHome();
+	        }
 	      }
 	    });
 	  }
@@ -33666,6 +33736,13 @@
 	  receiveSingleShelf: function (shelf) {
 	    AppDispatcher.dispatch({
 	      actionType: ShelfConstants.SHELF_RECEIVED,
+	      shelf: shelf
+	    });
+	  },
+	
+	  removeShelf: function (shelf) {
+	    AppDispatcher.dispatch({
+	      actionType: ShelfConstants.SHELF_REMOVED,
 	      shelf: shelf
 	    });
 	  }
@@ -33801,7 +33878,12 @@
 	        this.state.book.title
 	      ),
 	      React.createElement('br', null),
-	      React.createElement('br', null)
+	      React.createElement('br', null),
+	      React.createElement(
+	        'div',
+	        null,
+	        this.state.book.author_fname + " " + this.state.book.author_lname
+	      )
 	    );
 	  }
 	});
@@ -33853,6 +33935,10 @@
 	var ShelfDetail = React.createClass({
 	  displayName: 'ShelfDetail',
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
 	  getInitialState: function () {
 	    return { shelf: ShelfStore.find(this.props.shelfId) };
 	  },
@@ -33874,6 +33960,18 @@
 	    this.setState({ shelf: ShelfStore.find(this.props.shelfId) });
 	  },
 	
+	  removeShelf: function () {
+	    ClientActions.removeShelf(this.props.shelfId, this.redirectToHome);
+	  },
+	
+	  redirectToHome: function () {
+	    this.context.router.push("/");
+	  },
+	
+	  updateShelf: function () {
+	    this.context.router.push("/shelves/" + this.props.shelfId + "/edit");
+	  },
+	
 	  render: function () {
 	    if (!SessionStore.currentUserHasBeenFetched() || this.state.shelf === undefined) {
 	      return React.createElement('div', null);
@@ -33884,11 +33982,30 @@
 	      { className: 'shelf-detail' },
 	      React.createElement(
 	        'div',
-	        { className: 'shelf-detail-title' },
-	        this.state.shelf.title
+	        { className: 'shelf-header clearfix' },
+	        React.createElement(
+	          'div',
+	          { className: 'shelf-detail-title' },
+	          this.state.shelf.title
+	        ),
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.removeShelf, className: 'update-delete-shelf' },
+	          React.createElement('input', { type: 'submit', className: 'shelf-button', value: 'delete this shelf' })
+	        ),
+	        React.createElement('form', { className: 'update-delete-shelf' }),
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.updateShelf, className: 'update-delete-shelf' },
+	          React.createElement('input', { type: 'submit', className: 'shelf-button', value: 'edit this shelf' })
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'shelf-description' },
+	        this.state.shelf.description
 	      ),
 	      ' ',
-	      React.createElement('br', null),
 	      React.createElement('br', null),
 	      React.createElement(BookIndex, { books: this.state.shelf.books })
 	    );
@@ -33964,7 +34081,6 @@
 	  },
 	
 	  getInitialState: function () {
-	    debugger;
 	    return { title: "", description: "", user: SessionStore.currentUser().id };
 	  },
 	
@@ -33985,10 +34101,10 @@
 	      description: this.state.description,
 	      user_id: SessionStore.currentUser().id
 	    };
-	    ClientActions.createShelf(shelfData, this.redirectToShelves);
+	    ClientActions.createShelf(shelfData, this.redirectToShelf);
 	  },
 	
-	  redirectToShelves: function (shelfId) {
+	  redirectToShelf: function (shelfId) {
 	    this.context.router.push("shelves/" + shelfId);
 	  },
 	
@@ -34020,6 +34136,198 @@
 	});
 	
 	module.exports = ShelfForm;
+
+/***/ },
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(229);
+	var ErrorStore = __webpack_require__(258);
+	var ClientActions = __webpack_require__(269);
+	var ShelfStore = __webpack_require__(266);
+	
+	var ShelfEdit = React.createClass({
+	  displayName: 'ShelfEdit',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    var shelf = ShelfStore.find(this.props.params.shelfId);
+	    debugger;
+	    return {
+	      title: shelf.title,
+	      description: shelf.description,
+	      id: shelf.id,
+	      user_id: shelf.user_id
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.shelfListener = ShelfStore.addListener(this.getShelf);
+	    ClientActions.fetchShelf(this.props.params.shelfId);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.shelfListener.remove();
+	  },
+	
+	  getShelf: function () {
+	    var shelf = ShelfStore.find(this.props.params.shelfId);
+	    this.setState({
+	      title: shelf.title,
+	      description: shelf.description,
+	      id: shelf.id,
+	      user_id: shelf.user_id
+	    });
+	  },
+	
+	  titleChange: function (e) {
+	    debugger;
+	    this.setState({ title: e.target.value });
+	  },
+	
+	  descriptionChange: function (e) {
+	    this.setState({ description: e.target.value });
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var shelfData = {
+	      title: this.statetitle,
+	      description: this.state.description,
+	      id: this.state.id,
+	      user_id: this.state.user_id
+	    };
+	    ClientActions.updateShelf(shelfData, this.redirectToShelf);
+	  },
+	
+	  redirectToShelf: function (shelfId) {
+	    this.context.router.push("shelves/" + shelfId);
+	  },
+	
+	  render: function () {
+	    if (this.state.shelf === undefined) {
+	      return React.createElement('div', null);
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'form',
+	        { className: 'shelf-form', onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'Edit Shelf'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        'Title: ',
+	        React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange }),
+	        React.createElement('br', null),
+	        'Description: ',
+	        React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange }),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement('input', { type: 'submit', value: 'Update Shelf' })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ShelfEdit;
+
+/***/ },
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(229);
+	var ErrorStore = __webpack_require__(258);
+	var ClientActions = __webpack_require__(269);
+	var BookStore = __webpack_require__(266);
+	
+	var BookForm = React.createClass({
+	  displayName: 'BookForm',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return { title: "", author_fname: "", author_lname: "", cover_url: "" };
+	  },
+	
+	  titleChange: function (e) {
+	    var newTitle = e.target.value;
+	    this.setState({ title: newTitle });
+	  },
+	
+	  authorFNameChange: function (e) {
+	    var newAuthorFName = e.target.value;
+	    this.setState({ author_fname: newAuthorFName });
+	  },
+	
+	  authorLNameChange: function (e) {
+	    var newAuthorLName = e.target.value;
+	    this.setState({ author_lname: newAuthorLName });
+	  },
+	
+	  coverUrlChange: function (e) {
+	    var newCoverUrl = e.target.value;
+	    this.setState({ cover_url: newCoverUrl });
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var bookData = {
+	      title: this.state.title,
+	      author_fname: this.state.author_fname,
+	      author_lname: this.state.author_fname,
+	      cover_url: this.state.cover_url
+	    };
+	    ClientActions.createBook(bookData, this.redirectToBook);
+	  },
+	
+	  redirectToBook: function (bookid) {
+	    this.context.router.push("books/" + bookId);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'form',
+	        { className: 'book-form', onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'Add a new Book'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        'Title: ',
+	        React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange }),
+	        React.createElement('br', null),
+	        'Author First Name: ',
+	        React.createElement('textarea', { value: this.state.author_fname, onChange: this.authorFNameChange }),
+	        React.createElement('br', null),
+	        'Author Last Name: ',
+	        React.createElement('textarea', { value: this.state.author_lname, onChange: this.authorLNameChange }),
+	        React.createElement('br', null),
+	        'Cover Image:',
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement('input', { type: 'submit', value: 'Create Book' })
+	      )
+	    );
+	  }
+	});
 
 /***/ }
 /******/ ]);

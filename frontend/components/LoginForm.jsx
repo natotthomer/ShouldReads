@@ -93,7 +93,7 @@ var LoginForm = React.createClass({
               { this.fieldErrors("base") }
             </div>
           </section>
-          <div className="login-button-div">
+          <div className="login-button-container">
             <input className="login-button" type="submit" value="Sign In" />
           </div>
   			</form>

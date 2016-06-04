@@ -14,12 +14,15 @@ var Homepage = require('./components/Homepage.jsx');
 var BookShow = require('./components/BookShow');
 var ShelvesView = require('./components/ShelvesView');
 var ShelfForm = require('./components/ShelfForm');
+var ShelfEdit = require('./components/ShelfEdit');
 var BookIndex = require('./components/BookIndex');
+var BookForm = require('./components/BookForm');
 
 var routes = (
   <Route path="/" component={Header}>
     <IndexRoute component={Homepage}/>
     <Route path="shelves/new" component={ShelfForm} onEnter={_ensureLoggedIn}/>
+    <Route path="shelves/:shelfId/edit" component={ShelfEdit} onEnter={_ensureLoggedIn}/>
     <Route path="(users/:userId/)shelves/:shelfId" component={ShelvesView} onEnter={_ensureLoggedIn}/>
     <Route path="books" component={BookIndex} onEnter={_ensureLoggedIn}/>
     <Route path="books/:bookId" component={BookShow} onEnter={_ensureLoggedIn}/>

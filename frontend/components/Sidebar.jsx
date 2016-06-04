@@ -10,6 +10,9 @@ var Sidebar = React.createClass({
     return (
       <div className="sidebar-main">
         <ShelfIndex/>
+        <div>
+          <Link to="books/new">Add a book</Link>
+        </div>
       </div>
     );
   }

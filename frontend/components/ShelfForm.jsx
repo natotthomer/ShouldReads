@@ -10,7 +10,6 @@ var ShelfForm = React.createClass({
   },
 
   getInitialState: function () {
-    debugger;
     return ({ title: "", description: "", user: SessionStore.currentUser().id });
   },
 
@@ -31,10 +30,10 @@ var ShelfForm = React.createClass({
       description: this.state.description,
       user_id: SessionStore.currentUser().id,
     };
-    ClientActions.createShelf(shelfData, this.redirectToShelves);
+    ClientActions.createShelf(shelfData, this.redirectToShelf);
   },
 
-  redirectToShelves: function (shelfId) {
+  redirectToShelf: function (shelfId) {
     this.context.router.push("shelves/" + shelfId);
   },
 

@@ -10,7 +10,7 @@ var ShelvesView = require('./ShelvesView');
 var Homepage = React.createClass({
 
   getInitialState: function (){
-    return ({ poop: {} });
+    return ({ });
   },
 
   componentDidMount: function () {

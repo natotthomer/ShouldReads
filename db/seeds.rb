@@ -57,5 +57,10 @@ books = Book.create([
   ])
 
   shelf_assignments = ShelfAssignment.create([
-
+    { book_id: Book.find_by(title: "The History of Sexuality, Part I"), shelf_id: Shelf.find_by(title: "Philosophy & Theory")},
+    { book_id: Book.find_by(title: "Madness and Civilization"), shelf_id: Shelf.find_by(title: "Philosophy & Theory")},
+    { book_id: Book.find_by(title: "The Birth of the Clinic"), shelf_id: Shelf.find_by(title: "Philosophy & Theory")},
+    { book_id: Book.find_by(title: "The Order of Things"), shelf_id: Shelf.find_by(title: "Philosophy & Theory")},
+    { book_id: Book.find_by(title: "Archeology of Knowledge"), shelf_id: Shelf.find_by(title: "Philosophy & Theory")},
+    { book_id: Book.find_by(title: "Discipline and Punish"), shelf_id: Shelf.find_by(title: "Philosophy & Theory")},
   ])

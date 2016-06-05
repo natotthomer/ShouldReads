@@ -5,3 +5,8 @@
 .sidebar-main a {
   color: black;
 }
+
+.sidebar-add-book {
+  margin: 10px;
+  border: 2px solid black;
+}

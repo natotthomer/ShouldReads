@@ -1,10 +1,11 @@
 var React = require('react');
-var ShelfStore = require('./../stores/shelf_store');
 var Link = require('react-router').Link;
-var ShelfIndexItem = require('./ShelfIndexItem');
-var ClientActions = require('./../actions/client_actions');
 
+var ClientActions = require('./../actions/client_actions');
 var SessionStore = require('./../stores/session_store');
+var ShelfStore = require('./../stores/shelf_store');
+
+var ShelfIndexItem = require('./ShelfIndexItem');
 
 var ShelfIndex = React.createClass({
   getInitialState: function () {
@@ -44,7 +45,6 @@ var ShelfIndex = React.createClass({
     } else {
       return (<div/>)
     }
-
   }
 });
 

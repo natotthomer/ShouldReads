@@ -19,23 +19,38 @@ var ApiUtil = {
     });
   },
 
-  createBook: function (data) {
+  createBook: function (data, redirectToBook) {
     $.ajax({
-      url: "api/book",
+      url: "api/books",
       type: "POST",
       data: { book: data },
       success: function (book) {
-        ServerActions.receiveBook(book);
+        ServerActions.receiveSingleBook(book);
+        redirectToBook(book.id);
       }
     });
   },
 
-  deleteBook: function (id) {
+  removeBook: function (id, redirectToHome) {
     $.ajax({
       url: "api/books/" + id,
       type: "DELETE",
       success: function (book) {
         ServerActions.removeBook(book);
+        redirectToHome();
+      }
+    });
+  },
+
+  updateBook: function (data, onModalClose) {
+    $.ajax({
+      url: "api/books/" + data.id,
+      type: "PATCH",
+      data: { book: { title: data.title, author_fname: data.author_fname, author_lname: data.author_lname }},
+      success: function (book) {
+        debugger;
+        ServerActions.receiveSingleBook(book);
+        onModalClose();
       }
     });
   },
@@ -70,13 +85,14 @@ var ApiUtil = {
     });
   },
 
-  updateShelf: function (data) {
+  updateShelf: function (data, onModalClose) {
     $.ajax({
       url: "api/shelves/" + data.id,
       type: "PATCH",
-      data: { shelf: { title: data.title, description: data.description }},
+      data: { shelf: { title: data.title, description: data.description } },
       success: function (shelf) {
         ServerActions.receiveSingleShelf(shelf);
+        onModalClose();
       }
     });
   },

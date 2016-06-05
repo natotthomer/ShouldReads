@@ -94,3 +94,22 @@ form > a {
   float: left;
   text-align: center;
 }
+
+.left {
+  float: left
+}
+
+.right {
+  float: right;
+}
+
+.small-button {
+  margin: auto;
+  background: #382110;
+  border: none;
+  border-radius: 3px;
+  color: #fffff7;
+  font-size: 10px;
+  height: 20px;
+  cursor: pointer;
+}

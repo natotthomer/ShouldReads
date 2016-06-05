@@ -7,8 +7,14 @@ var ClientActions = {
   fetchBook: function (id) {
     ApiUtil.fetchBook(id);
   },
-  createBook: function (data) {
-    ApiUtil.createBook(data);
+  createBook: function (data, redirectToBook) {
+    ApiUtil.createBook(data, redirectToBook);
+  },
+  removeBook: function (id, redirectToHome) {
+    ApiUtil.removeBook(id, redirectToHome);
+  },
+  updateBook: function (data, onModalClose) {
+    ApiUtil.updateBook(data, onModalClose);
   },
 
   fetchShelves: function () {
@@ -17,14 +23,14 @@ var ClientActions = {
   fetchShelf: function (id) {
     ApiUtil.fetchShelf(id);
   },
-  createShelf: function (data) {
-    ApiUtil.createShelf(data);
+  createShelf: function (data, redirectToShelf) {
+    ApiUtil.createShelf(data, redirectToShelf);
   },
   removeShelf: function (id) {
     ApiUtil.removeShelf(id);
   },
-  updateShelf: function (data) {
-    ApiUtil.updateShelf(data);
+  updateShelf: function (data, onModalClose) {
+    ApiUtil.updateShelf(data, onModalClose);
   }
 };
 

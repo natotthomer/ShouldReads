@@ -8,7 +8,6 @@ var _books = {};
 
 var resetBooks = function (books) {
   _books = {};
-
   books.forEach(function (book) {
     _books[book.id] = book;
   });
@@ -27,22 +26,26 @@ BookStore.find = function (id) {
 };
 
 BookStore.all = function () {
-  return Object({}, _books);
+  return Object.keys(_books).map(function (bookId) {
+    return _books[bookId];
+  });
 };
 
 BookStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case BookConstants.BOOKS_RECEIVED:
       resetBooks(payload.books);
+      this.__emitChange();
       break;
     case BookConstants.BOOK_RECEIVED:
       setBook(payload.book);
+      this.__emitChange();
       break;
     case BookConstants.BOOK_REMOVED:
       removeBook(payload.book);
+      this.__emitChange();
       break;
   }
-  this.__emitChange();
 };
 
 module.exports = BookStore;

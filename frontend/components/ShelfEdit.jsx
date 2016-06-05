@@ -10,8 +10,7 @@ var ShelfEdit = React.createClass({
   },
 
   getInitialState: function () {
-    var shelf = ShelfStore.find(this.props.params.shelfId);
-    debugger;
+    var shelf = ShelfStore.find(this.props.shelf.id);
     return ({
       title: shelf.title,
       description: shelf.description,
@@ -22,7 +21,7 @@ var ShelfEdit = React.createClass({
 
   componentDidMount: function () {
     this.shelfListener = ShelfStore.addListener(this.getShelf);
-    ClientActions.fetchShelf(this.props.params.shelfId);
+    ClientActions.fetchShelf(this.props.shelf.id);
   },
 
   componentWillUnmount: function () {
@@ -30,7 +29,7 @@ var ShelfEdit = React.createClass({
   },
 
   getShelf: function () {
-    var shelf = ShelfStore.find(this.props.params.shelfId);
+    var shelf = ShelfStore.find(this.props.shelf.id);
     this.setState({
       title: shelf.title,
       description: shelf.description,
@@ -40,7 +39,6 @@ var ShelfEdit = React.createClass({
   },
 
   titleChange: function (e) {
-    debugger;
     this.setState({ title: e.target.value });
   },
 
@@ -51,12 +49,12 @@ var ShelfEdit = React.createClass({
   handleSubmit: function (e) {
     e.preventDefault();
     var shelfData = {
-      title: this.statetitle,
+      title: this.state.title,
       description: this.state.description,
       id: this.state.id,
-      user_id: this.state.user_id,
+      user_id: this.state.user_id
     };
-    ClientActions.updateShelf(shelfData, this.redirectToShelf);
+    ClientActions.updateShelf(shelfData, this.props.onModalClose);
   },
 
   redirectToShelf: function (shelfId) {
@@ -64,22 +62,27 @@ var ShelfEdit = React.createClass({
   },
 
   render: function () {
-    if (this.state.shelf === undefined) {
+    if (this.state.title === undefined) {
       return (<div/>);
     }
-
-    return (
-      <div>
-        <form className="shelf-form" onSubmit={this.handleSubmit}>
-          <h1>Edit Shelf</h1><br/><br/>
-          Title: <input type="text" value={this.state.title} onChange={this.titleChange}/>
-          <br/>
-          Description: <textarea value={this.state.description} onChange={this.descriptionChange}/>
-          <br/><br/>
-          <input type="submit" value="Update Shelf"/>
-        </form>
-      </div>
-    );
+    if (SessionStore.isUserLoggedIn()) {
+      return (
+        <div className="edit-main">
+          <form className="shelf-form" onSubmit={this.handleSubmit}>
+            <h1>Edit Shelf</h1><br/><br/>
+            <div className="clearfix">
+              Title: <input type="text" value={this.state.title} onChange={this.titleChange}/>
+              <br/>
+              Description: <textarea value={this.state.description} onChange={this.descriptionChange}/>
+              <br/><br/>
+              <input type="submit" value="Update Shelf" className="login-button"/>
+            </div>
+          </form>
+        </div>
+      );
+    } else {
+      return (<div/>);
+    }
   }
 });
 

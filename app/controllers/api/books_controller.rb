@@ -11,7 +11,7 @@ class Api::BooksController < ApplicationController
   end
 
   def index
-    @books = current_user.books
+    @books = Book.all
     render "api/books/index"
   end
 
@@ -23,7 +23,7 @@ class Api::BooksController < ApplicationController
     @book = Book.find(params[:id])
 
     # And yet again. What codes mean what and
-    if @book.save
+    if @book.update(book_params)
       render "api/books/show"
     else
       render json: @book.errors, status: 422
@@ -32,9 +32,13 @@ class Api::BooksController < ApplicationController
 
   def destroy
     @book = Book.find(params[:id])
+
+    if @book.destroy
+      render :show
+    end
   end
 
   def book_params
-    params.require(:book).permit(:title, :author_fname, :author_lname)
+    params.require(:book).permit(:title, :author_fname, :author_lname, :cover_url)
   end
 end

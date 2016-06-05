@@ -21,14 +21,14 @@ var removeShelf = function (shelf) {
   delete _shelves[shelf.id];
 };
 
+ShelfStore.find = function (id) {
+  return _shelves[id];
+};
+
 ShelfStore.all = function () {
   return Object.keys(_shelves).map(function (shelfId) {
     return _shelves[shelfId];
   });
-};
-
-ShelfStore.find = function (id) {
-  return _shelves[id];
 };
 
 ShelfStore.__onDispatch = function (payload) {

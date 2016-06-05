@@ -17,6 +17,13 @@ var ServerActions = {
     });
   },
 
+  removeBook: function (book) {
+    AppDispatcher.dispatch({
+      actionType: BookConstants.BOOK_REMOVED,
+      book: book
+    });
+  },
+
   receiveAllShelves: function (shelves) {
     AppDispatcher.dispatch({
       actionType: ShelfConstants.SHELVES_RECEIVED,

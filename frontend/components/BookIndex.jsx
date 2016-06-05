@@ -1,17 +1,17 @@
 var React = require('react');
 var Link = require('react-router').Link;
-var SessionStore = require('./../stores/session_store');
-var SessionApiUtil = require('./../util/session_api_util');
-var ClientActions = require('./../actions/client_actions');
 
+var ClientActions = require('./../actions/client_actions');
+var SessionStore = require('./../stores/session_store');
 var BookStore = require('./../stores/book_store');
+
 var BookIndexItem = require('./BookIndexItem');
 var BookShow = require('./BookShow');
 
 var BookIndex = React.createClass({
 
   getInitialState: function () {
-    return ({ books: BookStore.all()});
+    return ({ books: [] });
   },
 
   componentDidMount: function () {
@@ -28,21 +28,22 @@ var BookIndex = React.createClass({
   },
 
   render: function () {
-    if (!SessionStore.currentUserHasBeenFetched()) {
+    if (SessionStore.currentUserHasBeenFetched()) {
       return (
-        <div/>
+        <div className="book-index">
+          All the books!
+          <ul>
+            {
+              this.state.books.map(function (book) {
+                return (<BookIndexItem book={book} key={book.id}/>);
+              })
+            }
+          </ul>
+        </div>
       );
+    } else {
+      return (<div/>);
     }
-
-    return (
-      <ul>
-        {
-          this.props.books.map(function (book) {
-            return (<BookIndexItem book={book} key={book.id}/>);
-          })
-        }
-      </ul>
-    );
   }
 });
 

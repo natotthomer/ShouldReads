@@ -48,7 +48,6 @@ var ApiUtil = {
       type: "PATCH",
       data: { book: { title: data.title, author_fname: data.author_fname, author_lname: data.author_lname }},
       success: function (book) {
-        debugger;
         ServerActions.receiveSingleBook(book);
         onModalClose();
       }

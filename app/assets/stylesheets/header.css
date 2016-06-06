@@ -1,20 +1,25 @@
 .header {
   background-color: #f4f1ea;
   border-bottom: 1px solid #baac9a;
-  height: 48px;
+  height: 50px;
 }
 
 .header-nav {
-  width: 1000px;
+  width: 900px;
   margin: auto;
   color: #554130;
 }
 
 .header-logo {
-  padding: 2px 20px;
+  padding: 5px 20px;
   font-size: 30px;
-  float: left;
   font-weight: 100;
+  width: 155px;
+  height: 40px;
+}
+
+.header-logo > a {
+  color: #554130;
 }
 
 .header-logo-link:hover {
@@ -38,18 +43,17 @@
 }
 
 .greeting {
-  display: inline;
+  /*display: inline;*/
   /*margin: 2px;*/
+  margin-top: 4px;
   /*border: 1px solid black;*/
 }
 
 .logout-button-container {
-  float: right;
 }
 
 .greeting-div {
   float: right;
   padding: 10px;
-  height: 20px;
-  margin: 3px;
+
 }

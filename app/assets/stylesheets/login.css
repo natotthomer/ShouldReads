@@ -33,7 +33,7 @@
   cursor: pointer;
 }
 
-.login-button:hover, signup-button:hover {
+.login-button:hover, .signup-button:hover {
   background: #554130;
 }
 

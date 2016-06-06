@@ -95,6 +95,7 @@ getInitialState: function () {
 
         </div><br/><br/>
         <div>{this.state.book.author_fname + " " + this.state.book.author_lname}</div>
+        <div><img src={this.state.book.cover_url}/></div>
         <Modal
           isOpen={this.state.modalOpen}
           onRequestClose={this.onModalClose}

@@ -34835,7 +34835,7 @@
 	
 	      this.context.router.push("/");
 	    }
-	    // this.setState({ isLoggedIn: })
+	    this.setState({ isLoggedIn: false });
 	  },
 	
 	  __handleOpenModal: function () {
@@ -34849,10 +34849,10 @@
 	  greeting: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'greeting-div clearfix' },
+	      { className: 'greeting-div clearfix right' },
 	      React.createElement(
 	        'section',
-	        { className: 'greeting' },
+	        { className: 'greeting left' },
 	        'Hi, ',
 	        SessionStore.currentUser().username,
 	        '!'
@@ -34860,7 +34860,7 @@
 	      '  ',
 	      React.createElement(
 	        'div',
-	        { className: 'logout-button-container' },
+	        { className: 'logout-button-container right' },
 	        React.createElement('input', { type: 'submit', value: 'logout', onClick: SessionApiUtil.logout, className: 'login-button' })
 	      )
 	    );
@@ -34869,15 +34869,15 @@
 	  headerButtons: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'left' },
 	      React.createElement(
 	        'button',
-	        { onClick: this.__handleOpenModal },
+	        { className: 'header-nav-button left', onClick: this.__handleOpenModal },
 	        'Add a book'
 	      ),
 	      React.createElement(
 	        Link,
-	        { to: 'books/' },
+	        { className: 'header-nav-button left', to: 'books/' },
 	        'Browse books'
 	      )
 	    );
@@ -34887,7 +34887,7 @@
 	    if (SessionStore.isUserLoggedIn()) {
 	      return React.createElement(
 	        'div',
-	        null,
+	        { className: 'clearfix' },
 	        this.headerButtons(),
 	        this.greeting()
 	      );
@@ -34912,7 +34912,7 @@
 	          { className: 'header-nav clearfix' },
 	          React.createElement(
 	            'h1',
-	            { className: 'header-logo' },
+	            { className: 'header-logo left' },
 	            React.createElement(
 	              'a',
 	              { href: '/#/', className: 'header-logo-link' },
@@ -35609,7 +35609,6 @@
 	      type: "PATCH",
 	      data: { book: { title: data.title, author_fname: data.author_fname, author_lname: data.author_lname } },
 	      success: function (book) {
-	        debugger;
 	        ServerActions.receiveSingleBook(book);
 	        onModalClose();
 	      }
@@ -35866,7 +35865,7 @@
 	    if (this.props.books) {
 	      this.setState({ books: this.props.books });
 	    } else {
-	      this.setState({ books: [] });
+	      this.setState({ books: BookStore.all() });
 	    }
 	  },
 	
@@ -36034,6 +36033,11 @@
 	        'div',
 	        null,
 	        this.state.book.author_fname + " " + this.state.book.author_lname
+	      ),
+	      React.createElement(
+	        'div',
+	        null,
+	        React.createElement('img', { src: this.state.book.cover_url })
 	      ),
 	      React.createElement(
 	        Modal,

@@ -58,7 +58,7 @@ var Header = React.createClass({
 
       this.context.router.push("/");
     }
-    // this.setState({ isLoggedIn: })
+    this.setState({ isLoggedIn: false })
   },
 
   __handleOpenModal: function () {
@@ -71,9 +71,9 @@ var Header = React.createClass({
 
   greeting: function(){
   	return (
-  		<div className="greeting-div clearfix">
-  			<section className="greeting">Hi, {SessionStore.currentUser().username}!</section> &nbsp;
-        <div className="logout-button-container">
+  		<div className="greeting-div clearfix right">
+  			<section className="greeting left">Hi, {SessionStore.currentUser().username}!</section> &nbsp;
+        <div className="logout-button-container right">
           <input type="submit" value="logout" onClick={ SessionApiUtil.logout } className="login-button"/>
         </div>
   		</div>
@@ -82,9 +82,9 @@ var Header = React.createClass({
 
   headerButtons: function () {
     return (
-      <div>
-        <button onClick={this.__handleOpenModal}>Add a book</button>
-        <Link to="books/">Browse books</Link>
+      <div className="left">
+        <button className="header-nav-button left" onClick={this.__handleOpenModal}>Add a book</button>
+        <Link className="header-nav-button left" to="books/">Browse books</Link>
       </div>
     );
   },
@@ -92,7 +92,7 @@ var Header = React.createClass({
   restOfHeader: function () {
     if (SessionStore.isUserLoggedIn()) {
       return (
-        <div>
+        <div className="clearfix">
           { this.headerButtons()}
           { this.greeting() }
         </div>
@@ -114,7 +114,7 @@ var Header = React.createClass({
       <div>
         <header className="header">
           <div className="header-nav clearfix">
-            <h1 className="header-logo">
+            <h1 className="header-logo left">
               <a href="/#/" className="header-logo-link">
                 should<span className="header-logo-right">reads</span>
               </a>

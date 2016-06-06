@@ -64,7 +64,7 @@ a:hover {
 
 .main-background {
   margin: auto;
-  width: 1000px;
+  width: 900px;
   /*padding-top: 16px;*/
   border-left: 1px solid black;
   border-right: 1px solid black;
@@ -82,7 +82,7 @@ form > h1 {
   font-size: 25px;
 }
 
-form > a {
+a {
   color: black;
 }
 
@@ -101,15 +101,4 @@ form > a {
 
 .right {
   float: right;
-}
-
-.small-button {
-  margin: auto;
-  background: #382110;
-  border: none;
-  border-radius: 3px;
-  color: #fffff7;
-  font-size: 10px;
-  height: 20px;
-  cursor: pointer;
 }

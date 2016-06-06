@@ -35,7 +35,7 @@ var BookIndex = React.createClass({
     if (this.props.books) {
       this.setState({ books: this.props.books });
     } else {
-      this.setState({ books: [] });
+      this.setState({ books: BookStore.all() });
     }
   },
 

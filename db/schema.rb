@@ -11,18 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160602134127) do
+ActiveRecord::Schema.define(version: 20160606152154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "books", force: :cascade do |t|
-    t.string   "title",        null: false
-    t.string   "author_fname", null: false
-    t.string   "author_lname", null: false
-    t.string   "cover_url"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.string   "title",              null: false
+    t.string   "author_fname",       null: false
+    t.string   "author_lname",       null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "cover_file_name"
+    t.string   "cover_content_type"
+    t.integer  "cover_file_size"
+    t.datetime "cover_updated_at"
   end
 
   add_index "books", ["author_fname"], name: "index_books_on_author_fname", using: :btree

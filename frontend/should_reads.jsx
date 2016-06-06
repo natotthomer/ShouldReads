@@ -42,7 +42,7 @@ function _ensureLoggedIn(nextState, replace, asyncDoneCallback) {
 
   function redirectIfNotLoggedIn() {
     if (!SessionStore.isUserLoggedIn()) {
-      replace('/login');
+      replace('/');
     }
     sessionListener.remove()
     asyncDoneCallback();

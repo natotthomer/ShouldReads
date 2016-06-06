@@ -43,6 +43,7 @@ books = Book.create([
     { title: "The Two Towers", author_fname: "J.R.R.", author_lname: "Tolkien" },
     { title: "The Return of the King", author_fname: "J.R.R.", author_lname: "Tolkien" },
     { title: "Ender's Game", author_fname: "Orson Scott", author_lname: "Card" },
+    { title: "Dune", author_fname: "Frank", author_lname: "Herbert"},
     { title: "The History of Sexuality, Part I", author_fname: "Michel", author_lname: "Foucault" },
     { title: "Madness and Civilization", author_fname: "Michel", author_lname: "Foucault" },
     { title: "The Birth of the Clinic", author_fname: "Michel", author_lname: "Foucault" },
@@ -57,10 +58,16 @@ books = Book.create([
   ])
 
   shelf_assignments = ShelfAssignment.create([
-    { book_id: Book.where(title: "The History of Sexuality, Part I"), shelf_id: Shelf.where(title: "Philosophy & Theory")},
-    { book_id: Book.where(title: "Madness and Civilization"), shelf_id: Shelf.where(title: "Philosophy & Theory")},
-    { book_id: Book.where(title: "The Birth of the Clinic"), shelf_id: Shelf.where(title: "Philosophy & Theory")},
-    { book_id: Book.where(title: "The Order of Things"), shelf_id: Shelf.where(title: "Philosophy & Theory")},
-    { book_id: Book.where(title: "Archeology of Knowledge"), shelf_id: Shelf.where(title: "Philosophy & Theory")},
-    { book_id: Book.where(title: "Discipline and Punish"), shelf_id: Shelf.where(title: "Philosophy & Theory")},
+    { book_id: Book.where(title: "The History of Sexuality, Part I")[0].id, shelf_id: Shelf.where(title: "Philosophy & Theory")[0].id },
+    { book_id: Book.where(title: "Madness and Civilization")[0].id, shelf_id: Shelf.where(title: "Philosophy & Theory")[0].id },
+    { book_id: Book.where(title: "The Birth of the Clinic")[0].id, shelf_id: Shelf.where(title: "Philosophy & Theory")[0].id },
+    { book_id: Book.where(title: "The Order of Things")[0].id, shelf_id: Shelf.where(title: "Philosophy & Theory")[0].id },
+    { book_id: Book.where(title: "Archeology of Knowledge")[0].id, shelf_id: Shelf.where(title: "Philosophy & Theory")[0].id },
+    { book_id: Book.where(title: "Discipline and Punish")[0].id, shelf_id: Shelf.where(title: "Philosophy & Theory")[0].id },
+    { book_id: Book.where(title: "The Hobbit")[0].id, shelf_id: Shelf.where(title: "Fantasy & Science Fiction")[0].id },
+    { book_id: Book.where(title: "The Fellowship of the Ring")[0].id, shelf_id: Shelf.where(title: "Fantasy & Science Fiction")[0].id },
+    { book_id: Book.where(title: "The Two Towers")[0].id, shelf_id: Shelf.where(title: "Fantasy & Science Fiction")[0].id },
+    { book_id: Book.where(title: "The Return of the King")[0].id, shelf_id: Shelf.where(title: "Fantasy & Science Fiction")[0].id },
+    { book_id: Book.where(title: "Ender's Game")[0].id, shelf_id: Shelf.where(title: "Fantasy & Science Fiction")[0].id },
+    { book_id: Book.where(title: "Dune")[0].id, shelf_id: Shelf.where(title: "Fantasy & Science Fiction")[0].id }
   ])

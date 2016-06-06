@@ -1,1 +1,1 @@
-json.extract! @book, :title, :author_fname, :author_lname, :id
+json.partial! 'api/books/book', book: @book

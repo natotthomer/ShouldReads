@@ -85,7 +85,8 @@ var ShelfDetail = React.createClass({
     this.setState({ modalOpen: true });
   },
 
-  __handleUpdateClick: function (){
+  __handleUpdateClick: function (e){
+    e.preventDefault();
     this.setState({ modalOpen: true });
   },
 

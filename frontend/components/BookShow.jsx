@@ -70,14 +70,15 @@ getInitialState: function () {
     this.context.router.push("/");
   },
 
-  __handleUpdateClick: function (){
+  __handleUpdateClick: function (e){
+    e.preventDefault();
     this.setState({ modalOpen: true });
   },
 
   onModalClose: function () {
     this.setState({ modalOpen: false });
   },
-  
+
   render: function () {
     if (!SessionStore.currentUserHasBeenFetched() || this.state.book === undefined) {
       return (<div/>);

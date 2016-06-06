@@ -89,7 +89,7 @@
 	
 	  function redirectIfNotLoggedIn() {
 	    if (!SessionStore.isUserLoggedIn()) {
-	      replace('/login');
+	      replace('/');
 	    }
 	    sessionListener.remove();
 	    asyncDoneCallback();
@@ -34817,13 +34817,25 @@
 	  displayName: 'Header',
 	
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
 	  getInitialState: function () {
-	    return { modalOpen: false };
+	    return { modalOpen: false, isLoggedIn: SessionStore.isUserLoggedIn() };
 	  },
 	
 	  componentDidMount: function () {
-	    SessionStore.addListener(this.forceUpdate.bind(this));
+	    SessionStore.addListener(this.hasUser);
 	    SessionApiUtil.fetchCurrentUser();
+	  },
+	
+	  hasUser: function () {
+	    if (!this.state.isLoggedIn && SessionStore.currentUserHasBeenFetched()) {
+	
+	      this.context.router.push("/");
+	    }
+	    // this.setState({ isLoggedIn: })
 	  },
 	
 	  __handleOpenModal: function () {
@@ -35830,7 +35842,11 @@
 	
 	
 	  getInitialState: function () {
-	    return { books: [] };
+	    if (this.props.books) {
+	      return { books: this.props.books };
+	    } else {
+	      return { books: [] };
+	    }
 	  },
 	
 	  componentDidMount: function () {
@@ -35842,8 +35858,16 @@
 	    this.bookListener.remove();
 	  },
 	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ books: newProps.books });
+	  },
+	
 	  getBooks: function () {
-	    this.setState({ books: BookStore.all() });
+	    if (this.props.books) {
+	      this.setState({ books: this.props.books });
+	    } else {
+	      this.setState({ books: [] });
+	    }
 	  },
 	
 	  render: function () {
@@ -35972,7 +35996,8 @@
 	    this.context.router.push("/");
 	  },
 	
-	  __handleUpdateClick: function () {
+	  __handleUpdateClick: function (e) {
+	    e.preventDefault();
 	    this.setState({ modalOpen: true });
 	  },
 	
@@ -36271,7 +36296,8 @@
 	    this.setState({ modalOpen: true });
 	  },
 	
-	  __handleUpdateClick: function () {
+	  __handleUpdateClick: function (e) {
+	    e.preventDefault();
 	    this.setState({ modalOpen: true });
 	  },
 	

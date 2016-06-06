@@ -40,13 +40,25 @@ var modalStyle = {
 
 var Header = React.createClass({
 
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function () {
-    return ({ modalOpen: false });
+    return ({ modalOpen: false, isLoggedIn: SessionStore.isUserLoggedIn() });
   },
 
   componentDidMount: function () {
-    SessionStore.addListener(this.forceUpdate.bind(this));
+    SessionStore.addListener(this.hasUser);
     SessionApiUtil.fetchCurrentUser();
+  },
+
+  hasUser: function () {
+    if (!this.state.isLoggedIn && SessionStore.currentUserHasBeenFetched()) {
+
+      this.context.router.push("/");
+    }
+    // this.setState({ isLoggedIn: })
   },
 
   __handleOpenModal: function () {
@@ -88,6 +100,7 @@ var Header = React.createClass({
     } else {
       return (
         <LoginForm/>
+
       );
     }
   },

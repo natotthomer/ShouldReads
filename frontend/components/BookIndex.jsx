@@ -11,7 +11,11 @@ var BookShow = require('./BookShow');
 var BookIndex = React.createClass({
 
   getInitialState: function () {
-    return ({ books: [] });
+    if (this.props.books) {
+      return ({ books: this.props.books });
+    } else {
+      return ({ books: [] });
+    }
   },
 
   componentDidMount: function () {
@@ -23,8 +27,16 @@ var BookIndex = React.createClass({
     this.bookListener.remove();
   },
 
+  componentWillReceiveProps: function (newProps) {
+    this.setState({ books: newProps.books });
+  },
+
   getBooks: function (){
-    this.setState({ books: BookStore.all() });
+    if (this.props.books) {
+      this.setState({ books: this.props.books });
+    } else {
+      this.setState({ books: [] });
+    }
   },
 
   render: function () {

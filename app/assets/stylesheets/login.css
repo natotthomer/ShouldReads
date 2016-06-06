@@ -20,7 +20,7 @@
 .header-input {
   font-size: 10px
 }
-
+/*
 .login-button {
   margin: auto;
   width: 60px;
@@ -31,7 +31,7 @@
   font-size: 8px;
   height: 18px;
   cursor: pointer;
-}
+}*/
 
 .login-button:hover, .signup-button:hover {
   background: #554130;

@@ -66,15 +66,15 @@ a:hover {
   margin: auto;
   width: 900px;
   /*padding-top: 16px;*/
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  background: #baac9a;
-  background-image:
+  /*border-left: 1px solid black;*/
+  /*border-right: 1px solid black;*/
+  /*background: #baac9a;*/
+  /*background-image:
     radial-gradient(
       circle,
       white,
       #baac9a 55%
-    );
+    );*/
   min-height: 500px;
 }
 
@@ -87,10 +87,10 @@ a {
 }
 
 .dashboard-main {
-  padding: 10px;
-  border: 1px solid black;
+  padding: 20px;
+  /*border: 1px solid black;*/
   margin: auto;
-  width: 704px;
+  width: 610px;
   float: left;
   text-align: center;
 }

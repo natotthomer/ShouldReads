@@ -8,6 +8,7 @@ var ClientActions = require('./../actions/client_actions');
 var BookStore = require('./../stores/book_store');
 var BookIndexItem = require('./BookIndexItem');
 var BookEdit = require('./BookEdit');
+var Sidebar = require('./Sidebar');
 
 var modalStyle = {
   overlay : {
@@ -86,16 +87,25 @@ getInitialState: function () {
     return (
       <div className="book-show">
         <div className="clearfix">
-          <div className="book-show-title left">{this.state.book.title}</div>
-          <form className="book-show-header-buttons right">
+          <div className="book-cover left">
+            <img src={this.state.book.cover_url}/>
+          </div>
+          <div className="book-details left clearfix">
+            <div className="book-show-title left">
+              {this.state.book.title}
+            </div><br/><br/>
+            <div className="left">
+              <a href="">{this.state.book.author_fname + " " + this.state.book.author_lname}</a>
+            </div>
+          </div>
+          <form className="right">
             <input type="submit" onClick={this.removeBook} className="small-button" value="delete this book"/>
             &nbsp;
             <input type="submit" onClick={this.__handleUpdateClick} className="small-button" value="edit this book"/>
           </form>
 
         </div><br/><br/>
-        <div>{this.state.book.author_fname + " " + this.state.book.author_lname}</div>
-        <div><img src={this.state.book.cover_url}/></div>
+        <Sidebar/>
         <Modal
           isOpen={this.state.modalOpen}
           onRequestClose={this.onModalClose}

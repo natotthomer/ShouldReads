@@ -1,6 +1,6 @@
 .small-button {
   margin: auto;
-  background: #382110;
+  background: #68614f;
   border: none;
   border-radius: 3px;
   color: #fffff7;
@@ -16,7 +16,7 @@
 .login-button {
   margin: auto;
   width: 60px;
-  background: #382110;
+  background: #68614f;
   border: none;
   border-radius: 3px;
   color: #fffff7;
@@ -33,10 +33,11 @@
   cursor: pointer;
   padding: 10px 10px 10px 10px;
   margin: 6px 2px 6px 2px;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .header-nav-button:hover {
   background: #DDDCC7;
   text-decoration: none;
+  opacity: 0.75;
 }

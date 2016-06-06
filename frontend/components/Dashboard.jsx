@@ -9,17 +9,16 @@ var BookIndex = require('./BookIndex');
 var Dashboard = React.createClass({
 
   getInitialState: function () {
-    return ({ shelves: [], user: {}});
+    return ({ shelves: [], user: {} });
   },
 
   componentDidMount: function () {
-
   },
 
   render: function () {
     return (
       <div className="clearfix">
-        <h1 className="dashboard-main">in the dashboard</h1>
+        <h1 className="dashboard-main">{this.props.user.username}'s Dashboard</h1>
         <Sidebar/>
       </div>
     );

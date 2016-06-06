@@ -9,7 +9,7 @@ var Sidebar = React.createClass({
 
   render: function () {
     return (
-      <div className="sidebar-main">
+      <div className="sidebar-main right">
         <ShelfIndex/>
       </div>
     );

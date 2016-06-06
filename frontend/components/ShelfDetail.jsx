@@ -81,10 +81,6 @@ var ShelfDetail = React.createClass({
     this.context.router.push("/shelves/" + this.props.shelfId + "/edit");
   },
 
-  __handleDeleteClick: function (){
-    this.setState({ modalOpen: true });
-  },
-
   __handleUpdateClick: function (e){
     e.preventDefault();
     this.setState({ modalOpen: true });

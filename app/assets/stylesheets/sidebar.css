@@ -1,5 +1,7 @@
 .sidebar-main {
-  float: right;
+  width: 160px;
+  margin: 0 10px 10px 10px;
+  border-left: 1px solid black;
 }
 
 .sidebar-main a {

@@ -1,12 +1,22 @@
 .book-show {
   padding: 10px;
-
+  width: 630px;
 }
 
 .book-show-title {
+  font-size: 20px;
+}
 
+.book-details {
+  padding: 20px;
+  font-size: 14px;
 }
 
 .book-show-header-buttons {
 
+}
+
+.book-cover {
+  width: 150px;
+  height: auto;
 }

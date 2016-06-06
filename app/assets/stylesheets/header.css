@@ -24,6 +24,7 @@
 
 .header-logo-link:hover {
   text-decoration: none;
+  opacity: 0.75;
 }
 
 .header-list {
@@ -32,7 +33,6 @@
 
 .header-nav-login {
   float: right;
-  /*border: 1px solid black;*/
   text-decoration: none;
   width: 420px;
   padding: 10px;
@@ -43,10 +43,8 @@
 }
 
 .greeting {
-  /*display: inline;*/
-  /*margin: 2px;*/
+
   margin-top: 4px;
-  /*border: 1px solid black;*/
 }
 
 .logout-button-container {
@@ -55,5 +53,4 @@
 .greeting-div {
   float: right;
   padding: 10px;
-
 }

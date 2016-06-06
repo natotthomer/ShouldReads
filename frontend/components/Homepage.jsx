@@ -28,7 +28,7 @@ var Homepage = React.createClass({
   toRender: function () {
     if (SessionStore.isUserLoggedIn()) {
       return (
-        <Dashboard/>
+        <Dashboard user={SessionStore.currentUser()}/>
       );
     } else {
       return (

@@ -10,8 +10,10 @@ var ShelvesView = React.createClass({
   render: function () {
     return (
       <div className="clearfix">
+        <div className="shelf-index-left">
+          <ShelfIndex/>
 
-        <ShelfIndex/>
+        </div>
         <ShelfDetail shelfId={this.props.params.shelfId}/>
       </div>
     );

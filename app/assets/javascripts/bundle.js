@@ -35345,7 +35345,8 @@
 	      React.createElement(
 	        'h1',
 	        { className: 'dashboard-main' },
-	        'in the dashboard'
+	        this.props.user.username,
+	        '\'s Dashboard'
 	      ),
 	      React.createElement(Sidebar, null)
 	    );
@@ -35440,7 +35441,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'sidebar-main' },
+	      { className: 'sidebar-main right' },
 	      React.createElement(ShelfIndex, null)
 	    );
 	  }
@@ -35931,6 +35932,7 @@
 	var BookStore = __webpack_require__(282);
 	var BookIndexItem = __webpack_require__(293);
 	var BookEdit = __webpack_require__(295);
+	var Sidebar = __webpack_require__(284);
 	
 	var modalStyle = {
 	  overlay: {
@@ -36016,12 +36018,32 @@
 	        { className: 'clearfix' },
 	        React.createElement(
 	          'div',
-	          { className: 'book-show-title left' },
-	          this.state.book.title
+	          { className: 'book-cover left' },
+	          React.createElement('img', { src: this.state.book.cover_url })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'book-details left clearfix' },
+	          React.createElement(
+	            'div',
+	            { className: 'book-show-title left' },
+	            this.state.book.title
+	          ),
+	          React.createElement('br', null),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'div',
+	            { className: 'left' },
+	            React.createElement(
+	              'a',
+	              { href: '' },
+	              this.state.book.author_fname + " " + this.state.book.author_lname
+	            )
+	          )
 	        ),
 	        React.createElement(
 	          'form',
-	          { className: 'book-show-header-buttons right' },
+	          { className: 'right' },
 	          React.createElement('input', { type: 'submit', onClick: this.removeBook, className: 'small-button', value: 'delete this book' }),
 	          ' ',
 	          React.createElement('input', { type: 'submit', onClick: this.__handleUpdateClick, className: 'small-button', value: 'edit this book' })
@@ -36029,16 +36051,7 @@
 	      ),
 	      React.createElement('br', null),
 	      React.createElement('br', null),
-	      React.createElement(
-	        'div',
-	        null,
-	        this.state.book.author_fname + " " + this.state.book.author_lname
-	      ),
-	      React.createElement(
-	        'div',
-	        null,
-	        React.createElement('img', { src: this.state.book.cover_url })
-	      ),
+	      React.createElement(Sidebar, null),
 	      React.createElement(
 	        Modal,
 	        {
@@ -36199,7 +36212,11 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'clearfix' },
-	      React.createElement(ShelfIndex, null),
+	      React.createElement(
+	        'div',
+	        { className: 'shelf-index-left' },
+	        React.createElement(ShelfIndex, null)
+	      ),
 	      React.createElement(ShelfDetail, { shelfId: this.props.params.shelfId })
 	    );
 	  }
@@ -36294,10 +36311,6 @@
 	  updateShelf: function (e) {
 	    e.preventDefault();
 	    this.context.router.push("/shelves/" + this.props.shelfId + "/edit");
-	  },
-	
-	  __handleDeleteClick: function () {
-	    this.setState({ modalOpen: true });
 	  },
 	
 	  __handleUpdateClick: function (e) {
@@ -36508,7 +36521,7 @@
 	
 	  toRender: function () {
 	    if (SessionStore.isUserLoggedIn()) {
-	      return React.createElement(Dashboard, null);
+	      return React.createElement(Dashboard, { user: SessionStore.currentUser() });
 	    } else {
 	      return React.createElement(SignupForm, null);
 	    }

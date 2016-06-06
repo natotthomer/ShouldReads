@@ -114,11 +114,12 @@ var Header = React.createClass({
             {this.props.children}
           </div>
         </section>
-        <Modal isOpen={this.state.modalOpen}
-               onRequestClose={this.onModalClose}
-               style={modalStyle}>
-          <BookForm onModalClose={this.onModalClose}/>
+        <Modal
+          isOpen={this.state.modalOpen}
+          onRequestClose={this.onModalClose}
+          style={modalStyle}>
           <button onClick={this.onModalClose}><strong>X</strong></button>
+          <BookForm onModalClose={this.onModalClose}/>
         </Modal>
       </div>
     )

@@ -34926,10 +34926,10 @@
 	      ),
 	      React.createElement(
 	        Modal,
-	        { isOpen: this.state.modalOpen,
+	        {
+	          isOpen: this.state.modalOpen,
 	          onRequestClose: this.onModalClose,
 	          style: modalStyle },
-	        React.createElement(BookForm, { onModalClose: this.onModalClose }),
 	        React.createElement(
 	          'button',
 	          { onClick: this.onModalClose },
@@ -34938,7 +34938,8 @@
 	            null,
 	            'X'
 	          )
-	        )
+	        ),
+	        React.createElement(BookForm, { onModalClose: this.onModalClose })
 	      )
 	    );
 	  }

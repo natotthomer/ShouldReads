@@ -33,3 +33,20 @@ img {
 .book-cover {
   width: 150px;
 }
+
+.add-book-button {
+  margin: 4px;
+  background: #409d69;
+  width: 120px;
+  height: 28px;
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: lighter;
+  cursor: pointer;
+}
+
+.add-book-button:hover {
+  background: #00985E;
+}

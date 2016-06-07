@@ -80,6 +80,15 @@ getInitialState: function () {
     this.setState({ modalOpen: false });
   },
 
+  getBookStatus: function () {
+    if (SessionStore.currentUser().book_readings.includes(this.state.book.id)) {
+      return("Want to Read");
+    } else {
+      debugger;
+      // return(SessionStore.currentUser().book_readings.where(book_id: this.state.book.id).status);
+    }
+  },
+
   render: function () {
     if (!SessionStore.currentUserHasBeenFetched() || this.state.book === undefined) {
       return (<div/>);
@@ -95,9 +104,11 @@ getInitialState: function () {
               {this.state.book.title}
             </div>
             <form className="right">
-            <input type="submit" onClick={this.removeBook} className="small-button" value="delete this book"/>
-            &nbsp;
-            <input type="submit" onClick={this.__handleUpdateClick} className="small-button" value="edit this book"/>
+              <input type="submit" onClick={this.removeBook} className="small-button" value="delete this book"/>
+              &nbsp;
+              <input type="submit" onClick={this.__handleUpdateClick} className="small-button" value="edit this book"/>
+              <br/>
+              <input type="submit" className="add-book-button" value={this.getBookStatus()}/>
             </form><br/><br/>
             <div className="left">
               <a href="">{this.state.book.author_fname + " " + this.state.book.author_lname}</a>

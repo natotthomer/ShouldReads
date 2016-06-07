@@ -1,7 +1,25 @@
 .book-index-item {
   width: 135px;
-  height: 170px;
+  height: 200px;
   padding: 10px;
   text-align: center;
   margin-top: 20px;
+}
+
+.book-index-item-details {
+  height: 20px;
+  width: 155px;
+}
+
+.book-index-thumb {
+  height: 100px;
+  width: 155px;
+}
+
+.book-index-thumb img {
+  display: block;
+  width: auto;
+  height: 100%;
+  margin: auto;
+  align-items: center;
 }

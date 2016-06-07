@@ -56,16 +56,16 @@
 	
 	var SessionStore = __webpack_require__(249);
 	var SessionApiUtil = __webpack_require__(272);
-	var GoogleUtil = __webpack_require__(303);
+	var GoogleUtil = __webpack_require__(276);
 	
-	var Header = __webpack_require__(276);
-	var Homepage = __webpack_require__(299);
-	var AllBookIndex = __webpack_require__(302);
-	var BookShow = __webpack_require__(294);
-	var BookForm = __webpack_require__(300);
-	var ShelvesView = __webpack_require__(296);
-	var ShelfForm = __webpack_require__(301);
-	var ShelfEdit = __webpack_require__(298);
+	var Header = __webpack_require__(277);
+	var Homepage = __webpack_require__(298);
+	var AllBookIndex = __webpack_require__(300);
+	var BookShow = __webpack_require__(301);
+	var BookForm = __webpack_require__(299);
+	var ShelvesView = __webpack_require__(295);
+	var ShelfForm = __webpack_require__(303);
+	var ShelfEdit = __webpack_require__(297);
 	
 	var routes = React.createElement(
 	  Route,
@@ -34772,6 +34772,30 @@
 
 /***/ },
 /* 276 */
+/***/ function(module, exports) {
+
+	
+	var GoogleUtil = {
+	  fetchBookInfo: function (formData, createBook) {
+	    var parsedTitle = encodeURI(formData.title);
+	    var parsedAuthor = encodeURI(formData.author_fname) + "%20" + encodeURI(formData.author_lname);
+	    $.ajax({
+	      type: "GET",
+	      url: "https://www.googleapis.com/books/v1/volumes?q=" + parsedTitle + "+inauthor:" + parsedAuthor + "&key=AIzaSyB0KVi7_ciJbBdMkHaTmC5qFLePxyJ3iQQ",
+	      success: function (newData) {
+	        formData.description = newData.items[0].volumeInfo.description;
+	        formData.cover = newData.items[0].volumeInfo.imageLinks.smallThumbnail;
+	        createBook(formData);
+	      },
+	      error: function (newData) {}
+	    });
+	  }
+	};
+	
+	module.exports = GoogleUtil;
+
+/***/ },
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34781,12 +34805,12 @@
 	var SessionStore = __webpack_require__(249);
 	var SessionApiUtil = __webpack_require__(272);
 	
-	var LoginForm = __webpack_require__(277);
-	var SignupForm = __webpack_require__(280);
-	var Dashboard = __webpack_require__(281);
-	var ShelvesView = __webpack_require__(296);
-	var Homepage = __webpack_require__(299);
-	var BookForm = __webpack_require__(300);
+	var LoginForm = __webpack_require__(278);
+	var SignupForm = __webpack_require__(281);
+	var Dashboard = __webpack_require__(282);
+	var ShelvesView = __webpack_require__(295);
+	var Homepage = __webpack_require__(298);
+	var BookForm = __webpack_require__(299);
 	
 	var modalStyle = {
 	  overlay: {
@@ -34961,15 +34985,15 @@
 	module.exports = Header;
 
 /***/ },
-/* 277 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
 	var SessionApiUtil = __webpack_require__(272);
 	var SessionStore = __webpack_require__(249);
-	var ErrorStore = __webpack_require__(278);
-	var UserApiUtil = __webpack_require__(279);
+	var ErrorStore = __webpack_require__(279);
+	var UserApiUtil = __webpack_require__(280);
 	
 	var LoginForm = React.createClass({
 	  displayName: 'LoginForm',
@@ -35118,7 +35142,7 @@
 	module.exports = LoginForm;
 
 /***/ },
-/* 278 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(254).Store;
@@ -35168,7 +35192,7 @@
 	module.exports = ErrorStore;
 
 /***/ },
-/* 279 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var SessionActions = __webpack_require__(273);
@@ -35195,15 +35219,15 @@
 	module.exports = UserApiUtil;
 
 /***/ },
-/* 280 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
 	var SessionApiUtil = __webpack_require__(272);
 	var SessionStore = __webpack_require__(249);
-	var ErrorStore = __webpack_require__(278);
-	var UserApiUtil = __webpack_require__(279);
+	var ErrorStore = __webpack_require__(279);
+	var UserApiUtil = __webpack_require__(280);
 	
 	var LoginForm = React.createClass({
 	  displayName: 'LoginForm',
@@ -35341,16 +35365,16 @@
 	module.exports = LoginForm;
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
 	var SessionStore = __webpack_require__(249);
-	var BookStore = __webpack_require__(282);
+	var BookStore = __webpack_require__(283);
 	var SessionApiUtil = __webpack_require__(272);
-	var Sidebar = __webpack_require__(284);
-	var BookIndex = __webpack_require__(292);
+	var Sidebar = __webpack_require__(285);
+	var BookIndex = __webpack_require__(293);
 	
 	var Dashboard = React.createClass({
 	  displayName: 'Dashboard',
@@ -35382,12 +35406,12 @@
 	module.exports = Dashboard;
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(250);
 	var Store = __webpack_require__(254).Store;
-	var BookConstants = __webpack_require__(283);
+	var BookConstants = __webpack_require__(284);
 	
 	var BookStore = new Store(AppDispatcher);
 	
@@ -35439,7 +35463,7 @@
 	window.BookStore = BookStore;
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -35449,7 +35473,7 @@
 	};
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35457,7 +35481,7 @@
 	
 	var SessionStore = __webpack_require__(249);
 	var SessionApiUtil = __webpack_require__(272);
-	var ShelfIndex = __webpack_require__(285);
+	var ShelfIndex = __webpack_require__(286);
 	
 	var Sidebar = React.createClass({
 	  displayName: 'Sidebar',
@@ -35476,17 +35500,17 @@
 	module.exports = Sidebar;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
 	
-	var ClientActions = __webpack_require__(286);
+	var ClientActions = __webpack_require__(287);
 	var SessionStore = __webpack_require__(249);
-	var ShelfStore = __webpack_require__(290);
+	var ShelfStore = __webpack_require__(291);
 	
-	var ShelfIndexItem = __webpack_require__(291);
+	var ShelfIndexItem = __webpack_require__(292);
 	
 	var ShelfIndex = React.createClass({
 	  displayName: 'ShelfIndex',
@@ -35540,10 +35564,10 @@
 	module.exports = ShelfIndex;
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ApiUtil = __webpack_require__(287);
+	var ApiUtil = __webpack_require__(288);
 	
 	var ClientActions = {
 	  fetchBooks: function () {
@@ -35582,10 +35606,10 @@
 	module.exports = ClientActions;
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var ServerActions = __webpack_require__(288);
+	var ServerActions = __webpack_require__(289);
 	
 	var ApiUtil = {
 	  fetchBooks: function () {
@@ -35700,12 +35724,12 @@
 	module.exports = ApiUtil;
 
 /***/ },
-/* 288 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(250);
-	var BookConstants = __webpack_require__(283);
-	var ShelfConstants = __webpack_require__(289);
+	var BookConstants = __webpack_require__(284);
+	var ShelfConstants = __webpack_require__(290);
 	
 	var ServerActions = {
 	  receiveAllBooks: function (books) {
@@ -35754,7 +35778,7 @@
 	module.exports = ServerActions;
 
 /***/ },
-/* 289 */
+/* 290 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -35764,12 +35788,12 @@
 	};
 
 /***/ },
-/* 290 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(250);
 	var Store = __webpack_require__(254).Store;
-	var ShelfConstants = __webpack_require__(289);
+	var ShelfConstants = __webpack_require__(290);
 	
 	var ShelfStore = new Store(AppDispatcher);
 	
@@ -35820,12 +35844,12 @@
 	module.exports = ShelfStore;
 
 /***/ },
-/* 291 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
-	var ClientActions = __webpack_require__(286);
+	var ClientActions = __webpack_require__(287);
 	var hashHistory = __webpack_require__(168).hashHistory;
 	
 	var ShelfIndexItem = React.createClass({
@@ -35849,16 +35873,16 @@
 	module.exports = ShelfIndexItem;
 
 /***/ },
-/* 292 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
 	
 	var SessionStore = __webpack_require__(249);
-	var BookStore = __webpack_require__(282);
+	var BookStore = __webpack_require__(283);
 	
-	var BookIndexItem = __webpack_require__(293);
+	var BookIndexItem = __webpack_require__(294);
 	
 	var BookIndex = React.createClass({
 	  displayName: 'BookIndex',
@@ -35898,7 +35922,6 @@
 	      return React.createElement(
 	        'div',
 	        { className: 'book-index' },
-	        'All the books!',
 	        React.createElement(
 	          'ul',
 	          { className: 'clearfix' },
@@ -35916,12 +35939,12 @@
 	module.exports = BookIndex;
 
 /***/ },
-/* 293 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
-	var BookStore = __webpack_require__(282);
+	var BookStore = __webpack_require__(283);
 	
 	var BookIndexItem = React.createClass({
 	  displayName: 'BookIndexItem',
@@ -35936,9 +35959,21 @@
 	      React.createElement(
 	        Link,
 	        { to: "books/" + this.props.book.id },
-	        React.createElement('img', { src: this.props.book.cover_url }),
-	        React.createElement('br', null),
-	        this.props.book.title
+	        React.createElement(
+	          'div',
+	          { className: 'book-index-thumb' },
+	          React.createElement('img', { src: this.props.book.cover_url }),
+	          React.createElement('br', null)
+	        )
+	      ),
+	      React.createElement(
+	        Link,
+	        { to: "books/" + this.props.book.id },
+	        React.createElement(
+	          'div',
+	          { className: 'book-index-item-details' },
+	          this.props.book.title
+	        )
 	      )
 	    );
 	  }
@@ -35947,298 +35982,16 @@
 	module.exports = BookIndexItem;
 
 /***/ },
-/* 294 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(168).Link;
-	var Modal = __webpack_require__(229);
-	var SessionStore = __webpack_require__(249);
-	var SessionApiUtil = __webpack_require__(272);
-	var ClientActions = __webpack_require__(286);
-	
-	var BookStore = __webpack_require__(282);
-	var BookIndexItem = __webpack_require__(293);
-	var BookEdit = __webpack_require__(295);
-	var Sidebar = __webpack_require__(284);
-	
-	var modalStyle = {
-	  overlay: {
-	    position: 'fixed',
-	    top: 0,
-	    left: 0,
-	    right: 0,
-	    bottom: 0,
-	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
-	  },
-	  content: {
-	    // position                   : 'absolute',
-	    top: '50%',
-	    left: '50%',
-	    transform: 'translateX(-50%) translateY(-50%)',
-	    border: '1px solid #ccc',
-	    background: '#fff',
-	    overflow: 'auto',
-	    WebkitOverflowScrolling: 'touch',
-	    borderRadius: '4px',
-	    outline: 'none',
-	    padding: '20px',
-	    width: '400px',
-	    height: '250px'
-	  }
-	};
-	
-	var BookShow = React.createClass({
-	  displayName: 'BookShow',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    return { book: BookStore.find(this.props.params.bookId) };
-	  },
-	
-	  componentWillReceiveProps: function (newProps) {
-	    this.setState({ book: newProps.book });
-	  },
-	
-	  componentDidMount: function () {
-	    this.bookListener = BookStore.addListener(this.getBook);
-	    ClientActions.fetchBook(this.props.params.bookId);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.bookListener.remove();
-	  },
-	
-	  getBook: function () {
-	    this.setState({ book: BookStore.find(this.props.params.bookId) });
-	  },
-	
-	  removeBook: function (e) {
-	    e.preventDefault();
-	    ClientActions.removeBook(this.props.params.bookId, this.redirectToHome);
-	  },
-	
-	  redirectToHome: function () {
-	    this.context.router.push("/");
-	  },
-	
-	  __handleUpdateClick: function (e) {
-	    e.preventDefault();
-	    this.setState({ modalOpen: true });
-	  },
-	
-	  onModalClose: function () {
-	    this.setState({ modalOpen: false });
-	  },
-	
-	  render: function () {
-	    if (!SessionStore.currentUserHasBeenFetched() || this.state.book === undefined) {
-	      return React.createElement('div', null);
-	    }
-	    return React.createElement(
-	      'div',
-	      { className: 'book-show clearfix' },
-	      React.createElement(
-	        'div',
-	        { className: 'book-detail clearfix left' },
-	        React.createElement(
-	          'div',
-	          { className: 'book-cover left' },
-	          React.createElement('img', { src: this.state.book.cover_url })
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'book-details clearfix left' },
-	          React.createElement(
-	            'div',
-	            { className: 'book-show-title left' },
-	            this.state.book.title
-	          ),
-	          React.createElement(
-	            'form',
-	            { className: 'right' },
-	            React.createElement('input', { type: 'submit', onClick: this.removeBook, className: 'small-button', value: 'delete this book' }),
-	            ' ',
-	            React.createElement('input', { type: 'submit', onClick: this.__handleUpdateClick, className: 'small-button', value: 'edit this book' })
-	          ),
-	          React.createElement('br', null),
-	          React.createElement('br', null),
-	          React.createElement(
-	            'div',
-	            { className: 'left' },
-	            React.createElement(
-	              'a',
-	              { href: '' },
-	              this.state.book.author_fname + " " + this.state.book.author_lname
-	            )
-	          ),
-	          React.createElement('br', null),
-	          React.createElement('br', null),
-	          React.createElement(
-	            'blockquote',
-	            { className: 'book-description' },
-	            this.state.book.description
-	          )
-	        )
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
-	      React.createElement(Sidebar, null),
-	      React.createElement(
-	        Modal,
-	        {
-	          isOpen: this.state.modalOpen,
-	          onRequestClose: this.onModalClose,
-	          style: modalStyle },
-	        React.createElement(
-	          'button',
-	          { onClick: this.onModalClose, className: 'left' },
-	          React.createElement(
-	            'strong',
-	            null,
-	            'X'
-	          )
-	        ),
-	        React.createElement(BookEdit, { book: this.state.book, onModalClose: this.onModalClose })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = BookShow;
-
-/***/ },
 /* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(249);
-	var ErrorStore = __webpack_require__(278);
-	var ClientActions = __webpack_require__(286);
-	
-	var BookStore = __webpack_require__(282);
-	
-	var BookEdit = React.createClass({
-	  displayName: 'BookEdit',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    var book = BookStore.find(this.props.book.id);
-	    return {
-	      title: book.title,
-	      author_fname: book.author_fname,
-	      author_lname: book.author_lname,
-	      id: book.id
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.bookListener = BookStore.addListener(this.getBook);
-	    ClientActions.fetchBook(this.props.book.id);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.bookListener.remove();
-	  },
-	
-	  getBook: function () {
-	    var book = BookStore.find(this.props.book.id);
-	    this.setState({
-	      title: book.title,
-	      author_fname: book.author_fname,
-	      author_lname: book.author_lname,
-	      id: book.id
-	    });
-	  },
-	
-	  titleChange: function (e) {
-	    this.setState({ title: e.target.value });
-	  },
-	
-	  authorFNameChange: function (e) {
-	    this.setState({ author_fname: e.target.value });
-	  },
-	
-	  authorLNameChange: function (e) {
-	    this.setState({ author_lname: e.target.value });
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var bookData = {
-	      title: this.state.title,
-	      author_fname: this.state.author_fname,
-	      author_lname: this.state.author_lname,
-	      id: this.props.book.id
-	    };
-	    ClientActions.updateBook(bookData, this.props.onModalClose);
-	  },
-	
-	  redirectToBook: function (bookId) {
-	    this.context.router.push("books/" + bookId);
-	  },
-	
-	  render: function () {
-	    if (this.state.title === undefined) {
-	      return React.createElement('div', null);
-	    }
-	
-	    if (SessionStore.isUserLoggedIn()) {
-	      return React.createElement(
-	        'div',
-	        { className: 'edit-main' },
-	        React.createElement(
-	          'form',
-	          { className: 'shelf-form', onSubmit: this.handleSubmit },
-	          React.createElement(
-	            'h1',
-	            null,
-	            'Edit Book'
-	          ),
-	          React.createElement('br', null),
-	          React.createElement('br', null),
-	          React.createElement(
-	            'div',
-	            { className: 'clearfix' },
-	            'Title: ',
-	            React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange }),
-	            React.createElement('br', null),
-	            'Author First Name: ',
-	            React.createElement('textarea', { value: this.state.author_fname, onChange: this.authorFNameChange }),
-	            React.createElement('br', null),
-	            'Author Last Name: ',
-	            React.createElement('textarea', { value: this.state.author_lname, onChange: this.authorLNameChange }),
-	            React.createElement('br', null),
-	            React.createElement('br', null),
-	            React.createElement('input', { type: 'submit', value: 'Update Book', className: 'small-button' })
-	          )
-	        )
-	      );
-	    } else {
-	      return React.createElement('div', null);
-	    }
-	  }
-	});
-	
-	module.exports = BookEdit;
-
-/***/ },
-/* 296 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
 	var SessionStore = __webpack_require__(249);
 	var SessionApiUtil = __webpack_require__(272);
-	var ShelfIndex = __webpack_require__(285);
-	var ShelfIndexItem = __webpack_require__(291);
-	var ShelfDetail = __webpack_require__(297);
+	var ShelfIndex = __webpack_require__(286);
+	var ShelfIndexItem = __webpack_require__(292);
+	var ShelfDetail = __webpack_require__(296);
 	
 	var ShelvesView = React.createClass({
 	  displayName: 'ShelvesView',
@@ -36260,7 +36013,7 @@
 	module.exports = ShelvesView;
 
 /***/ },
-/* 297 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36269,13 +36022,13 @@
 	
 	var SessionStore = __webpack_require__(249);
 	var SessionApiUtil = __webpack_require__(272);
-	var ClientActions = __webpack_require__(286);
+	var ClientActions = __webpack_require__(287);
 	
-	var ShelfStore = __webpack_require__(290);
-	var ShelfIndex = __webpack_require__(285);
-	var ShelfIndexItem = __webpack_require__(291);
-	var BookIndex = __webpack_require__(292);
-	var ShelfEdit = __webpack_require__(298);
+	var ShelfStore = __webpack_require__(291);
+	var ShelfIndex = __webpack_require__(286);
+	var ShelfIndexItem = __webpack_require__(292);
+	var BookIndex = __webpack_require__(293);
+	var ShelfEdit = __webpack_require__(297);
 	
 	var modalStyle = {
 	  overlay: {
@@ -36413,14 +36166,14 @@
 	module.exports = ShelfDetail;
 
 /***/ },
-/* 298 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var SessionStore = __webpack_require__(249);
-	var ErrorStore = __webpack_require__(278);
-	var ClientActions = __webpack_require__(286);
-	var ShelfStore = __webpack_require__(290);
+	var ErrorStore = __webpack_require__(279);
+	var ClientActions = __webpack_require__(287);
+	var ShelfStore = __webpack_require__(291);
 	
 	var ShelfEdit = React.createClass({
 	  displayName: 'ShelfEdit',
@@ -36522,17 +36275,17 @@
 	module.exports = ShelfEdit;
 
 /***/ },
-/* 299 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
 	var SessionStore = __webpack_require__(249);
 	var SessionApiUtil = __webpack_require__(272);
-	var LoginForm = __webpack_require__(277);
-	var SignupForm = __webpack_require__(280);
-	var Dashboard = __webpack_require__(281);
-	var ShelvesView = __webpack_require__(296);
+	var LoginForm = __webpack_require__(278);
+	var SignupForm = __webpack_require__(281);
+	var Dashboard = __webpack_require__(282);
+	var ShelvesView = __webpack_require__(295);
 	
 	var Homepage = React.createClass({
 	  displayName: 'Homepage',
@@ -36570,15 +36323,15 @@
 	module.exports = Homepage;
 
 /***/ },
-/* 300 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var SessionStore = __webpack_require__(249);
-	var ErrorStore = __webpack_require__(278);
-	var ClientActions = __webpack_require__(286);
-	var GoogleUtil = __webpack_require__(303);
-	var BookStore = __webpack_require__(290);
+	var ErrorStore = __webpack_require__(279);
+	var ClientActions = __webpack_require__(287);
+	var GoogleUtil = __webpack_require__(276);
+	var BookStore = __webpack_require__(291);
 	
 	var BookForm = React.createClass({
 	  displayName: 'BookForm',
@@ -36637,16 +36390,14 @@
 	        ),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
-	        'Title: ',
+	        'Title:             ',
 	        React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange }),
 	        React.createElement('br', null),
 	        'Author First Name: ',
-	        React.createElement('textarea', { value: this.state.author_fname, onChange: this.authorFNameChange }),
+	        React.createElement('input', { type: 'text', value: this.state.author_fname, onChange: this.authorFNameChange }),
 	        React.createElement('br', null),
 	        'Author Last Name: ',
-	        React.createElement('textarea', { value: this.state.author_lname, onChange: this.authorLNameChange }),
-	        React.createElement('br', null),
-	        'Cover Image:',
+	        React.createElement('input', { type: 'text', value: this.state.author_lname, onChange: this.authorLNameChange }),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
 	        React.createElement('input', { type: 'submit', value: 'Create Book' })
@@ -36658,14 +36409,348 @@
 	module.exports = BookForm;
 
 /***/ },
+/* 300 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	
+	var ClientActions = __webpack_require__(287);
+	var SessionStore = __webpack_require__(249);
+	var BookStore = __webpack_require__(283);
+	
+	var BookIndex = __webpack_require__(293);
+	
+	var AllBookIndex = React.createClass({
+	  displayName: 'AllBookIndex',
+	
+	
+	  getInitialState: function () {
+	    return { books: BookStore.all() };
+	  },
+	
+	  componentDidMount: function () {
+	    this.bookListener = BookStore.addListener(this.getBooks);
+	    ClientActions.fetchBooks();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.bookListener.remove();
+	  },
+	
+	  getBooks: function () {
+	    this.setState({ books: BookStore.all() });
+	  },
+	
+	  render: function () {
+	    return React.createElement(BookIndex, { books: this.state.books });
+	  }
+	});
+	
+	module.exports = AllBookIndex;
+
+/***/ },
 /* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	var Modal = __webpack_require__(229);
 	var SessionStore = __webpack_require__(249);
-	var ErrorStore = __webpack_require__(278);
-	var ClientActions = __webpack_require__(286);
-	var ShelfStore = __webpack_require__(290);
+	var SessionApiUtil = __webpack_require__(272);
+	var ClientActions = __webpack_require__(287);
+	
+	var BookStore = __webpack_require__(283);
+	var BookIndexItem = __webpack_require__(294);
+	var BookEdit = __webpack_require__(302);
+	var Sidebar = __webpack_require__(285);
+	
+	var modalStyle = {
+	  overlay: {
+	    position: 'fixed',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+	  },
+	  content: {
+	    // position                   : 'absolute',
+	    top: '50%',
+	    left: '50%',
+	    transform: 'translateX(-50%) translateY(-50%)',
+	    border: '1px solid #ccc',
+	    background: '#fff',
+	    overflow: 'auto',
+	    WebkitOverflowScrolling: 'touch',
+	    borderRadius: '4px',
+	    outline: 'none',
+	    padding: '20px',
+	    width: '400px',
+	    height: '250px'
+	  }
+	};
+	
+	var BookShow = React.createClass({
+	  displayName: 'BookShow',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return { book: BookStore.find(this.props.params.bookId) };
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ book: newProps.book });
+	  },
+	
+	  componentDidMount: function () {
+	    this.bookListener = BookStore.addListener(this.getBook);
+	    ClientActions.fetchBook(this.props.params.bookId);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.bookListener.remove();
+	  },
+	
+	  getBook: function () {
+	    this.setState({ book: BookStore.find(this.props.params.bookId) });
+	  },
+	
+	  removeBook: function (e) {
+	    e.preventDefault();
+	    ClientActions.removeBook(this.props.params.bookId, this.redirectToHome);
+	  },
+	
+	  redirectToHome: function () {
+	    this.context.router.push("/");
+	  },
+	
+	  __handleUpdateClick: function (e) {
+	    e.preventDefault();
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  onModalClose: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  getBookStatus: function () {
+	    if (SessionStore.currentUser().book_readings.includes(this.state.book.id)) {
+	      return "Want to Read";
+	    } else {
+	      debugger;
+	      // return(SessionStore.currentUser().book_readings.where(book_id: this.state.book.id).status);
+	    }
+	  },
+	
+	  render: function () {
+	    if (!SessionStore.currentUserHasBeenFetched() || this.state.book === undefined) {
+	      return React.createElement('div', null);
+	    }
+	    return React.createElement(
+	      'div',
+	      { className: 'book-show clearfix' },
+	      React.createElement(
+	        'div',
+	        { className: 'book-detail clearfix left' },
+	        React.createElement(
+	          'div',
+	          { className: 'book-cover left' },
+	          React.createElement('img', { src: this.state.book.cover_url })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'book-details clearfix left' },
+	          React.createElement(
+	            'div',
+	            { className: 'book-show-title left' },
+	            this.state.book.title
+	          ),
+	          React.createElement(
+	            'form',
+	            { className: 'right' },
+	            React.createElement('input', { type: 'submit', onClick: this.removeBook, className: 'small-button', value: 'delete this book' }),
+	            ' ',
+	            React.createElement('input', { type: 'submit', onClick: this.__handleUpdateClick, className: 'small-button', value: 'edit this book' }),
+	            React.createElement('br', null),
+	            React.createElement('input', { type: 'submit', className: 'add-book-button', value: this.getBookStatus() })
+	          ),
+	          React.createElement('br', null),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'div',
+	            { className: 'left' },
+	            React.createElement(
+	              'a',
+	              { href: '' },
+	              this.state.book.author_fname + " " + this.state.book.author_lname
+	            )
+	          ),
+	          React.createElement('br', null),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'blockquote',
+	            { className: 'book-description' },
+	            this.state.book.description
+	          )
+	        )
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
+	      React.createElement(Sidebar, null),
+	      React.createElement(
+	        Modal,
+	        {
+	          isOpen: this.state.modalOpen,
+	          onRequestClose: this.onModalClose,
+	          style: modalStyle },
+	        React.createElement(
+	          'button',
+	          { onClick: this.onModalClose, className: 'left' },
+	          React.createElement(
+	            'strong',
+	            null,
+	            'X'
+	          )
+	        ),
+	        React.createElement(BookEdit, { book: this.state.book, onModalClose: this.onModalClose })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = BookShow;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(249);
+	var ErrorStore = __webpack_require__(279);
+	var ClientActions = __webpack_require__(287);
+	
+	var BookStore = __webpack_require__(283);
+	
+	var BookEdit = React.createClass({
+	  displayName: 'BookEdit',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    var book = BookStore.find(this.props.book.id);
+	    return {
+	      title: book.title,
+	      author_fname: book.author_fname,
+	      author_lname: book.author_lname,
+	      id: book.id
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.bookListener = BookStore.addListener(this.getBook);
+	    ClientActions.fetchBook(this.props.book.id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.bookListener.remove();
+	  },
+	
+	  getBook: function () {
+	    var book = BookStore.find(this.props.book.id);
+	    this.setState({
+	      title: book.title,
+	      author_fname: book.author_fname,
+	      author_lname: book.author_lname,
+	      id: book.id
+	    });
+	  },
+	
+	  titleChange: function (e) {
+	    this.setState({ title: e.target.value });
+	  },
+	
+	  authorFNameChange: function (e) {
+	    this.setState({ author_fname: e.target.value });
+	  },
+	
+	  authorLNameChange: function (e) {
+	    this.setState({ author_lname: e.target.value });
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var bookData = {
+	      title: this.state.title,
+	      author_fname: this.state.author_fname,
+	      author_lname: this.state.author_lname,
+	      id: this.props.book.id
+	    };
+	    ClientActions.updateBook(bookData, this.props.onModalClose);
+	  },
+	
+	  redirectToBook: function (bookId) {
+	    this.context.router.push("books/" + bookId);
+	  },
+	
+	  render: function () {
+	    if (this.state.title === undefined) {
+	      return React.createElement('div', null);
+	    }
+	
+	    if (SessionStore.isUserLoggedIn()) {
+	      return React.createElement(
+	        'div',
+	        { className: 'edit-main' },
+	        React.createElement(
+	          'form',
+	          { className: 'shelf-form', onSubmit: this.handleSubmit },
+	          React.createElement(
+	            'h1',
+	            null,
+	            'Edit Book'
+	          ),
+	          React.createElement('br', null),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'div',
+	            { className: 'clearfix' },
+	            'Title: ',
+	            React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange }),
+	            React.createElement('br', null),
+	            'Author First Name: ',
+	            React.createElement('textarea', { value: this.state.author_fname, onChange: this.authorFNameChange }),
+	            React.createElement('br', null),
+	            'Author Last Name: ',
+	            React.createElement('textarea', { value: this.state.author_lname, onChange: this.authorLNameChange }),
+	            React.createElement('br', null),
+	            React.createElement('br', null),
+	            React.createElement('input', { type: 'submit', value: 'Update Book', className: 'small-button' })
+	          )
+	        )
+	      );
+	    } else {
+	      return React.createElement('div', null);
+	    }
+	  }
+	});
+	
+	module.exports = BookEdit;
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(249);
+	var ErrorStore = __webpack_require__(279);
+	var ClientActions = __webpack_require__(287);
+	var ShelfStore = __webpack_require__(291);
 	
 	var ShelfForm = React.createClass({
 	  displayName: 'ShelfForm',
@@ -36730,71 +36815,6 @@
 	});
 	
 	module.exports = ShelfForm;
-
-/***/ },
-/* 302 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(168).Link;
-	
-	var ClientActions = __webpack_require__(286);
-	var SessionStore = __webpack_require__(249);
-	var BookStore = __webpack_require__(282);
-	
-	var BookIndex = __webpack_require__(292);
-	
-	var AllBookIndex = React.createClass({
-	  displayName: 'AllBookIndex',
-	
-	
-	  getInitialState: function () {
-	    return { books: BookStore.all() };
-	  },
-	
-	  componentDidMount: function () {
-	    this.bookListener = BookStore.addListener(this.getBooks);
-	    ClientActions.fetchBooks();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.bookListener.remove();
-	  },
-	
-	  getBooks: function () {
-	    this.setState({ books: BookStore.all() });
-	  },
-	
-	  render: function () {
-	    return React.createElement(BookIndex, { books: this.state.books });
-	  }
-	});
-	
-	module.exports = AllBookIndex;
-
-/***/ },
-/* 303 */
-/***/ function(module, exports) {
-
-	
-	var GoogleUtil = {
-	  fetchBookInfo: function (formData, createBook) {
-	    var parsedTitle = encodeURI(formData.title);
-	    var parsedAuthor = encodeURI(formData.author_fname) + "%20" + encodeURI(formData.author_lname);
-	    $.ajax({
-	      type: "GET",
-	      url: "https://www.googleapis.com/books/v1/volumes?q=" + parsedTitle + "+inauthor:" + parsedAuthor + "&key=AIzaSyB0KVi7_ciJbBdMkHaTmC5qFLePxyJ3iQQ",
-	      success: function (newData) {
-	        formData.description = newData.items[0].volumeInfo.description;
-	        formData.cover = newData.items[0].volumeInfo.imageLinks.smallThumbnail;
-	        createBook(formData);
-	      },
-	      error: function (newData) {}
-	    });
-	  }
-	};
-	
-	module.exports = GoogleUtil;
 
 /***/ }
 /******/ ]);

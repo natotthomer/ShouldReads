@@ -138,7 +138,7 @@ which has its own `Index` view.
 
 **objective:** Enable complex styling of books.
 
-- [ ] Integrate Amazon API.
+- [x] Integrate Google API.
 - [ ] Use Rails helpers to sanitize HTML before rendering. ???????????????????????????
 
 ### Phase 8: Styling Cleanup and Seeding (1 day)
@@ -148,7 +148,6 @@ which has its own `Index` view.
 - [ ] Get feedback on my UI from others
 - [ ] Refactor HTML classes & CSS rules
 - [ ] Add modals, transitions, and other styling flourishes.
-  `NB`: Do I need modals?
 
 ### Bonus Features (TBD)
 - [ ] Changelogs for Books

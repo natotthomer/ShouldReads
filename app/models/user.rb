@@ -9,11 +9,13 @@ class User < ActiveRecord::Base
 
   after_initialize :ensure_session_token
 
+  has_many :shelves
   has_many :books,
     through: :shelves
-
-  has_many :shelves
-
+  has_many :readings
+  has_many :book_readings,
+    through: :readings,
+    source: :book
 
   def User.find_by_credentials(username, password)
     user = User.find_by(username: username)
@@ -36,6 +38,18 @@ class User < ActiveRecord::Base
 
   def is_password?(password)
     BCrypt::Password.new(self.password_digest).is_password?(password)
+  end
+
+  def want_to_read
+    self.readings.where(status: "want to read")
+  end
+
+  def read
+    self.readings.where(status: "read")
+  end
+
+  def currently_reading
+    self.readings.where(status: "currently reading")
   end
 
   private

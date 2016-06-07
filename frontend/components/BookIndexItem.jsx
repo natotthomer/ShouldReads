@@ -10,8 +10,14 @@ var BookIndexItem = React.createClass({
     return (
       <li className="book-index-item left">
         <Link to={"books/" + this.props.book.id}>
-          <img src={this.props.book.cover_url}/><br/>
-          {this.props.book.title}
+          <div className="book-index-thumb">
+            <img src={this.props.book.cover_url}/><br/>
+          </div>
+        </Link>
+        <Link to={"books/" + this.props.book.id}>
+          <div className="book-index-item-details">
+            {this.props.book.title}
+          </div>
         </Link>
       </li>
     );

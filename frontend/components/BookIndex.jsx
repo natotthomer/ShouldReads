@@ -41,7 +41,6 @@ var BookIndex = React.createClass({
     if (SessionStore.currentUserHasBeenFetched()) {
       return (
         <div className="book-index">
-          All the books!
           <ul className="clearfix">
             {
               this.props.books.map(function (book) {

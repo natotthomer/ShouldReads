@@ -84,7 +84,7 @@ getInitialState: function () {
     if (SessionStore.currentUser().book_readings.includes(this.state.book.id)) {
       return("Want to Read");
     } else {
-      debugger;
+      // debugger;
       // return(SessionStore.currentUser().book_readings.where(book_id: this.state.book.id).status);
     }
   },

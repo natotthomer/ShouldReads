@@ -85,27 +85,30 @@ getInitialState: function () {
       return (<div/>);
     }
     return (
-      <div className="book-show">
-        <div className="clearfix">
+      <div className="book-show clearfix">
+        <div className="book-detail clearfix left">
           <div className="book-cover left">
             <img src={this.state.book.cover_url}/>
           </div>
-          <div className="book-details left clearfix">
+          <div className="book-details clearfix left">
             <div className="book-show-title left">
               {this.state.book.title}
-            </div><br/><br/>
-            <div className="left">
-              <a href="">{this.state.book.author_fname + " " + this.state.book.author_lname}</a>
             </div>
-          </div>
-          <form className="right">
+            <form className="right">
             <input type="submit" onClick={this.removeBook} className="small-button" value="delete this book"/>
             &nbsp;
             <input type="submit" onClick={this.__handleUpdateClick} className="small-button" value="edit this book"/>
-          </form>
+            </form><br/><br/>
+            <div className="left">
+              <a href="">{this.state.book.author_fname + " " + this.state.book.author_lname}</a>
+            </div><br/><br/>
+            <blockquote className="book-description">
+              {this.state.book.description}
+            </blockquote>
+          </div>
 
         </div><br/><br/>
-        <Sidebar/>
+        <Sidebar />
         <Modal
           isOpen={this.state.modalOpen}
           onRequestClose={this.onModalClose}

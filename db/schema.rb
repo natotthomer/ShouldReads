@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160606152154) do
+ActiveRecord::Schema.define(version: 20160607192024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,12 +26,24 @@ ActiveRecord::Schema.define(version: 20160606152154) do
     t.string   "cover_content_type"
     t.integer  "cover_file_size"
     t.datetime "cover_updated_at"
+    t.string   "description"
   end
 
   add_index "books", ["author_fname"], name: "index_books_on_author_fname", using: :btree
   add_index "books", ["author_lname"], name: "index_books_on_author_lname", using: :btree
   add_index "books", ["title", "author_fname", "author_lname"], name: "index_books_on_title_and_author_fname_and_author_lname", unique: true, using: :btree
   add_index "books", ["title"], name: "index_books_on_title", using: :btree
+
+  create_table "readings", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.integer  "book_id",    null: false
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "readings", ["book_id"], name: "index_readings_on_book_id", using: :btree
+  add_index "readings", ["user_id"], name: "index_readings_on_user_id", using: :btree
 
   create_table "shelf_assignments", force: :cascade do |t|
     t.integer "shelf_id", null: false

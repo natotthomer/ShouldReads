@@ -2,6 +2,7 @@ var React = require('react');
 var SessionStore = require('./../stores/session_store');
 var ErrorStore = require('./../stores/error_store');
 var ClientActions = require('./../actions/client_actions');
+var GoogleUtil = require('./../util/google_util');
 var BookStore = require('./../stores/shelf_store');
 
 var BookForm = React.createClass({
@@ -27,11 +28,6 @@ var BookForm = React.createClass({
     var newAuthorLName = e.target.value;
     this.setState({ author_lname: newAuthorLName });
   },
-  //
-  // coverUrlChange: function (e) {
-  //   var newCoverUrl = e.target.value;
-  //   this.setState({ cover_url: newCoverUrl });
-  // },
 
   handleSubmit: function (e) {
     e.preventDefault();
@@ -39,9 +35,10 @@ var BookForm = React.createClass({
       title: this.state.title,
       author_fname: this.state.author_fname,
       author_lname: this.state.author_lname,
-      // cover_url: this.state.cover_url
     };
-    ClientActions.createBook(bookData, this.redirectToBook);
+    GoogleUtil.fetchBookInfo(bookData, function (newData) {
+      ClientActions.createBook(newData, this.redirectToBook);
+    }.bind(this));
   },
 
   redirectToBook: function (bookId) {

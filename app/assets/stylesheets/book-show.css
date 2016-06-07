@@ -1,15 +1,29 @@
 .book-show {
   padding: 10px;
-  width: 630px;
+  width: 880px;
+}
+
+img {
+  width: 100%;
+  height: auto;
 }
 
 .book-show-title {
   font-size: 20px;
 }
 
+.book-detail {
+  width: 690px;
+}
+
 .book-details {
   padding: 20px;
+  width: 500px;
   font-size: 14px;
+}
+
+.book-description {
+  font-size: 12px;
 }
 
 .book-show-header-buttons {
@@ -18,5 +32,4 @@
 
 .book-cover {
   width: 150px;
-  height: auto;
 }

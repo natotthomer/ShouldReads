@@ -56,10 +56,11 @@
 	
 	var SessionStore = __webpack_require__(249);
 	var SessionApiUtil = __webpack_require__(272);
+	var GoogleUtil = __webpack_require__(303);
 	
 	var Header = __webpack_require__(276);
 	var Homepage = __webpack_require__(299);
-	var BookIndex = __webpack_require__(292);
+	var AllBookIndex = __webpack_require__(302);
 	var BookShow = __webpack_require__(294);
 	var BookForm = __webpack_require__(300);
 	var ShelvesView = __webpack_require__(296);
@@ -72,7 +73,7 @@
 	  React.createElement(IndexRoute, { component: Homepage }),
 	  React.createElement(Route, { path: 'shelves/new', component: ShelfForm, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: '(users/:userId/)shelves/:shelfId', component: ShelvesView, onEnter: _ensureLoggedIn }),
-	  React.createElement(Route, { path: 'books', component: BookIndex, onEnter: _ensureLoggedIn }),
+	  React.createElement(Route, { path: 'books', component: AllBookIndex, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: 'books/new', component: BookForm, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: 'books/:bookId', component: BookShow, onEnter: _ensureLoggedIn })
 	)
@@ -35051,6 +35052,15 @@
 	    this.setState({ password: newPassword });
 	  },
 	
+	  guestLogin: function (e) {
+	    e.preventDefault();
+	    var formData = {
+	      username: "guest",
+	      password: "password1"
+	    };
+	    SessionApiUtil.login(formData, this.redirectToHome);
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -35083,8 +35093,22 @@
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'login-button-container' },
-	          React.createElement('input', { className: 'login-button', type: 'submit', value: 'Sign In' })
+	          { className: 'login-buttons right' },
+	          React.createElement(
+	            'div',
+	            { className: 'login-button-container' },
+	            React.createElement('input', { className: 'login-button', type: 'submit', value: 'Sign In' })
+	          ),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'div',
+	            { className: 'login-button-container' },
+	            React.createElement(
+	              'button',
+	              { className: 'login-button', onClick: this.guestLogin },
+	              'Guest Login'
+	            )
+	          )
 	        )
 	      )
 	    );
@@ -35412,6 +35436,7 @@
 	};
 	
 	module.exports = BookStore;
+	window.BookStore = BookStore;
 
 /***/ },
 /* 283 */
@@ -35830,45 +35855,43 @@
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
 	
-	var ClientActions = __webpack_require__(286);
 	var SessionStore = __webpack_require__(249);
 	var BookStore = __webpack_require__(282);
 	
 	var BookIndexItem = __webpack_require__(293);
-	var BookShow = __webpack_require__(294);
 	
 	var BookIndex = React.createClass({
 	  displayName: 'BookIndex',
 	
 	
-	  getInitialState: function () {
-	    if (this.props.books) {
-	      return { books: this.props.books };
-	    } else {
-	      return { books: [] };
-	    }
-	  },
-	
-	  componentDidMount: function () {
-	    this.bookListener = BookStore.addListener(this.getBooks);
-	    ClientActions.fetchBooks();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.bookListener.remove();
-	  },
-	
-	  componentWillReceiveProps: function (newProps) {
-	    this.setState({ books: newProps.books });
-	  },
-	
-	  getBooks: function () {
-	    if (this.props.books) {
-	      this.setState({ books: this.props.books });
-	    } else {
-	      this.setState({ books: BookStore.all() });
-	    }
-	  },
+	  // getInitialState: function () {
+	  //   if (this.props.books) {
+	  //     return ({ books: this.props.books });
+	  //   } else {
+	  //     return ({ books: BookStore.all() });
+	  //   }
+	  // },
+	  //
+	  // componentDidMount: function () {
+	  //   this.bookListener = BookStore.addListener(this.getBooks);
+	  //   ClientActions.fetchBooks();
+	  // },
+	  //
+	  // componentWillUnmount: function () {
+	  //   this.bookListener.remove();
+	  // },
+	  //
+	  // componentWillReceiveProps: function (newProps) {
+	  //   this.setState({ books: newProps.books || BookStore.all() });
+	  // },
+	  //
+	  // getBooks: function (){
+	  //   if (this.props.books) {
+	  //     this.setState({ books: this.props.books });
+	  //   } else {
+	  //     this.setState({ books: BookStore.all() });
+	  //   }
+	  // },
 	
 	  render: function () {
 	    if (SessionStore.currentUserHasBeenFetched()) {
@@ -35878,8 +35901,8 @@
 	        'All the books!',
 	        React.createElement(
 	          'ul',
-	          null,
-	          this.state.books.map(function (book) {
+	          { className: 'clearfix' },
+	          this.props.books.map(function (book) {
 	            return React.createElement(BookIndexItem, { book: book, key: book.id });
 	          })
 	        )
@@ -35904,12 +35927,17 @@
 	  displayName: 'BookIndexItem',
 	
 	  render: function () {
+	
+	    var cover_path = this.props.book ? this.props.book.cover_url : this.props.book.cover_file_name;
+	
 	    return React.createElement(
 	      'li',
-	      null,
+	      { className: 'book-index-item left' },
 	      React.createElement(
 	        Link,
 	        { to: "books/" + this.props.book.id },
+	        React.createElement('img', { src: this.props.book.cover_url }),
+	        React.createElement('br', null),
 	        this.props.book.title
 	      )
 	    );
@@ -36012,10 +36040,10 @@
 	    }
 	    return React.createElement(
 	      'div',
-	      { className: 'book-show' },
+	      { className: 'book-show clearfix' },
 	      React.createElement(
 	        'div',
-	        { className: 'clearfix' },
+	        { className: 'book-detail clearfix left' },
 	        React.createElement(
 	          'div',
 	          { className: 'book-cover left' },
@@ -36023,11 +36051,18 @@
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'book-details left clearfix' },
+	          { className: 'book-details clearfix left' },
 	          React.createElement(
 	            'div',
 	            { className: 'book-show-title left' },
 	            this.state.book.title
+	          ),
+	          React.createElement(
+	            'form',
+	            { className: 'right' },
+	            React.createElement('input', { type: 'submit', onClick: this.removeBook, className: 'small-button', value: 'delete this book' }),
+	            ' ',
+	            React.createElement('input', { type: 'submit', onClick: this.__handleUpdateClick, className: 'small-button', value: 'edit this book' })
 	          ),
 	          React.createElement('br', null),
 	          React.createElement('br', null),
@@ -36039,14 +36074,14 @@
 	              { href: '' },
 	              this.state.book.author_fname + " " + this.state.book.author_lname
 	            )
+	          ),
+	          React.createElement('br', null),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'blockquote',
+	            { className: 'book-description' },
+	            this.state.book.description
 	          )
-	        ),
-	        React.createElement(
-	          'form',
-	          { className: 'right' },
-	          React.createElement('input', { type: 'submit', onClick: this.removeBook, className: 'small-button', value: 'delete this book' }),
-	          ' ',
-	          React.createElement('input', { type: 'submit', onClick: this.__handleUpdateClick, className: 'small-button', value: 'edit this book' })
 	        )
 	      ),
 	      React.createElement('br', null),
@@ -36542,6 +36577,7 @@
 	var SessionStore = __webpack_require__(249);
 	var ErrorStore = __webpack_require__(278);
 	var ClientActions = __webpack_require__(286);
+	var GoogleUtil = __webpack_require__(303);
 	var BookStore = __webpack_require__(290);
 	
 	var BookForm = React.createClass({
@@ -36569,11 +36605,6 @@
 	    var newAuthorLName = e.target.value;
 	    this.setState({ author_lname: newAuthorLName });
 	  },
-	  //
-	  // coverUrlChange: function (e) {
-	  //   var newCoverUrl = e.target.value;
-	  //   this.setState({ cover_url: newCoverUrl });
-	  // },
 	
 	  handleSubmit: function (e) {
 	    e.preventDefault();
@@ -36582,8 +36613,9 @@
 	      author_fname: this.state.author_fname,
 	      author_lname: this.state.author_lname
 	    };
-	    // cover_url: this.state.cover_url
-	    ClientActions.createBook(bookData, this.redirectToBook);
+	    GoogleUtil.fetchBookInfo(bookData, function (newData) {
+	      ClientActions.createBook(newData, this.redirectToBook);
+	    }.bind(this));
 	  },
 	
 	  redirectToBook: function (bookId) {
@@ -36698,6 +36730,71 @@
 	});
 	
 	module.exports = ShelfForm;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(168).Link;
+	
+	var ClientActions = __webpack_require__(286);
+	var SessionStore = __webpack_require__(249);
+	var BookStore = __webpack_require__(282);
+	
+	var BookIndex = __webpack_require__(292);
+	
+	var AllBookIndex = React.createClass({
+	  displayName: 'AllBookIndex',
+	
+	
+	  getInitialState: function () {
+	    return { books: BookStore.all() };
+	  },
+	
+	  componentDidMount: function () {
+	    this.bookListener = BookStore.addListener(this.getBooks);
+	    ClientActions.fetchBooks();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.bookListener.remove();
+	  },
+	
+	  getBooks: function () {
+	    this.setState({ books: BookStore.all() });
+	  },
+	
+	  render: function () {
+	    return React.createElement(BookIndex, { books: this.state.books });
+	  }
+	});
+	
+	module.exports = AllBookIndex;
+
+/***/ },
+/* 303 */
+/***/ function(module, exports) {
+
+	
+	var GoogleUtil = {
+	  fetchBookInfo: function (formData, createBook) {
+	    var parsedTitle = encodeURI(formData.title);
+	    var parsedAuthor = encodeURI(formData.author_fname) + "%20" + encodeURI(formData.author_lname);
+	    $.ajax({
+	      type: "GET",
+	      url: "https://www.googleapis.com/books/v1/volumes?q=" + parsedTitle + "+inauthor:" + parsedAuthor + "&key=AIzaSyB0KVi7_ciJbBdMkHaTmC5qFLePxyJ3iQQ",
+	      success: function (newData) {
+	        formData.description = newData.items[0].volumeInfo.description;
+	        formData.cover = newData.items[0].volumeInfo.imageLinks.smallThumbnail;
+	        createBook(formData);
+	      },
+	      error: function (newData) {}
+	    });
+	  }
+	};
+	
+	module.exports = GoogleUtil;
 
 /***/ }
 /******/ ]);

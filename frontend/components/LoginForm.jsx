@@ -74,6 +74,15 @@ var LoginForm = React.createClass({
     this.setState({ password: newPassword });
   },
 
+  guestLogin: function (e) {
+    e.preventDefault();
+    var formData = {
+      username: "guest",
+      password: "password1"
+    };
+    SessionApiUtil.login(formData, this.redirectToHome);
+  },
+
 	render: function () {
 		return (
       <div className="header-nav-login clearfix">
@@ -81,6 +90,7 @@ var LoginForm = React.createClass({
 
 
           <section className="login-fields clearfix">
+
     				<label className="login-form-el">
                 Username:
       					<input className="header-input" type="text" value={this.state.username} onChange={this.usernameChange}/>
@@ -93,8 +103,13 @@ var LoginForm = React.createClass({
               { this.fieldErrors("base") }
             </div>
           </section>
-          <div className="login-button-container">
-            <input className="login-button" type="submit" value="Sign In" />
+          <div className="login-buttons right">
+            <div className="login-button-container">
+              <input className="login-button" type="submit" value="Sign In" />
+            </div><br/>
+            <div className="login-button-container">
+              <button className="login-button" onClick={this.guestLogin}>Guest Login</button>
+            </div>
           </div>
   			</form>
       </div>

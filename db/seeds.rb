@@ -6,55 +6,59 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+User.destroy_all
 Book.destroy_all
 Shelf.destroy_all
 
+User.create(username: 'guest', password: 'password1')
+User.create(username: 'nat', password: 'password')
+
 shelves = Shelf.create([
-  { title: "Fantasy & Science Fiction", user_id: 1, description: "Lorem ipsum dolor
+  { title: "Fantasy & Science Fiction", user_id: User.where(username: "nat")[0].id, description: "Lorem ipsum dolor
     sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
     augue sagittis in. Fusce et velit non lacus placerat vehicula."},
-  { title: "Philosophy & Theory", user_id: 1, description: "Lorem ipsum dolor
+  { title: "Philosophy & Theory", user_id: User.where(username: "nat")[0].id, description: "Lorem ipsum dolor
     sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
     augue sagittis in. Fusce et velit non lacus placerat vehicula."},
-  { title: "Goosebumps", user_id: 6, description: "Lorem ipsum dolor
+  { title: "Goosebumps", user_id: User.where(username: "nat")[0].id, description: "Lorem ipsum dolor
     sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
     augue sagittis in. Fusce et velit non lacus placerat vehicula."},
-  { title: "Box Car Children", user_id: 6, description: "Lorem ipsum dolor
+  { title: "Box Car Children", user_id: User.where(username: "nat")[0].id, description: "Lorem ipsum dolor
     sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
     augue sagittis in. Fusce et velit non lacus placerat vehicula."},
-  { title: "Judy Blume", user_id: 6, description: "Lorem ipsum dolor
+  { title: "Judy Blume", user_id: User.where(username: "nat")[0].id, description: "Lorem ipsum dolor
     sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
     augue sagittis in. Fusce et velit non lacus placerat vehicula."},
-  { title: "Harry Potter", user_id: 6, description: "Lorem ipsum dolor
+  { title: "Harry Potter", user_id: User.where(username: "guest")[0].id, description: "Lorem ipsum dolor
     sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
     augue sagittis in. Fusce et velit non lacus placerat vehicula."},
-  { title: "Wizard of Oz", user_id: 6, description: "Lorem ipsum dolor
+  { title: "Wizard of Oz", user_id: User.where(username: "guest")[0].id, description: "Lorem ipsum dolor
     sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
     augue sagittis in. Fusce et velit non lacus placerat vehicula."},
-  { title: "Fiction", user_id: 1, description: "Lorem ipsum dolor
+  { title: "Fiction", user_id: User.where(username: "guest")[0].id, description: "Lorem ipsum dolor
     sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
     augue sagittis in. Fusce et velit non lacus placerat vehicula."}
 ])
 
 books = Book.create([
-  { title: "Grapes of Wrath", author_fname: "John", author_lname: "Steinbeck", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "The Hobbit", author_fname: "J.R.R.", author_lname: "Tolkien", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "The Fellowship of the Ring", author_fname: "J.R.R.", author_lname: "Tolkien", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "The Two Towers", author_fname: "J.R.R.", author_lname: "Tolkien", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "The Return of the King", author_fname: "J.R.R.", author_lname: "Tolkien", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "Ender's Game", author_fname: "Orson Scott", author_lname: "Card", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "Dune", author_fname: "Frank", author_lname: "Herbert", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "The History of Sexuality, Part I", author_fname: "Michel", author_lname: "Foucault", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "Madness and Civilization", author_fname: "Michel", author_lname: "Foucault", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "The Birth of the Clinic", author_fname: "Michel", author_lname: "Foucault", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "The Order of Things", author_fname: "Michel", author_lname: "Foucault", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "Archeology of Knowledge", author_fname: "Michel", author_lname: "Foucault", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "Discipline and Punish", author_fname: "Michel", author_lname: "Foucault", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "To Kill A Mockingbird", author_fname: "Harper", author_lname: "Lee", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "All the Light We Cannot See", author_fname: "Anthony", author_lname: "Doer", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "The River Why", author_fname: "David James", author_lname: "Duncan", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "A River Runs Through It", author_fname: "Norman", author_lname: "Maclean", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') },
-  { title: "The Name of the Wind", author_fname: "Patrick", author_lname: "Rothfuss", cover: open('http://s3.amazonaws.com/shouldreads-dev/books/covers/000/000/193/original/default_cover.jpg?1465238372') }
+  { title: "Grapes of Wrath", author_fname: "John", author_lname: "Steinbeck", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png"},
+  { title: "The Hobbit", author_fname: "J.R.R.", author_lname: "Tolkien", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "The Fellowship of the Ring", author_fname: "J.R.R.", author_lname: "Tolkien", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "The Two Towers", author_fname: "J.R.R.", author_lname: "Tolkien", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "The Return of the King", author_fname: "J.R.R.", author_lname: "Tolkien", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "Ender's Game", author_fname: "Orson Scott", author_lname: "Card", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "Dune", author_fname: "Frank", author_lname: "Herbert", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "The History of Sexuality, Part I", author_fname: "Michel", author_lname: "Foucault", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "Madness and Civilization", author_fname: "Michel", author_lname: "Foucault", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "The Birth of the Clinic", author_fname: "Michel", author_lname: "Foucault", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "The Order of Things", author_fname: "Michel", author_lname: "Foucault", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "Archeology of Knowledge", author_fname: "Michel", author_lname: "Foucault", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "Discipline and Punish", author_fname: "Michel", author_lname: "Foucault", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "To Kill A Mockingbird", author_fname: "Harper", author_lname: "Lee", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "All the Light We Cannot See", author_fname: "Anthony", author_lname: "Doer", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "The River Why", author_fname: "David James", author_lname: "Duncan", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "A River Runs Through It", author_fname: "Norman", author_lname: "Maclean", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" },
+  { title: "The Name of the Wind", author_fname: "Patrick", author_lname: "Rothfuss", cover: "https://s3.amazonaws.com/shouldreads-dev/book-438935_960_720.png" }
 ])
 
 shelf_assignments = ShelfAssignment.create([

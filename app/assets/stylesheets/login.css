@@ -11,6 +11,10 @@
   float: right;
 }
 
+.login-buttons {
+  padding: 2px;
+}
+
 .login-form-el {
   float: left;
   padding: 2px;
@@ -41,6 +45,7 @@
   margin: auto;
   width: 350px;
   float: left;
+  padding-top: 10px;
 }
 
 .login-errors-div {

@@ -49,3 +49,4 @@ BookStore.__onDispatch = function (payload) {
 };
 
 module.exports = BookStore;
+window.BookStore = BookStore;

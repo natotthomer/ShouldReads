@@ -10,10 +10,11 @@ var hashHistory = ReactRouter.hashHistory;
 
 var SessionStore = require('./stores/session_store');
 var SessionApiUtil = require('./util/session_api_util');
+var GoogleUtil = require('./util/google_util');
 
 var Header = require('./components/Header.jsx');
 var Homepage = require('./components/Homepage.jsx');
-var BookIndex = require('./components/BookIndex');
+var AllBookIndex = require('./components/AllBookIndex');
 var BookShow = require('./components/BookShow');
 var BookForm = require('./components/BookForm');
 var ShelvesView = require('./components/ShelvesView');
@@ -25,7 +26,7 @@ var routes = (
     <IndexRoute component={Homepage}/>
     <Route path="shelves/new" component={ShelfForm} onEnter={_ensureLoggedIn}/>
     <Route path="(users/:userId/)shelves/:shelfId" component={ShelvesView} onEnter={_ensureLoggedIn}/>
-    <Route path="books" component={BookIndex} onEnter={_ensureLoggedIn}/>
+    <Route path="books" component={AllBookIndex} onEnter={_ensureLoggedIn}/>
     <Route path="books/new" component={BookForm} onEnter={_ensureLoggedIn}/>
     <Route path="books/:bookId" component={BookShow} onEnter={_ensureLoggedIn}/>
   </Route>

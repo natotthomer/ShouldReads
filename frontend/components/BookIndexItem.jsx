@@ -4,9 +4,15 @@ var BookStore = require('./../stores/book_store');
 
 var BookIndexItem = React.createClass({
   render: function () {
+
+    var cover_path = this.props.book ? this.props.book.cover_url : this.props.book.cover_file_name;
+
     return (
-      <li>
-        <Link to={"books/" + this.props.book.id}>{this.props.book.title}</Link>
+      <li className="book-index-item left">
+        <Link to={"books/" + this.props.book.id}>
+          <img src={this.props.book.cover_url}/><br/>
+          {this.props.book.title}
+        </Link>
       </li>
     );
   }

@@ -10,15 +10,15 @@ http://should-reads.herokuapp.com/
 ShouldReads is a web application inspired by GoodReads. Using Ruby on Rails and React.js it will,
 at a minimum, satisfy the following criteria by the end of Week 9:
 
-- [ ] New account creation, login, and guest/demo login
+- [x] New account creation, login, and guest/demo login
 - [ ] Bug-free, easy-to-use navigation
 - [ ] Adequate seed data to show depth and breadth of site's features
 - [x] Hosting on Heroku
 - [ ] Visually-appealing (and matching) CSS styling
 - [ ] A production README
 - [ ] Bare-minimum features to be a GoodReads clone:
-  - [ ] Book creation
-  - [ ] Book editing
+  - [x] Book creation
+  - [x] Book editing
   - [ ] Create Book Ratings, Reviews, Shelves
   - [ ] Mark Books as "want to read", "read", and "currently reading"
   - [ ] View other Users' Books, Shelves and Reviews
@@ -77,25 +77,26 @@ the API.
 - [x] seed the database with a small amount of test data
 - [x] CRUD API for books (`BooksController`)
 - [x] jBuilder views for books
-  - [ ] want to make this more DRY
+  - [x] want to make this more DRY
 - [s] setup Webpack & Flux scaffold
   - what does this mean?
 - [x] setup `APIUtil` to interact with the API
-- [ ] test out API interaction in the console.
+- [x] test out API interaction in the console.
 
 ### Phase 3: Flux Architecture and Router (1.5 days)
 
 **Objective:** Books can be created, read, edited and destroyed with the
 user interface.
 
-- [ ] setup the flux loop with skeleton files
-- [ ] setup React Router
+- [x] setup the flux loop with skeleton files
+- [x] setup React Router
 - implement each book component, building out the flux loop as needed.
   - [x] `BooksIndex`
   - [x] `BookIndexItem`
-  - [ ] `BookForm`
+  - [x] `BookForm`
 - [ ] save Books to the DB when the form loses focus or is left idle
   after editing.
+    -[ ] HMMMMM???
 
 ### Phase 4: Start Styling (0.5 days)
 
@@ -115,7 +116,7 @@ user interface.
   - [x] Shelf CRUD
   - [ ] adding books requires a shelf
   - [ ] moving books to a different shelf
-  - [ ] viewing book by shelf
+  - [x] viewing book by shelf
 - Use CSS to style new views
 
 Phase 3 adds organization to the Books. Books belong to a Shelf,

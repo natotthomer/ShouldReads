@@ -35,7 +35,8 @@ img {
 }
 
 .add-book-button {
-  margin: 4px;
+  margin: auto;
+  margin-top: 4px;
   background: #409d69;
   width: 120px;
   height: 28px;

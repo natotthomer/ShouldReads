@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 
   attr_reader :password
 
-  validates :password_digest, presence: true
+  validate :has_password_digest_or_twitter_uid
   validates :session_token, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
@@ -16,6 +16,13 @@ class User < ActiveRecord::Base
   has_many :book_readings,
     through: :readings,
     source: :book
+
+  def has_password_digest_or_twitter_uid
+    if (!password_digest && !twitter_uid)
+      debugger
+      errors[:messages] = "must have either password digest or twitter uid"
+    end
+  end
 
   def User.find_by_credentials(username, password)
     user = User.find_by(username: username)
@@ -36,9 +43,26 @@ class User < ActiveRecord::Base
     self.password_digest = BCrypt::Password.create(password)
   end
 
-  # def User.current_user
-  #   User.where(session_token: )
-  # end
+  def self.generate_session_token
+    loop do
+      token = SecureRandom::urlsafe_base64
+
+      return token unless User.where(session_token: token).exists?
+    end
+  end
+
+  def self.find_or_create_by_auth_hash(auth_hash)
+    user = User.find_by(twitter_uid: auth_hash[:uid])
+
+    if user.nil?
+      user = User.create!(
+        twitter_uid: auth_hash[:uid],
+        username: auth_hash[:info][:name]
+      )
+    end
+
+    user
+  end
 
   def is_password?(password)
     BCrypt::Password.new(self.password_digest).is_password?(password)

@@ -64,7 +64,7 @@
 	var BookShow = __webpack_require__(301);
 	var BookForm = __webpack_require__(299);
 	var ShelvesView = __webpack_require__(295);
-	var ShelfForm = __webpack_require__(304);
+	var ShelfForm = __webpack_require__(305);
 	var ShelfEdit = __webpack_require__(297);
 	
 	var routes = React.createElement(
@@ -35357,6 +35357,15 @@
 	            React.createElement('input', { className: 'login-button', type: 'submit', value: 'Sign up!' })
 	          )
 	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'omni-auth-main' },
+	        React.createElement(
+	          'a',
+	          { href: 'auth/twitter/' },
+	          'Sign in with Twitter'
+	        )
 	      )
 	    );
 	  }
@@ -35585,6 +35594,9 @@
 	  updateBook: function (data, onModalClose) {
 	    ApiUtil.updateBook(data, onModalClose);
 	  },
+	  updateBookStatus: function (data, onModalClose) {
+	    ApiUtil.updateBookStatus(data, onModalClose);
+	  },
 	
 	  fetchShelves: function () {
 	    ApiUtil.fetchShelves();
@@ -35658,6 +35670,18 @@
 	      url: "api/books/" + data.id,
 	      type: "PATCH",
 	      data: { book: { title: data.title, author_fname: data.author_fname, author_lname: data.author_lname } },
+	      success: function (book) {
+	        ServerActions.receiveSingleBook(book);
+	        onModalClose();
+	      }
+	    });
+	  },
+	
+	  updateBookStatus: function (data, onModalClose) {
+	    $.ajax({
+	      url: "api/books/" + data.id,
+	      type: "PATCH",
+	      data: { book: { status: data.status } },
 	      success: function (book) {
 	        ServerActions.receiveSingleBook(book);
 	        onModalClose();
@@ -36465,6 +36489,7 @@
 	var BookEdit = __webpack_require__(302);
 	var Sidebar = __webpack_require__(285);
 	var DeleteBookEnsure = __webpack_require__(303);
+	var BookStatusEdit = __webpack_require__(304);
 	
 	var modalStyle = {
 	  overlay: {
@@ -36473,7 +36498,7 @@
 	    left: 0,
 	    right: 0,
 	    bottom: 0,
-	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+	    backgroundColor: 'rgba(255, 255, 255, 0.8)'
 	  },
 	  content: {
 	    // position                   : 'absolute',
@@ -36502,7 +36527,7 @@
 	  getInitialState: function () {
 	    return { book: BookStore.find(this.props.params.bookId),
 	      modalOpen: false,
-	      delete: false
+	      modalSelect: "delete"
 	    };
 	  },
 	
@@ -36532,11 +36557,11 @@
 	    this.context.router.push("/");
 	  },
 	
-	  __handleClick: function (bool, e) {
+	  __handleClick: function (modalType, e) {
 	    e.preventDefault();
 	    this.setState({
 	      modalOpen: true,
-	      delete: bool
+	      modalSelect: modalType
 	    });
 	  },
 	
@@ -36548,19 +36573,25 @@
 	    if (this.state.book && this.state.book.status) {
 	      return this.state.book.status;
 	    } else {
-	      return "Want to Read";
+	      return "Want to Read?";
 	    }
 	  },
 	
 	  getModal: function () {
-	    if (this.state.delete) {
+	    if (this.state.modalSelect === "delete") {
 	      return React.createElement(DeleteBookEnsure, { removeBook: this.removeBook, onModalClose: this.onModalClose });
-	    } else {
+	    } else if (this.state.modalSelect === "edit") {
 	      return React.createElement(BookEdit, { book: this.state.book, onModalClose: this.onModalClose });
+	    } else {
+	      return React.createElement(BookStatusEdit, {
+	        book: this.state.book,
+	        onModalClose: this.onModalClose });
 	    }
 	  },
 	
 	  render: function () {
+	    console.log(this.state);
+	    debugger;
 	    if (!SessionStore.currentUserHasBeenFetched() || this.state.book === undefined) {
 	      return React.createElement('div', null);
 	    }
@@ -36586,13 +36617,13 @@
 	          React.createElement(
 	            'form',
 	            { className: 'right' },
-	            React.createElement('input', { type: 'submit', onClick: this.__handleClick.bind(this, true), className: 'small-button', value: 'delete this book' }),
+	            React.createElement('input', { type: 'submit', onClick: this.__handleClick.bind(this, "delete"), className: 'small-button', value: 'delete this book' }),
 	            ' ',
-	            React.createElement('input', { type: 'submit', onClick: this.__handleClick.bind(this, false), className: 'small-button', value: 'edit this book' }),
+	            React.createElement('input', { type: 'submit', onClick: this.__handleClick.bind(this, "edit"), className: 'small-button', value: 'edit this book' }),
 	            React.createElement('br', null),
 	            React.createElement(
-	              'p',
-	              { className: 'add-book-button' },
+	              'button',
+	              { className: 'add-book-button', onClick: this.__handleClick.bind(this, "status") },
 	              this.getBookStatus()
 	            )
 	          ),
@@ -36771,7 +36802,6 @@
 	
 	
 	  render: function () {
-	    debugger;
 	    return React.createElement(
 	      "div",
 	      { className: "delete-form-main" },
@@ -36780,8 +36810,19 @@
 	        null,
 	        "Are you sure you want to delete this book??"
 	      ),
-	      React.createElement("button", { value: "Yes", onClick: this.props.removeBook }),
-	      React.createElement("button", { value: "No" })
+	      React.createElement("br", null),
+	      React.createElement("br", null),
+	      React.createElement(
+	        "button",
+	        { onClick: this.props.removeBook, className: "login-button" },
+	        "Yes"
+	      ),
+	      "  ",
+	      React.createElement(
+	        "button",
+	        { onClick: this.props.onModalClose, className: "login-button" },
+	        "No"
+	      )
 	    );
 	  }
 	});
@@ -36790,6 +36831,86 @@
 
 /***/ },
 /* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ClientActions = __webpack_require__(287);
+	var ErrorStore = __webpack_require__(279);
+	var BookStore = __webpack_require__(291);
+	
+	var BookStatusEdit = React.createClass({
+	  displayName: 'BookStatusEdit',
+	
+	  getInitialState: function () {
+	    return { book: this.props.book };
+	  },
+	
+	  componentDidMount: function () {
+	    this.bookListener = BookStore.addListener(this.getBook);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.bookListener.remove();
+	  },
+	
+	  getBook: function () {
+	    this.setState({ book: BookStore.find(this.props.params.bookId) });
+	  },
+	
+	  wantToRead: function () {
+	    var book = this.state.book;
+	    book.status = "Want to Read";
+	    this.setState({ book: book });
+	    ClientActions.updateBook(book, this.props.onModalClose);
+	  },
+	
+	  currentlyReading: function () {
+	    var book = this.state.book;
+	    book.status = "Currently Reading";
+	    this.setState({ book: book });
+	    ClientActions.updateBookStatus(book, this.props.onModalClose);
+	  },
+	
+	  read: function () {
+	    var book = this.state.book;
+	    book.status = "Read";
+	    this.setState({ book: book });
+	    ClientActions.updateBook(book, this.props.onModalClose);
+	  },
+	
+	  __handleClick: function () {},
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'delete-form-main' },
+	      React.createElement(
+	        'button',
+	        { className: 'login-button', onClick: this.wantToRead },
+	        'Want to Read'
+	      ),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'button',
+	        { className: 'login-button', onClick: this.currentlyReading },
+	        'Currently Reading'
+	      ),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'button',
+	        { className: 'login-button', onClick: this.read },
+	        'Read'
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('br', null)
+	    );
+	  }
+	});
+	
+	module.exports = BookStatusEdit;
+
+/***/ },
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);

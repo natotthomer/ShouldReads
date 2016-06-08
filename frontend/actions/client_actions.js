@@ -16,6 +16,9 @@ var ClientActions = {
   updateBook: function (data, onModalClose) {
     ApiUtil.updateBook(data, onModalClose);
   },
+  updateBookStatus: function (data, onModalClose) {
+    ApiUtil.updateBookStatus(data, onModalClose);
+  },
 
   fetchShelves: function () {
     ApiUtil.fetchShelves();

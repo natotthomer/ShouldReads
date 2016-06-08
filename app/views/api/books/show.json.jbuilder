@@ -1,2 +1,7 @@
 json.partial! 'api/books/book', book: @book
-json.status @book.readings.where(user_id: current_user.id)[0].status
+reading = @book.readings.find_by(user_id: current_user.id)
+if reading
+  json.status reading.status
+else
+  json.status nil
+end

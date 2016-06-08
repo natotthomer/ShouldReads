@@ -152,7 +152,6 @@ which has its own `Index` view.
 ### Bonus Features (TBD)
 - [ ] Changelogs for Books
 - [ ] Multiple sessions
-- [ ] Add `read`, `want to read` or `reading` status
 - [ ] Add recommended books
 - [ ] Friends/Followers
 - [ ] Most read books/most read authors

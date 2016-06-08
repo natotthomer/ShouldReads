@@ -29,6 +29,13 @@ class Api::BooksController < ApplicationController
     end
   end
 
+  def status
+    @book = Book.find(params[:id])
+    @reading = Reading.find_or_create_by({book_id: @book.id, user_id: current_user.id})
+    @reading.update!(status: book_params[:status])
+    render :show
+  end
+
   def destroy
     @book = Book.find(params[:id])
 
@@ -38,6 +45,6 @@ class Api::BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:title, :author_fname, :author_lname, :cover, :description)
+    params.require(:book).permit(:title, :author_fname, :author_lname, :cover, :description, :status)
   end
 end

@@ -10,6 +10,7 @@ var BookIndexItem = require('./BookIndexItem');
 var BookEdit = require('./BookEdit');
 var Sidebar = require('./Sidebar');
 var DeleteBookEnsure = require('./DeleteBookEnsure');
+var BookStatusEdit = require('./BookStatusEdit');
 
 var modalStyle = {
   overlay : {
@@ -18,7 +19,7 @@ var modalStyle = {
     left              : 0,
     right             : 0,
     bottom            : 0,
-    backgroundColor   : 'rgba(255, 255, 255, 0.75)'
+    backgroundColor   : 'rgba(255, 255, 255, 0.8)'
   },
   content : {
     // position                   : 'absolute',
@@ -45,7 +46,7 @@ var BookShow = React.createClass({
 getInitialState: function () {
     return ({ book: BookStore.find(this.props.params.bookId),
               modalOpen: false,
-              delete: false
+              modalSelect: "delete"
             });
   },
 
@@ -75,11 +76,11 @@ getInitialState: function () {
     this.context.router.push("/");
   },
 
-  __handleClick: function (bool, e){
+  __handleClick: function (modalType, e){
     e.preventDefault();
     this.setState({
       modalOpen: true,
-      delete: bool
+      modalSelect: modalType
     });
   },
 
@@ -91,19 +92,25 @@ getInitialState: function () {
     if (this.state.book && this.state.book.status) {
       return this.state.book.status;
     } else {
-      return "Want to Read";
+      return "Want to Read?";
     }
   },
 
   getModal: function () {
-    if (this.state.delete) {
+    if (this.state.modalSelect === "delete") {
       return <DeleteBookEnsure removeBook={this.removeBook} onModalClose={this.onModalClose}/>;
-    } else {
+    } else if (this.state.modalSelect === "edit"){
       return <BookEdit book={this.state.book} onModalClose={this.onModalClose}/>;
+    } else {
+      return (<BookStatusEdit
+          book={this.state.book}
+          onModalClose={this.onModalClose}/>);
     }
   },
 
   render: function () {
+    console.log(this.state);
+    debugger;
     if (!SessionStore.currentUserHasBeenFetched() || this.state.book === undefined) {
       return (<div/>);
     }
@@ -118,13 +125,13 @@ getInitialState: function () {
               {this.state.book.title}
             </div>
             <form className="right">
-              <input type="submit" onClick={this.__handleClick.bind(this, true)} className="small-button" value="delete this book"/>
+              <input type="submit" onClick={this.__handleClick.bind(this, "delete")} className="small-button" value="delete this book"/>
               &nbsp;
-              <input type="submit" onClick={this.__handleClick.bind(this, false)} className="small-button" value="edit this book"/>
+              <input type="submit" onClick={this.__handleClick.bind(this, "edit")} className="small-button" value="edit this book"/>
               <br/>
-              <p className="add-book-button">
+              <button className="add-book-button" onClick={this.__handleClick.bind(this, "status")}>
                 {this.getBookStatus()}
-              </p>
+              </button>
             </form><br/><br/>
             <div className="left">
               <a href="">{this.state.book.author_fname + " " + this.state.book.author_lname}</a>

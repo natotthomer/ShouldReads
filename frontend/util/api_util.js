@@ -54,6 +54,18 @@ var ApiUtil = {
     });
   },
 
+  updateBookStatus: function (data, onModalClose) {
+    $.ajax({
+      url: "api/books/" + data.id,
+      type: "PATCH",
+      data: { book: { status: data.status }},
+      success: function (book) {
+        ServerActions.receiveSingleBook(book);
+        onModalClose();
+      }
+    });
+  },
+
   fetchShelves: function () {
     $.ajax({
       url: "api/shelves",

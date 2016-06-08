@@ -1,5 +1,7 @@
 .delete-form-main {
-  padding: 20px
+  padding: 20px;
+  margin-top: 40px;
+  text-align: center;
 }
 
 .delete-form-header {

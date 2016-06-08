@@ -15,6 +15,10 @@ class Book < ActiveRecord::Base
     through: :readings,
     source: :user
 
+  def find_or_create_reading_for_user
+    
+  end
+
   # def read_status
   #   User.current_user
   # end

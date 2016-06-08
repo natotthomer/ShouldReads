@@ -99,6 +99,9 @@ var LoginForm = React.createClass({
             </div>
           </div>
   			</form>
+        <div className="omni-auth-main">
+          <a href="auth/twitter/">Sign in with Twitter</a>
+        </div>
       </div>
 		);
 	}

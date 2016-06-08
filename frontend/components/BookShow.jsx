@@ -43,7 +43,7 @@ var BookShow = React.createClass({
     router: React.PropTypes.object.isRequired
   },
 
-getInitialState: function () {
+  getInitialState: function () {
     return ({ book: BookStore.find(this.props.params.bookId),
               modalOpen: false,
               modalSelect: "delete"
@@ -64,7 +64,7 @@ getInitialState: function () {
   },
 
   getBook: function () {
-    this.setState({ book: BookStore.find(this.props.params.bookId)});
+    this.setState({ book: BookStore.find(this.props.params.bookId) });
   },
 
   removeBook: function (e) {
@@ -109,7 +109,6 @@ getInitialState: function () {
   },
 
   render: function () {
-    console.log(this.state);
     if (!SessionStore.currentUserHasBeenFetched() || this.state.book === undefined) {
       return (<div/>);
     }

@@ -36398,6 +36398,7 @@
 	  redirectToBook: function (bookId) {
 	    this.props.onModalClose();
 	    this.context.router.push("books/" + bookId);
+	    ClientActions.fetchBook(bookId);
 	  },
 	
 	  render: function () {
@@ -36590,7 +36591,6 @@
 	  },
 	
 	  render: function () {
-	    console.log(this.state);
 	    if (!SessionStore.currentUserHasBeenFetched() || this.state.book === undefined) {
 	      return React.createElement('div', null);
 	    }

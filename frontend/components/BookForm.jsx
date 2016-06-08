@@ -44,6 +44,7 @@ var BookForm = React.createClass({
   redirectToBook: function (bookId) {
     this.props.onModalClose();
     this.context.router.push("books/" + bookId);
+    ClientActions.fetchBook(bookId);
   },
 
   render: function () {

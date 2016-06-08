@@ -19,7 +19,6 @@ class User < ActiveRecord::Base
 
   def has_password_digest_or_twitter_uid
     if (!password_digest && !twitter_uid)
-      debugger
       errors[:messages] = "must have either password digest or twitter uid"
     end
   end

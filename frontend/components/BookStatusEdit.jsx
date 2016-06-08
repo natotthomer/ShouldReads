@@ -48,9 +48,9 @@ var BookStatusEdit = React.createClass({
   render: function () {
     return (
       <div className="delete-form-main">
-          <button className="login-button" onClick={this.wantToRead}>Want to Read</button><br/>
-          <button className="login-button" onClick={this.currentlyReading}>Currently Reading</button><br/>
-          <button className="login-button" onClick={this.read}>Read</button><br/><br/>
+          <button className="add-book-button" onClick={this.wantToRead}>Want to Read</button><br/>
+          <button className="add-book-button" onClick={this.currentlyReading}>Currently Reading</button><br/>
+          <button className="add-book-button" onClick={this.read}>Read</button><br/><br/>
       </div>
     );
   }

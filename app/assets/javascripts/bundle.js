@@ -34833,8 +34833,8 @@
 	    borderRadius: '4px',
 	    outline: 'none',
 	    padding: '20px',
-	    width: '400px',
-	    height: '250px'
+	    width: '300px',
+	    height: '230px'
 	  }
 	};
 	
@@ -36513,8 +36513,8 @@
 	    borderRadius: '4px',
 	    outline: 'none',
 	    padding: '20px',
-	    width: '400px',
-	    height: '250px'
+	    width: '300px',
+	    height: '230px'
 	  }
 	};
 	
@@ -36616,14 +36616,33 @@
 	          React.createElement(
 	            'form',
 	            { className: 'right' },
-	            React.createElement('input', { type: 'submit', onClick: this.__handleClick.bind(this, "delete"), className: 'small-button', value: 'delete this book' }),
-	            ' ',
-	            React.createElement('input', { type: 'submit', onClick: this.__handleClick.bind(this, "edit"), className: 'small-button', value: 'edit this book' }),
-	            React.createElement('br', null),
 	            React.createElement(
 	              'button',
-	              { className: 'add-book-button', onClick: this.__handleClick.bind(this, "status") },
-	              this.getBookStatus()
+	              { onClick: this.__handleClick.bind(this, "delete"), className: 'book-button' },
+	              'delete this book'
+	            ),
+	            ' ',
+	            React.createElement(
+	              'button',
+	              { onClick: this.__handleClick.bind(this, "edit"), className: 'book-button' },
+	              'edit this book'
+	            ),
+	            React.createElement('br', null),
+	            React.createElement(
+	              'div',
+	              { className: 'book-status-buttons' },
+	              React.createElement(
+	                'button',
+	                { className: 'add-book-button', onClick: this.__handleClick.bind(this, "status") },
+	                this.getBookStatus()
+	              ),
+	              ' ',
+	              React.createElement('br', null),
+	              React.createElement(
+	                'button',
+	                { className: 'add-book-button', onClick: this.__handleClick.bind(this, "status") },
+	                'Add to my Shelves'
+	              )
 	            )
 	          ),
 	          React.createElement('br', null),
@@ -36885,19 +36904,19 @@
 	      { className: 'delete-form-main' },
 	      React.createElement(
 	        'button',
-	        { className: 'login-button', onClick: this.wantToRead },
+	        { className: 'add-book-button', onClick: this.wantToRead },
 	        'Want to Read'
 	      ),
 	      React.createElement('br', null),
 	      React.createElement(
 	        'button',
-	        { className: 'login-button', onClick: this.currentlyReading },
+	        { className: 'add-book-button', onClick: this.currentlyReading },
 	        'Currently Reading'
 	      ),
 	      React.createElement('br', null),
 	      React.createElement(
 	        'button',
-	        { className: 'login-button', onClick: this.read },
+	        { className: 'add-book-button', onClick: this.read },
 	        'Read'
 	      ),
 	      React.createElement('br', null),

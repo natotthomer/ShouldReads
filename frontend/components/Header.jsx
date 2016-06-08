@@ -33,8 +33,8 @@ var modalStyle = {
     borderRadius               : '4px',
     outline                    : 'none',
     padding                    : '20px',
-    width                      : '400px',
-    height                     : '250px'
+    width                      : '300px',
+    height                     : '230px'
   }
 };
 

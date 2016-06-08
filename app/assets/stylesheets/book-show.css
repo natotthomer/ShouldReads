@@ -35,7 +35,7 @@ img {
 }
 
 .add-book-button {
-  margin: auto;
+  /*margin: auto;*/
   margin-top: 4px;
   background: #409d69;
   width: 120px;
@@ -50,4 +50,8 @@ img {
 
 .add-book-button:hover {
   background: #00985E;
+}
+
+.book-status-buttons {
+
 }

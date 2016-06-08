@@ -26,6 +26,18 @@
   text-align: center;
 }
 
+.book-button {
+  margin: auto;
+  background: #68614f;
+  border: none;
+  border-radius: 3px;
+  color: #fffff7;
+  font-size: 10px;
+  height: 20px;
+  width: 80px;
+  cursor: pointer;
+}
+
 .login-button:hover, .signup-button:hover {
   background: #554130;
 }

@@ -33,8 +33,8 @@ var modalStyle = {
     borderRadius               : '4px',
     outline                    : 'none',
     padding                    : '20px',
-    width                      : '400px',
-    height                     : '250px'
+    width                      : '300px',
+    height                     : '230px'
   }
 };
 
@@ -123,13 +123,22 @@ var BookShow = React.createClass({
               {this.state.book.title}
             </div>
             <form className="right">
-              <input type="submit" onClick={this.__handleClick.bind(this, "delete")} className="small-button" value="delete this book"/>
-              &nbsp;
-              <input type="submit" onClick={this.__handleClick.bind(this, "edit")} className="small-button" value="edit this book"/>
-              <br/>
-              <button className="add-book-button" onClick={this.__handleClick.bind(this, "status")}>
-                {this.getBookStatus()}
+              <button onClick={this.__handleClick.bind(this, "delete")} className="book-button">
+                delete this book
               </button>
+              &nbsp;
+              <button onClick={this.__handleClick.bind(this, "edit")} className="book-button">
+                edit this book
+              </button>
+              <br/>
+              <div className="book-status-buttons">
+                <button className="add-book-button" onClick={this.__handleClick.bind(this, "status")}>
+                  {this.getBookStatus()}
+                </button> <br/>
+                <button className="add-book-button" onClick={this.__handleClick.bind(this, "status")}>
+                  Add to my Shelves
+                </button>
+              </div>
             </form><br/><br/>
             <div className="left">
               <a href="">{this.state.book.author_fname + " " + this.state.book.author_lname}</a>

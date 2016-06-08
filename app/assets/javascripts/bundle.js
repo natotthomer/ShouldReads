@@ -64,7 +64,7 @@
 	var BookShow = __webpack_require__(301);
 	var BookForm = __webpack_require__(299);
 	var ShelvesView = __webpack_require__(295);
-	var ShelfForm = __webpack_require__(303);
+	var ShelfForm = __webpack_require__(302);
 	var ShelfEdit = __webpack_require__(297);
 	
 	var routes = React.createElement(
@@ -36462,8 +36462,9 @@
 	
 	var BookStore = __webpack_require__(283);
 	var BookIndexItem = __webpack_require__(294);
-	var BookEdit = __webpack_require__(302);
+	var BookEdit = __webpack_require__(303);
 	var Sidebar = __webpack_require__(285);
+	var DeleteBookEnsure = __webpack_require__(304);
 	
 	var modalStyle = {
 	  overlay: {
@@ -36499,7 +36500,10 @@
 	  },
 	
 	  getInitialState: function () {
-	    return { book: BookStore.find(this.props.params.bookId) };
+	    return { book: BookStore.find(this.props.params.bookId),
+	      modalOpen: false,
+	      delete: false
+	    };
 	  },
 	
 	  componentWillReceiveProps: function (newProps) {
@@ -36528,9 +36532,12 @@
 	    this.context.router.push("/");
 	  },
 	
-	  __handleUpdateClick: function (e) {
+	  __handleClick: function (e, bool) {
 	    e.preventDefault();
-	    this.setState({ modalOpen: true });
+	    this.setState({
+	      modalOpen: true,
+	      delete: bool
+	    });
 	  },
 	
 	  onModalClose: function () {
@@ -36538,11 +36545,19 @@
 	  },
 	
 	  getBookStatus: function () {
-	    if (SessionStore.currentUser().book_readings.includes(this.state.book.id)) {
-	      return "Want to Read";
+	    if (this.state.book && this.state.book.status) {
+	      return this.state.book.status;
 	    } else {
-	      debugger;
-	      // return(SessionStore.currentUser().book_readings.where(book_id: this.state.book.id).status);
+	      return "Want to Read";
+	    }
+	  },
+	
+	  getModal: function () {
+	    var component;
+	    if (this.state.delete) {
+	      return React.createElement(DeleteBookEnsure, { removeBook: this.removeBook, onModalClose: this.onModalClose });
+	    } else {
+	      return React.createElement(BookEdit, { book: this.state.book, onModalClose: this.onModalClose });
 	    }
 	  },
 	
@@ -36572,11 +36587,15 @@
 	          React.createElement(
 	            'form',
 	            { className: 'right' },
-	            React.createElement('input', { type: 'submit', onClick: this.removeBook, className: 'small-button', value: 'delete this book' }),
+	            React.createElement('input', { type: 'submit', onClick: this.__handleClick.bind(this, true), className: 'small-button', value: 'delete this book' }),
 	            ' ',
-	            React.createElement('input', { type: 'submit', onClick: this.__handleUpdateClick, className: 'small-button', value: 'edit this book' }),
+	            React.createElement('input', { type: 'submit', onClick: this.__handleClick.bind(this, false), className: 'small-button', value: 'edit this book' }),
 	            React.createElement('br', null),
-	            React.createElement('input', { type: 'submit', className: 'add-book-button', value: this.getBookStatus() })
+	            React.createElement(
+	              'p',
+	              { className: 'add-book-button' },
+	              'fixshowjbuilder'
+	            )
 	          ),
 	          React.createElement('br', null),
 	          React.createElement('br', null),
@@ -36616,7 +36635,7 @@
 	            'X'
 	          )
 	        ),
-	        React.createElement(BookEdit, { book: this.state.book, onModalClose: this.onModalClose })
+	        this.getModal()
 	      )
 	    );
 	  }
@@ -36626,6 +36645,80 @@
 
 /***/ },
 /* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(249);
+	var ErrorStore = __webpack_require__(279);
+	var ClientActions = __webpack_require__(287);
+	var ShelfStore = __webpack_require__(291);
+	
+	var ShelfForm = React.createClass({
+	  displayName: 'ShelfForm',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return { title: "", description: "", user: SessionStore.currentUser().id };
+	  },
+	
+	  titleChange: function (e) {
+	    var newTitle = e.target.value;
+	    this.setState({ title: newTitle });
+	  },
+	
+	  descriptionChange: function (e) {
+	    var newDescription = e.target.value;
+	    this.setState({ description: newDescription });
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var shelfData = {
+	      title: this.state.title,
+	      description: this.state.description,
+	      user_id: SessionStore.currentUser().id
+	    };
+	    ClientActions.createShelf(shelfData, this.redirectToShelf);
+	  },
+	
+	  redirectToShelf: function (shelfId) {
+	    this.context.router.push("shelves/" + shelfId);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'form',
+	        { className: 'shelf-form', onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'Create a new Shelf'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        'Title: ',
+	        React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange }),
+	        React.createElement('br', null),
+	        'Description: ',
+	        React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange }),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement('input', { type: 'submit', value: 'Create Shelf' })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ShelfForm;
+
+/***/ },
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36743,78 +36836,31 @@
 	module.exports = BookEdit;
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(249);
-	var ErrorStore = __webpack_require__(279);
-	var ClientActions = __webpack_require__(287);
-	var ShelfStore = __webpack_require__(291);
 	
-	var ShelfForm = React.createClass({
-	  displayName: 'ShelfForm',
+	var DeleteBookEnsure = React.createClass({
+	  displayName: "DeleteBookEnsure",
 	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    return { title: "", description: "", user: SessionStore.currentUser().id };
-	  },
-	
-	  titleChange: function (e) {
-	    var newTitle = e.target.value;
-	    this.setState({ title: newTitle });
-	  },
-	
-	  descriptionChange: function (e) {
-	    var newDescription = e.target.value;
-	    this.setState({ description: newDescription });
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var shelfData = {
-	      title: this.state.title,
-	      description: this.state.description,
-	      user_id: SessionStore.currentUser().id
-	    };
-	    ClientActions.createShelf(shelfData, this.redirectToShelf);
-	  },
-	
-	  redirectToShelf: function (shelfId) {
-	    this.context.router.push("shelves/" + shelfId);
-	  },
 	
 	  render: function () {
 	    return React.createElement(
-	      'div',
-	      null,
+	      "div",
+	      { className: "delete-form-main" },
 	      React.createElement(
-	        'form',
-	        { className: 'shelf-form', onSubmit: this.handleSubmit },
-	        React.createElement(
-	          'h1',
-	          null,
-	          'Create a new Shelf'
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        'Title: ',
-	        React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange }),
-	        React.createElement('br', null),
-	        'Description: ',
-	        React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange }),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        React.createElement('input', { type: 'submit', value: 'Create Shelf' })
-	      )
+	        "h3",
+	        null,
+	        "Are you sure you want to delete this book??"
+	      ),
+	      React.createElement("button", { value: "Yes", onClick: this.props.removeBook() }),
+	      React.createElement("button", { value: "No" })
 	    );
 	  }
 	});
 	
-	module.exports = ShelfForm;
+	module.exports = DeleteBookEnsure;
 
 /***/ }
 /******/ ]);

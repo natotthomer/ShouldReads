@@ -1,5 +1,5 @@
 class Reading < ActiveRecord::Base
-  validates :status, inclusion: { in: ["read", "want to read", "currently reading"] }
+  validates :status, inclusion: { in: ["Read", "Want to Read", "Currently Reading"] }
 
   belongs_to :user
   belongs_to :book

@@ -22,7 +22,6 @@ class Api::BooksController < ApplicationController
   def update
     @book = Book.find(params[:id])
 
-    # And yet again. What codes mean what and
     if @book.update(book_params)
       render "api/books/show"
     else

@@ -9,6 +9,7 @@ var BookStore = require('./../stores/book_store');
 var BookIndexItem = require('./BookIndexItem');
 var BookEdit = require('./BookEdit');
 var Sidebar = require('./Sidebar');
+var DeleteBookEnsure = require('./DeleteBookEnsure');
 
 var modalStyle = {
   overlay : {
@@ -42,7 +43,10 @@ var BookShow = React.createClass({
   },
 
 getInitialState: function () {
-    return ({ book: BookStore.find(this.props.params.bookId)});
+    return ({ book: BookStore.find(this.props.params.bookId),
+              modalOpen: false,
+              delete: false
+            });
   },
 
   componentWillReceiveProps: function (newProps) {
@@ -71,9 +75,12 @@ getInitialState: function () {
     this.context.router.push("/");
   },
 
-  __handleUpdateClick: function (e){
+  __handleClick: function (e, bool){
     e.preventDefault();
-    this.setState({ modalOpen: true });
+    this.setState({
+      modalOpen: true,
+      delete: bool
+    });
   },
 
   onModalClose: function () {
@@ -81,11 +88,19 @@ getInitialState: function () {
   },
 
   getBookStatus: function () {
-    if (SessionStore.currentUser().book_readings.includes(this.state.book.id)) {
-      return("Want to Read");
+    if (this.state.book && this.state.book.status) {
+      return this.state.book.status;
     } else {
-      // debugger;
-      // return(SessionStore.currentUser().book_readings.where(book_id: this.state.book.id).status);
+      return "Want to Read";
+    }
+  },
+
+  getModal: function () {
+    var component;
+    if (this.state.delete) {
+      return <DeleteBookEnsure removeBook={this.removeBook} onModalClose={this.onModalClose}/>;
+    } else {
+      return <BookEdit book={this.state.book} onModalClose={this.onModalClose}/>;
     }
   },
 
@@ -104,11 +119,13 @@ getInitialState: function () {
               {this.state.book.title}
             </div>
             <form className="right">
-              <input type="submit" onClick={this.removeBook} className="small-button" value="delete this book"/>
+              <input type="submit" onClick={this.__handleClick.bind(this, true)} className="small-button" value="delete this book"/>
               &nbsp;
-              <input type="submit" onClick={this.__handleUpdateClick} className="small-button" value="edit this book"/>
+              <input type="submit" onClick={this.__handleClick.bind(this, false)} className="small-button" value="edit this book"/>
               <br/>
-              <input type="submit" className="add-book-button" value={this.getBookStatus()}/>
+              <p className="add-book-button">
+                fixshowjbuilder
+              </p>
             </form><br/><br/>
             <div className="left">
               <a href="">{this.state.book.author_fname + " " + this.state.book.author_lname}</a>
@@ -125,7 +142,7 @@ getInitialState: function () {
           onRequestClose={this.onModalClose}
           style={modalStyle}>
           <button onClick={this.onModalClose} className="left"><strong>X</strong></button>
-          <BookEdit book={this.state.book} onModalClose={this.onModalClose}/>
+          {this.getModal()}
         </Modal>
       </div>
     );

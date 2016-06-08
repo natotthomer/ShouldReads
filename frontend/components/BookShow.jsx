@@ -75,7 +75,7 @@ getInitialState: function () {
     this.context.router.push("/");
   },
 
-  __handleClick: function (e, bool){
+  __handleClick: function (bool, e){
     e.preventDefault();
     this.setState({
       modalOpen: true,
@@ -96,7 +96,6 @@ getInitialState: function () {
   },
 
   getModal: function () {
-    var component;
     if (this.state.delete) {
       return <DeleteBookEnsure removeBook={this.removeBook} onModalClose={this.onModalClose}/>;
     } else {
@@ -124,7 +123,7 @@ getInitialState: function () {
               <input type="submit" onClick={this.__handleClick.bind(this, false)} className="small-button" value="edit this book"/>
               <br/>
               <p className="add-book-button">
-                fixshowjbuilder
+                {this.getBookStatus()}
               </p>
             </form><br/><br/>
             <div className="left">

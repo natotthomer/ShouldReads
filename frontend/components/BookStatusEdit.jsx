@@ -24,7 +24,7 @@ var BookStatusEdit = React.createClass({
     var book = this.state.book;
     book.status = "Want to Read";
     this.setState({ book: book });
-    ClientActions.updateBook(book, this.props.onModalClose);
+    ClientActions.updateBookStatus(book, this.props.onModalClose);
   },
 
   currentlyReading: function () {
@@ -38,7 +38,7 @@ var BookStatusEdit = React.createClass({
     var book = this.state.book;
     book.status = "Read";
     this.setState({ book: book });
-    ClientActions.updateBook(book, this.props.onModalClose);
+    ClientActions.updateBookStatus(book, this.props.onModalClose);
   },
 
   __handleClick: function () {

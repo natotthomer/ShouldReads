@@ -56,7 +56,7 @@ var ApiUtil = {
 
   updateBookStatus: function (data, onModalClose) {
     $.ajax({
-      url: "api/books/" + data.id,
+      url: "api/books/" + data.id + "/status",
       type: "PATCH",
       data: { book: { status: data.status }},
       success: function (book) {

@@ -35679,7 +35679,7 @@
 	
 	  updateBookStatus: function (data, onModalClose) {
 	    $.ajax({
-	      url: "api/books/" + data.id,
+	      url: "api/books/" + data.id + "/status",
 	      type: "PATCH",
 	      data: { book: { status: data.status } },
 	      success: function (book) {
@@ -36591,7 +36591,6 @@
 	
 	  render: function () {
 	    console.log(this.state);
-	    debugger;
 	    if (!SessionStore.currentUserHasBeenFetched() || this.state.book === undefined) {
 	      return React.createElement('div', null);
 	    }
@@ -36861,7 +36860,7 @@
 	    var book = this.state.book;
 	    book.status = "Want to Read";
 	    this.setState({ book: book });
-	    ClientActions.updateBook(book, this.props.onModalClose);
+	    ClientActions.updateBookStatus(book, this.props.onModalClose);
 	  },
 	
 	  currentlyReading: function () {
@@ -36875,7 +36874,7 @@
 	    var book = this.state.book;
 	    book.status = "Read";
 	    this.setState({ book: book });
-	    ClientActions.updateBook(book, this.props.onModalClose);
+	    ClientActions.updateBookStatus(book, this.props.onModalClose);
 	  },
 	
 	  __handleClick: function () {},

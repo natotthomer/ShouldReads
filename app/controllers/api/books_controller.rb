@@ -30,9 +30,10 @@ class Api::BooksController < ApplicationController
   end
 
   def status
+    debugger
     @book = Book.find(params[:id])
     @reading = Reading.find_or_create_by({book_id: @book.id, user_id: current_user.id})
-    @reading.update!(status: book_params[:status])
+    @reading.update!(status: params[:book][:status])
     render :show
   end
 

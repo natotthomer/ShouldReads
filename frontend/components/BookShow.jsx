@@ -110,7 +110,6 @@ getInitialState: function () {
 
   render: function () {
     console.log(this.state);
-    debugger;
     if (!SessionStore.currentUserHasBeenFetched() || this.state.book === undefined) {
       return (<div/>);
     }

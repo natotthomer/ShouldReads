@@ -13,6 +13,9 @@ class User < ActiveRecord::Base
   has_many :books,
     through: :shelves
   has_many :readings
+  has_many :read_books,
+    through: :readings,
+    source: :book
   has_many :book_readings,
     through: :readings,
     source: :book
@@ -68,15 +71,15 @@ class User < ActiveRecord::Base
   end
 
   def want_to_read
-    self.readings.where(status: "want to read")
+    self.readings.where(status: "Want to Read")
   end
 
   def read
-    self.readings.where(status: "read")
+    self.readings.where(status: "Read")
   end
 
   def currently_reading
-    self.readings.where(status: "currently reading")
+    self.readings.where(status: "Currently Reading")
   end
 
   private

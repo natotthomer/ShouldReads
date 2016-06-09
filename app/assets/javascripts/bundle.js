@@ -59,13 +59,17 @@
 	var GoogleUtil = __webpack_require__(276);
 	
 	var Header = __webpack_require__(277);
-	var Homepage = __webpack_require__(299);
-	var AllBookIndex = __webpack_require__(301);
-	var BookShow = __webpack_require__(302);
-	var BookForm = __webpack_require__(300);
-	var ShelvesView = __webpack_require__(295);
-	var ShelfForm = __webpack_require__(308);
-	var ShelfEdit = __webpack_require__(297);
+	var Homepage = __webpack_require__(300);
+	var AllBookIndex = __webpack_require__(302);
+	var BookShow = __webpack_require__(303);
+	var BookForm = __webpack_require__(301);
+	var ShelvesView = __webpack_require__(296);
+	var ShelfForm = __webpack_require__(310);
+	var ShelfEdit = __webpack_require__(298);
+	var StatusShow = __webpack_require__(311);
+	var ReadShow = __webpack_require__(312);
+	var WantShow = __webpack_require__(313);
+	var CurrentlyShow = __webpack_require__(314);
 	
 	var routes = React.createElement(
 	  Route,
@@ -75,10 +79,11 @@
 	  React.createElement(Route, { path: '(users/:userId/)shelves/:shelfId', component: ShelvesView, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: 'books', component: AllBookIndex, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: 'books/new', component: BookForm, onEnter: _ensureLoggedIn }),
+	  React.createElement(Route, { path: 'books/read', component: ReadShow, onEnter: _ensureLoggedIn }),
+	  React.createElement(Route, { path: 'books/want', component: WantShow, onEnter: _ensureLoggedIn }),
+	  React.createElement(Route, { path: 'books/currently', component: CurrentlyShow, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: 'books/:bookId', component: BookShow, onEnter: _ensureLoggedIn })
-	)
-	// <Route path="shelves/:shelfId/edit" component={ShelfEdit} onEnter={_ensureLoggedIn}/>
-	;
+	);
 	
 	function _ensureLoggedIn(nextState, replace, asyncDoneCallback) {
 	  var sessionListener = SessionStore.addListener(redirectIfNotLoggedIn);
@@ -34808,11 +34813,11 @@
 	var LoginForm = __webpack_require__(278);
 	var SignupForm = __webpack_require__(281);
 	var Dashboard = __webpack_require__(282);
-	var ShelvesView = __webpack_require__(295);
-	var Homepage = __webpack_require__(299);
-	var BookForm = __webpack_require__(300);
+	var ShelvesView = __webpack_require__(296);
+	var Homepage = __webpack_require__(300);
+	var BookForm = __webpack_require__(301);
 	
-	var modalStyle = __webpack_require__(298);
+	var modalStyle = __webpack_require__(299);
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
@@ -35359,7 +35364,7 @@
 	var BookStore = __webpack_require__(283);
 	var SessionApiUtil = __webpack_require__(272);
 	var Sidebar = __webpack_require__(285);
-	var BookIndex = __webpack_require__(293);
+	var BookIndex = __webpack_require__(294);
 	
 	var Dashboard = React.createClass({
 	  displayName: 'Dashboard',
@@ -35493,9 +35498,9 @@
 	
 	var ClientActions = __webpack_require__(287);
 	var SessionStore = __webpack_require__(249);
-	var ShelfStore = __webpack_require__(291);
+	var ShelfStore = __webpack_require__(292);
 	
-	var ShelfIndexItem = __webpack_require__(292);
+	var ShelfIndexItem = __webpack_require__(293);
 	
 	var ShelfIndex = React.createClass({
 	  displayName: 'ShelfIndex',
@@ -35534,7 +35539,7 @@
 	            ' ',
 	            React.createElement(
 	              'a',
-	              { href: '#' },
+	              { href: '#/books/want' },
 	              'Want to Read'
 	            )
 	          ),
@@ -35544,7 +35549,7 @@
 	            ' ',
 	            React.createElement(
 	              'a',
-	              { href: '#' },
+	              { href: '#/books/currently' },
 	              'Currently Reading'
 	            )
 	          ),
@@ -35554,7 +35559,7 @@
 	            ' ',
 	            React.createElement(
 	              'a',
-	              { href: '#' },
+	              { href: '#/books/read' },
 	              'Read '
 	            )
 	          )
@@ -35790,7 +35795,6 @@
 	  },
 	
 	  createShelfAssignment: function (data) {
-	    // debugger;
 	    $.ajax({
 	      url: "api/shelf_assignments",
 	      type: "POST",
@@ -35821,7 +35825,7 @@
 	var AppDispatcher = __webpack_require__(250);
 	var BookConstants = __webpack_require__(284);
 	var ShelfConstants = __webpack_require__(290);
-	var ShelfAssignmentConstants = __webpack_require__(310);
+	var ShelfAssignmentConstants = __webpack_require__(291);
 	
 	var ServerActions = {
 	  receiveAllBooks: function (books) {
@@ -35902,6 +35906,16 @@
 
 /***/ },
 /* 291 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  SHELF_ASSIGNMENTS_RECEIVED: "SHELF_ASSIGNMENTS_RECEIVED",
+	  SHELF_ASSIGNMENT_RECEIVED: "SHELF_ASSIGNMENT_RECEIVED",
+	  SHELF_ASSIGNMENT_REMOVED: "SHELF_ASSIGNMENT_REMOVED"
+	};
+
+/***/ },
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(250);
@@ -35957,7 +35971,7 @@
 	module.exports = ShelfStore;
 
 /***/ },
-/* 292 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35986,7 +36000,7 @@
 	module.exports = ShelfIndexItem;
 
 /***/ },
-/* 293 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35995,7 +36009,7 @@
 	var SessionStore = __webpack_require__(249);
 	var BookStore = __webpack_require__(283);
 	
-	var BookIndexItem = __webpack_require__(294);
+	var BookIndexItem = __webpack_require__(295);
 	
 	var BookIndex = React.createClass({
 	  displayName: 'BookIndex',
@@ -36032,7 +36046,6 @@
 	
 	  render: function () {
 	    if (SessionStore.currentUserHasBeenFetched()) {
-	      // debugger;
 	      return React.createElement(
 	        'div',
 	        { className: 'book-index' },
@@ -36053,7 +36066,7 @@
 	module.exports = BookIndex;
 
 /***/ },
-/* 294 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36096,7 +36109,7 @@
 	module.exports = BookIndexItem;
 
 /***/ },
-/* 295 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36104,8 +36117,8 @@
 	var SessionStore = __webpack_require__(249);
 	var SessionApiUtil = __webpack_require__(272);
 	var ShelfIndex = __webpack_require__(286);
-	var ShelfIndexItem = __webpack_require__(292);
-	var ShelfDetail = __webpack_require__(296);
+	var ShelfIndexItem = __webpack_require__(293);
+	var ShelfDetail = __webpack_require__(297);
 	
 	var ShelvesView = React.createClass({
 	  displayName: 'ShelvesView',
@@ -36127,7 +36140,7 @@
 	module.exports = ShelvesView;
 
 /***/ },
-/* 296 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36138,13 +36151,13 @@
 	var SessionApiUtil = __webpack_require__(272);
 	var ClientActions = __webpack_require__(287);
 	
-	var ShelfStore = __webpack_require__(291);
+	var ShelfStore = __webpack_require__(292);
 	var ShelfIndex = __webpack_require__(286);
-	var ShelfIndexItem = __webpack_require__(292);
-	var BookIndex = __webpack_require__(293);
-	var ShelfEdit = __webpack_require__(297);
+	var ShelfIndexItem = __webpack_require__(293);
+	var BookIndex = __webpack_require__(294);
+	var ShelfEdit = __webpack_require__(298);
 	
-	var modalStyle = __webpack_require__(298);
+	var modalStyle = __webpack_require__(299);
 	
 	var ShelfDetail = React.createClass({
 	  displayName: 'ShelfDetail',
@@ -36256,14 +36269,14 @@
 	module.exports = ShelfDetail;
 
 /***/ },
-/* 297 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var SessionStore = __webpack_require__(249);
 	var ErrorStore = __webpack_require__(279);
 	var ClientActions = __webpack_require__(287);
-	var ShelfStore = __webpack_require__(291);
+	var ShelfStore = __webpack_require__(292);
 	
 	var ShelfEdit = React.createClass({
 	  displayName: 'ShelfEdit',
@@ -36365,7 +36378,7 @@
 	module.exports = ShelfEdit;
 
 /***/ },
-/* 298 */
+/* 299 */
 /***/ function(module, exports) {
 
 	var modalStyle = {
@@ -36397,7 +36410,7 @@
 	module.exports = modalStyle;
 
 /***/ },
-/* 299 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36407,7 +36420,7 @@
 	var LoginForm = __webpack_require__(278);
 	var SignupForm = __webpack_require__(281);
 	var Dashboard = __webpack_require__(282);
-	var ShelvesView = __webpack_require__(295);
+	var ShelvesView = __webpack_require__(296);
 	
 	var Homepage = React.createClass({
 	  displayName: 'Homepage',
@@ -36445,7 +36458,7 @@
 	module.exports = Homepage;
 
 /***/ },
-/* 300 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36453,7 +36466,7 @@
 	var ErrorStore = __webpack_require__(279);
 	var ClientActions = __webpack_require__(287);
 	var GoogleUtil = __webpack_require__(276);
-	var BookStore = __webpack_require__(291);
+	var BookStore = __webpack_require__(292);
 	
 	var BookForm = React.createClass({
 	  displayName: 'BookForm',
@@ -36532,7 +36545,7 @@
 	module.exports = BookForm;
 
 /***/ },
-/* 301 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36542,7 +36555,7 @@
 	var SessionStore = __webpack_require__(249);
 	var BookStore = __webpack_require__(283);
 	
-	var BookIndex = __webpack_require__(293);
+	var BookIndex = __webpack_require__(294);
 	
 	var AllBookIndex = React.createClass({
 	  displayName: 'AllBookIndex',
@@ -36573,7 +36586,7 @@
 	module.exports = AllBookIndex;
 
 /***/ },
-/* 302 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36584,14 +36597,14 @@
 	var ClientActions = __webpack_require__(287);
 	
 	var BookStore = __webpack_require__(283);
-	var BookIndexItem = __webpack_require__(294);
-	var BookEdit = __webpack_require__(303);
+	var BookIndexItem = __webpack_require__(295);
+	var BookEdit = __webpack_require__(304);
 	var Sidebar = __webpack_require__(285);
-	var DeleteBookEnsure = __webpack_require__(304);
-	var BookStatusEdit = __webpack_require__(305);
-	var AddBookToShelf = __webpack_require__(306);
+	var DeleteBookEnsure = __webpack_require__(305);
+	var BookStatusEdit = __webpack_require__(306);
+	var AddBookToShelf = __webpack_require__(307);
 	
-	var modalStyle = __webpack_require__(298);
+	var modalStyle = __webpack_require__(299);
 	
 	var BookShow = React.createClass({
 	  displayName: 'BookShow',
@@ -36654,7 +36667,6 @@
 	  },
 	
 	  getModal: function () {
-	    // debugger;
 	    var user = SessionStore.currentUser();
 	    if (this.state.modalSelect === "delete") {
 	      return React.createElement(DeleteBookEnsure, { removeBook: this.removeBook, onModalClose: this.onModalClose });
@@ -36773,7 +36785,7 @@
 	module.exports = BookShow;
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36891,7 +36903,7 @@
 	module.exports = BookEdit;
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36929,13 +36941,13 @@
 	module.exports = DeleteBookEnsure;
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ClientActions = __webpack_require__(287);
 	var ErrorStore = __webpack_require__(279);
-	var BookStore = __webpack_require__(291);
+	var BookStore = __webpack_require__(292);
 	
 	var BookStatusEdit = React.createClass({
 	  displayName: 'BookStatusEdit',
@@ -37009,14 +37021,15 @@
 	module.exports = BookStatusEdit;
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var SessionStore = __webpack_require__(249);
-	var ShelfStore = __webpack_require__(291);
+	var ShelfStore = __webpack_require__(292);
+	var ClientActions = __webpack_require__(287);
 	
-	var ShelfStatus = __webpack_require__(307);
+	var ShelfStatus = __webpack_require__(308);
 	
 	var AddBookToShelf = React.createClass({
 	  displayName: 'AddBookToShelf',
@@ -37024,6 +37037,19 @@
 	
 	  getInitialState: function () {
 	    return { shelves: ShelfStore.all() };
+	  },
+	
+	  componentDidMount: function () {
+	    this.shelfListener = ShelfStore.addListener(this.getShelves);
+	    ClientActions.fetchShelves();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.shelfListener.remove();
+	  },
+	
+	  getShelves: function () {
+	    this.setState({ shelves: ShelfStore.all() });
 	  },
 	
 	  render: function () {
@@ -37060,94 +37086,142 @@
 	module.exports = AddBookToShelf;
 
 /***/ },
-/* 307 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ClientActions = __webpack_require__(287);
-	// var SessionStore = require('./../stores/session_store');
-	var ShelfStore = __webpack_require__(291);
+	var ShelfStore = __webpack_require__(292);
 	var ShelfAssignmentStore = __webpack_require__(309);
 	
 	var ShelfStatus = React.createClass({
 	  displayName: 'ShelfStatus',
 	
 	
-	  getInitialState: function () {
-	    return { shelf: ShelfStore.find(this.props.shelf.id) };
-	  },
+	  shelfAssignmentId: [],
 	
 	  toRender: function () {
 	    var inner = "☐ " + this.props.shelf.title;
 	
-	    if (this.hasBook()) {
-	      inner = "☑ " + this.props.shelf.title;
-	    }
+	    this.props.shelf.shelf_assignments.forEach(function (shelfAssignment) {
+	      if (shelfAssignment.book_id === this.props.book.id) {
+	        inner = "☑ " + this.props.shelf.title;
+	        this.shelfAssignmentId.push(shelfAssignment.id);
+	      }
+	    }.bind(this));
 	
 	    return inner;
 	  },
 	
 	  hasBook: function () {
-	    return this.props.shelf.books.forEach(function (book) {
-	      if (book.id === this.props.book.id) {
-	        return true;
-	      } else {
-	        return false;
+	    var result = false;
+	    this.props.shelf.shelf_assignments.forEach(function (shelf_assignment) {
+	      if (shelf_assignment.book_id === this.props.book.id) {
+	        result = true;
 	      }
 	    }.bind(this));
-	  },
-	
-	  componentDidMount: function () {
-	    this.shelfListener = ShelfStore.addListener(this.getShelves);
-	    ClientActions.fetchShelves();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.shelfListener.remove();
-	  },
-	
-	  getShelves: function () {
-	    this.setState({ shelf: ShelfStore.find(this.props.shelf.id) });
+	    return result;
 	  },
 	
 	  __handleChange: function (e) {
 	    e.preventDefault();
-	    // debugger;
 	    var shelfAssignmentData = {
-	      shelf_id: this.state.shelf.id,
+	      shelf_id: this.props.shelf.id,
 	      book_id: this.props.book.id
 	    };
-	    if (this.hasBook()) {
-	      ClientActions.removeShelfAssignment(shelfAssignmentData);
+	    var iHasBook = this.hasBook();
+	    if (iHasBook) {
+	      ClientActions.removeShelfAssignment(this.shelfAssignmentId[0]);
+	      this.shelfAssignmentId = [];
 	    } else {
 	      ClientActions.createShelfAssignment(shelfAssignmentData);
 	    }
 	  },
 	
 	  render: function () {
-	    return React.createElement(
-	      'li',
-	      { className: 'shelf-select-item' },
-	      React.createElement(
-	        'div',
-	        { onClick: this.__handleChange },
-	        this.toRender()
-	      )
-	    );
+	    if (this.props.shelf.shelf_assignments) {
+	      return React.createElement(
+	        'li',
+	        { className: 'shelf-select-item' },
+	        React.createElement(
+	          'div',
+	          { onClick: this.__handleChange },
+	          this.toRender()
+	        )
+	      );
+	    } else {
+	      return React.createElement('div', null);
+	    }
 	  }
 	});
 	
 	module.exports = ShelfStatus;
 
 /***/ },
-/* 308 */
+/* 309 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(250);
+	var Store = __webpack_require__(254).Store;
+	var ShelfAssignmentConstants = __webpack_require__(291);
+	
+	var ShelfAssignmentStore = new Store(AppDispatcher);
+	
+	var _shelfAssignments = {};
+	
+	var resetShelfAssignments = function (shelfAssignments) {
+	  _shelfAssignments = {};
+	  shelfAssignments.forEach(function (shelfAssignment) {
+	    _shelfAssignments[shelfAssignment.id] = shelfAssignment;
+	  });
+	};
+	
+	var setShelfAssignment = function (shelfAssignment) {
+	  _shelfAssignments[shelfAssignment.id] = shelfAssignment;
+	};
+	
+	var removeShelfAssignment = function (shelfAssignment) {
+	  delete _shelfAssignments[shelfAssignment.id];
+	};
+	
+	ShelfAssignmentStore.find = function (id) {
+	  return _shelfAssignments[id];
+	};
+	
+	ShelfAssignmentStore.all = function () {
+	  return Object.keys(_shelfAssignments).map(function (shelfAssignmentId) {
+	    return _shelfAssignments[shelfAssignmentId];
+	  });
+	};
+	
+	ShelfAssignmentStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case ShelfAssignmentConstants.SHELF_ASSIGNMENTS_RECEIVED:
+	      resetShelfAssignments(payload.shelfAssignments);
+	      this.__emitChange();
+	      break;
+	    case ShelfAssignmentConstants.SHELF_ASSIGNMENT_RECEIVED:
+	      setShelfAssignment(payload.shelfAssignment);
+	      this.__emitChange();
+	      break;
+	    case ShelfAssignmentConstants.SHELF_ASSIGNMENT_REMOVED:
+	      removeShelfAssignment(payload.shelfAssignment);
+	      this.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = ShelfAssignmentStore;
+
+/***/ },
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var SessionStore = __webpack_require__(249);
 	var ErrorStore = __webpack_require__(279);
 	var ClientActions = __webpack_require__(287);
-	var ShelfStore = __webpack_require__(291);
+	var ShelfStore = __webpack_require__(292);
 	
 	var ShelfForm = React.createClass({
 	  displayName: 'ShelfForm',
@@ -37214,70 +37288,187 @@
 	module.exports = ShelfForm;
 
 /***/ },
-/* 309 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AppDispatcher = __webpack_require__(250);
-	var Store = __webpack_require__(254).Store;
-	var ShelfAssignmentConstants = __webpack_require__(310);
+	var React = __webpack_require__(1);
+	var Sidebar = __webpack_require__(285);
+	var BookIndex = __webpack_require__(294);
+	var ShelfIndex = __webpack_require__(286);
 	
-	var ShelfAssignmentStore = new Store(AppDispatcher);
+	var StatusShow = React.createClass({
+	  displayName: 'StatusShow',
 	
-	var _shelfAssignments = {};
-	
-	var resetShelfAssignments = function (shelfAssignments) {
-	  _shelfAssignments = {};
-	  shelfAssignments.forEach(function (shelfAssignment) {
-	    _shelfAssignments[shelfAssignment.id] = shelfAssignment;
-	  });
-	};
-	
-	var setShelfAssignment = function (shelfAssignment) {
-	  _shelfAssignments[shelfAssignment.id] = shelfAssignment;
-	};
-	
-	var removeShelfAssignment = function (shelfAssignment) {
-	  delete _shelfAssignments[shelfAssignment.id];
-	};
-	
-	ShelfAssignmentStore.find = function (id) {
-	  return _shelfAssignments[id];
-	};
-	
-	ShelfAssignmentStore.all = function () {
-	  return Object.keys(_shelfAssignments).map(function (shelfAssignmentId) {
-	    return _shelfAssignments[shelfAssignmentId];
-	  });
-	};
-	
-	ShelfAssignmentStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case ShelfAssignmentConstants.SHELF_ASSIGNMENTS_RECEIVED:
-	      resetShelfAssignments(payload.shelfAssignments);
-	      this.__emitChange();
-	      break;
-	    case ShelfAssignmentConstants.SHELF_ASSIGNMENT_RECEIVED:
-	      setShelfAssignment(payload.shelfAssignment);
-	      this.__emitChange();
-	      break;
-	    case ShelfAssignmentConstants.SHELF_ASSIGNMENT_REMOVED:
-	      removeShelfAssignment(payload.shelfAssignment);
-	      this.__emitChange();
-	      break;
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'shelf-index-left' },
+	        React.createElement(ShelfIndex, null)
+	      )
+	    );
 	  }
-	};
+	});
 	
-	module.exports = ShelfAssignmentStore;
+	module.exports = StatusShow;
 
 /***/ },
-/* 310 */
-/***/ function(module, exports) {
+/* 312 */
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = {
-	  SHELF_ASSIGNMENTS_RECEIVED: "SHELF_ASSIGNMENTS_RECEIVED",
-	  SHELF_ASSIGNMENT_RECEIVED: "SHELF_ASSIGNMENT_RECEIVED",
-	  SHELF_ASSIGNMENT_REMOVED: "SHELF_ASSIGNMENT_REMOVED"
-	};
+	var React = __webpack_require__(1);
+	var Sidebar = __webpack_require__(285);
+	var BookIndex = __webpack_require__(294);
+	var ShelfIndex = __webpack_require__(286);
+	var SessionStore = __webpack_require__(249);
+	var BookStore = __webpack_require__(283);
+	var ClientActions = __webpack_require__(287);
+	
+	var ReadShow = React.createClass({
+	  displayName: 'ReadShow',
+	
+	  getInitialState: function () {
+	    return { user: SessionStore.currentUser(), books: [] };
+	  },
+	
+	  componentDidMount: function () {
+	    this.bookListener = BookStore.addListener(this.getBooks);
+	    ClientActions.fetchBooks();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.bookListener.remove();
+	  },
+	
+	  getBooks: function () {
+	    var books = [];
+	    this.state.user.read.forEach(function (readBooks) {
+	      books.push(BookStore.find(readBooks.book_id));
+	    });
+	    this.setState({ books: books });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'shelf-index-left' },
+	        React.createElement(ShelfIndex, null)
+	      ),
+	      React.createElement(BookIndex, { books: this.state.books })
+	    );
+	  }
+	});
+	
+	module.exports = ReadShow;
+
+/***/ },
+/* 313 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Sidebar = __webpack_require__(285);
+	var BookIndex = __webpack_require__(294);
+	var ShelfIndex = __webpack_require__(286);
+	var SessionStore = __webpack_require__(249);
+	var BookStore = __webpack_require__(283);
+	var ClientActions = __webpack_require__(287);
+	
+	var WantShow = React.createClass({
+	  displayName: 'WantShow',
+	
+	  getInitialState: function () {
+	    return { user: SessionStore.currentUser(), books: [] };
+	  },
+	
+	  componentDidMount: function () {
+	    this.bookListener = BookStore.addListener(this.getBooks);
+	    ClientActions.fetchBooks();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.bookListener.remove();
+	  },
+	
+	  getBooks: function () {
+	    var books = [];
+	    this.state.user.want_to_read.forEach(function (readBooks) {
+	      books.push(BookStore.find(readBooks.book_id));
+	    });
+	    this.setState({ books: books });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'shelf-index-left' },
+	        React.createElement(ShelfIndex, null)
+	      ),
+	      React.createElement(BookIndex, { books: this.state.books })
+	    );
+	  }
+	});
+	
+	module.exports = WantShow;
+
+/***/ },
+/* 314 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Sidebar = __webpack_require__(285);
+	var BookIndex = __webpack_require__(294);
+	var ShelfIndex = __webpack_require__(286);
+	var SessionStore = __webpack_require__(249);
+	var BookStore = __webpack_require__(283);
+	var ClientActions = __webpack_require__(287);
+	
+	var CurrentlyShow = React.createClass({
+	  displayName: 'CurrentlyShow',
+	
+	  getInitialState: function () {
+	    return { user: SessionStore.currentUser(), books: [] };
+	  },
+	
+	  componentDidMount: function () {
+	    this.bookListener = BookStore.addListener(this.getBooks);
+	    ClientActions.fetchBooks();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.bookListener.remove();
+	  },
+	
+	  getBooks: function () {
+	    var books = [];
+	    this.state.user.currently_reading.forEach(function (readBooks) {
+	      books.push(BookStore.find(readBooks.book_id));
+	    });
+	    this.setState({ books: books });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'shelf-index-left' },
+	        React.createElement(ShelfIndex, null)
+	      ),
+	      React.createElement(BookIndex, { books: this.state.books })
+	    );
+	  }
+	});
+	
+	module.exports = CurrentlyShow;
 
 /***/ }
 /******/ ]);

@@ -20,6 +20,10 @@ var BookForm = require('./components/BookForm');
 var ShelvesView = require('./components/ShelvesView');
 var ShelfForm = require('./components/ShelfForm');
 var ShelfEdit = require('./components/ShelfEdit');
+var StatusShow = require('./components/StatusShow');
+var ReadShow = require('./components/ReadShow');
+var WantShow = require('./components/WantShow');
+var CurrentlyShow = require('./components/CurrentlyShow');
 
 var routes = (
   <Route path="/" component={Header}>
@@ -28,9 +32,11 @@ var routes = (
     <Route path="(users/:userId/)shelves/:shelfId" component={ShelvesView} onEnter={_ensureLoggedIn}/>
     <Route path="books" component={AllBookIndex} onEnter={_ensureLoggedIn}/>
     <Route path="books/new" component={BookForm} onEnter={_ensureLoggedIn}/>
+    <Route path="books/read" component={ReadShow} onEnter={_ensureLoggedIn}/>
+    <Route path="books/want" component={WantShow} onEnter={_ensureLoggedIn}/>
+    <Route path="books/currently" component={CurrentlyShow} onEnter={_ensureLoggedIn}/>
     <Route path="books/:bookId" component={BookShow} onEnter={_ensureLoggedIn}/>
   </Route>
-  // <Route path="shelves/:shelfId/edit" component={ShelfEdit} onEnter={_ensureLoggedIn}/>
 );
 
 function _ensureLoggedIn(nextState, replace, asyncDoneCallback) {

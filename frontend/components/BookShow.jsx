@@ -74,7 +74,6 @@ var BookShow = React.createClass({
   },
 
   getModal: function () {
-    // debugger;
     var user = SessionStore.currentUser();
     if (this.state.modalSelect === "delete") {
       return <DeleteBookEnsure removeBook={this.removeBook} onModalClose={this.onModalClose}/>;

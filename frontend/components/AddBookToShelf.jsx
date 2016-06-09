@@ -1,6 +1,7 @@
 var React = require('react');
 var SessionStore = require('./../stores/session_store');
 var ShelfStore = require('./../stores/shelf_store');
+var ClientActions = require('./../actions/client_actions');
 
 var ShelfStatus = require('./ShelfStatus');
 
@@ -8,6 +9,19 @@ var AddBookToShelf = React.createClass({
 
   getInitialState: function () {
     return ({ shelves: ShelfStore.all() });
+  },
+
+  componentDidMount: function () {
+    this.shelfListener = ShelfStore.addListener(this.getShelves);
+    ClientActions.fetchShelves();
+  },
+
+  componentWillUnmount: function () {
+    this.shelfListener.remove();
+  },
+
+  getShelves: function () {
+    this.setState({ shelves: ShelfStore.all() });
   },
 
   render: function () {

@@ -7,7 +7,9 @@ class Book < ActiveRecord::Base
   has_attached_file :cover, default_url: "book-438935_960_720.png"
   validates_attachment_content_type :cover, content_type: /\Aimage\/.*\Z/
 
-  has_many :shelves
+  has_many :shelf_assignments
+  has_many :shelves,
+    through: :shelf_assignments
   has_many :users,
     through: :shelves
   has_many :readings

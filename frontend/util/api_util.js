@@ -140,7 +140,6 @@ var ApiUtil = {
   },
 
   createShelfAssignment: function (data) {
-    // debugger;
     $.ajax({
       url: "api/shelf_assignments",
       type: "POST",

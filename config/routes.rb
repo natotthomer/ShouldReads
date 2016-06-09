@@ -8,7 +8,7 @@ Rails.application.routes.draw do
         patch :status
       end
     end
-    resources :shelf_assignments, only: [:show, :create, :index, :destroy, :update]
+    resources :shelf_assignments, only: [:show, :create, :index, :destroy]
     resources :shelves, only: [:show, :create, :index, :destroy, :update]
   end
   get 'auth/:provider/callback', to: 'api/sessions#omni_create'

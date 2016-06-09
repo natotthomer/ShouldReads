@@ -65,16 +65,6 @@ a:hover {
 .main-background {
   margin: auto;
   width: 900px;
-  /*padding-top: 16px;*/
-  /*border-left: 1px solid black;*/
-  /*border-right: 1px solid black;*/
-  /*background: #baac9a;*/
-  /*background-image:
-    radial-gradient(
-      circle,
-      white,
-      #baac9a 55%
-    );*/
   min-height: 500px;
 }
 
@@ -88,7 +78,6 @@ a {
 
 .dashboard-main {
   padding: 20px;
-  /*border: 1px solid black;*/
   margin: auto;
   width: 610px;
   float: left;
@@ -110,7 +99,6 @@ a {
 
 .add-book-to-shelves {
   overflow-y: scroll;
-  /*padding: 5px;*/
   height: 100px;
 }
 

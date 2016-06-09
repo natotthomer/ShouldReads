@@ -20,9 +20,7 @@ at a minimum, satisfy the following criteria by the end of Week 9:
   - [x] Book creation
   - [x] Book editing
   - [ ] Create Book Ratings, Reviews, Shelves
-  - [ ] Mark Books as "want to read", "read", and "currently reading"
-  - [ ] View other Users' Books, Shelves and Reviews
-
+  - [x] Mark Books as "want to read", "read", and "currently reading"
 
 ** Product Goals and Priorities **
 
@@ -94,9 +92,6 @@ user interface.
   - [x] `BooksIndex`
   - [x] `BookIndexItem`
   - [x] `BookForm`
-- [ ] save Books to the DB when the form loses focus or is left idle
-  after editing.
-    -[ ] HMMMMM???
 
 ### Phase 4: Start Styling (0.5 days)
 
@@ -114,8 +109,7 @@ user interface.
 - [x] create `Shelf` model
 - build out API, Flux loop, and components for:
   - [x] Shelf CRUD
-  - [ ] adding books requires a shelf
-  - [ ] moving books to a different shelf
+  - [x] moving books to a different shelf
   - [x] viewing book by shelf
 - Use CSS to style new views
 

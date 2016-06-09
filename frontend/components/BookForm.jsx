@@ -51,7 +51,7 @@ var BookForm = React.createClass({
     return (
       <div>
         <form className="book-form" onSubmit={this.handleSubmit}>
-        <h1>Add a new Book</h1><br/><br/>
+        <h1 className="modal-header">Add a new Book</h1><br/><br/>
         Title: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <input type="text" value={this.state.title} onChange={this.titleChange}/>
         <br/>
@@ -59,7 +59,7 @@ var BookForm = React.createClass({
         <br/>
         Author Last Name: <input type="text" value={this.state.author_lname} onChange={this.authorLNameChange}/>
         <br/><br/>
-        <input type="submit" value="Create Book"/>
+        <input type="submit" value="Create Book" className="small-button"/>
         </form>
       </div>
     );

@@ -14,8 +14,4 @@ class Book < ActiveRecord::Base
   has_many :user_readings,
     through: :readings,
     source: :user
-
-  def find_or_create_reading_for_user
-
-  end
 end

@@ -12,3 +12,8 @@
   margin: 10px;
   border: 2px solid black;
 }
+
+.status-index {
+  padding-bottom: 10px;
+  border-bottom: 1px solid black;
+}

@@ -11,32 +11,9 @@ var BookEdit = require('./BookEdit');
 var Sidebar = require('./Sidebar');
 var DeleteBookEnsure = require('./DeleteBookEnsure');
 var BookStatusEdit = require('./BookStatusEdit');
+var AddBookToShelf = require('./AddBookToShelf');
 
-var modalStyle = {
-  overlay : {
-    position          : 'fixed',
-    top               : 0,
-    left              : 0,
-    right             : 0,
-    bottom            : 0,
-    backgroundColor   : 'rgba(255, 255, 255, 0.8)'
-  },
-  content : {
-    // position                   : 'absolute',
-    top                        : '50%',
-    left                       : '50%',
-    transform                  : 'translateX(-50%) translateY(-50%)',
-    border                     : '1px solid #ccc',
-    background                 : '#fff',
-    overflow                   : 'auto',
-    WebkitOverflowScrolling    : 'touch',
-    borderRadius               : '4px',
-    outline                    : 'none',
-    padding                    : '20px',
-    width                      : '300px',
-    height                     : '230px'
-  }
-};
+var modalStyle = require('./../constants/modal_style_constants');
 
 var BookShow = React.createClass({
   contextTypes: {
@@ -97,10 +74,16 @@ var BookShow = React.createClass({
   },
 
   getModal: function () {
+    // debugger;
+    var user = SessionStore.currentUser();
     if (this.state.modalSelect === "delete") {
       return <DeleteBookEnsure removeBook={this.removeBook} onModalClose={this.onModalClose}/>;
-    } else if (this.state.modalSelect === "edit"){
+    } else if (this.state.modalSelect === "edit") {
       return <BookEdit book={this.state.book} onModalClose={this.onModalClose}/>;
+    } else if (this.state.modalSelect === "shelf") {
+      return (<AddBookToShelf book={this.state.book}
+          user={user}
+          onModalClose={this.onModalClose}/>);
     } else {
       return (<BookStatusEdit
           book={this.state.book}
@@ -135,7 +118,7 @@ var BookShow = React.createClass({
                 <button className="add-book-button" onClick={this.__handleClick.bind(this, "status")}>
                   {this.getBookStatus()}
                 </button> <br/>
-                <button className="add-book-button" onClick={this.__handleClick.bind(this, "status")}>
+                <button className="add-book-button" onClick={this.__handleClick.bind(this, "shelf")}>
                   Add to my Shelves
                 </button>
               </div>
@@ -154,7 +137,7 @@ var BookShow = React.createClass({
           isOpen={this.state.modalOpen}
           onRequestClose={this.onModalClose}
           style={modalStyle}>
-          <button onClick={this.onModalClose} className="left"><strong>X</strong></button>
+          <button onClick={this.onModalClose} className="modal-close left"><strong>X</strong></button>
           {this.getModal()}
         </Modal>
       </div>

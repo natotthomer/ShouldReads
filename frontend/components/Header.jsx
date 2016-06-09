@@ -12,31 +12,7 @@ var ShelvesView = require('./ShelvesView');
 var Homepage = require('./Homepage');
 var BookForm = require('./BookForm');
 
-var modalStyle = {
-  overlay : {
-    position          : 'fixed',
-    top               : 0,
-    left              : 0,
-    right             : 0,
-    bottom            : 0,
-    backgroundColor   : 'rgba(255, 255, 255, 0.75)'
-  },
-  content : {
-    // position                   : 'absolute',
-    top                        : '50%',
-    left                       : '50%',
-    transform                  : 'translateX(-50%) translateY(-50%)',
-    border                     : '1px solid #ccc',
-    background                 : '#fff',
-    overflow                   : 'auto',
-    WebkitOverflowScrolling    : 'touch',
-    borderRadius               : '4px',
-    outline                    : 'none',
-    padding                    : '20px',
-    width                      : '300px',
-    height                     : '230px'
-  }
-};
+var modalStyle = require('./../constants/modal_style_constants');
 
 var Header = React.createClass({
 
@@ -131,7 +107,7 @@ var Header = React.createClass({
           isOpen={this.state.modalOpen}
           onRequestClose={this.onModalClose}
           style={modalStyle}>
-          <button onClick={this.onModalClose}><strong>X</strong></button>
+          <button onClick={this.onModalClose} className="modal-close left"><strong>X</strong></button>
           <BookForm onModalClose={this.onModalClose}/>
         </Modal>
       </div>

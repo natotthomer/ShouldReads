@@ -119,6 +119,46 @@ var ApiUtil = {
         }
       }
     });
+  },
+
+  fetchShelfAssignments: function () {
+    $.ajax({
+      url: "api/shelf_assignments",
+      success: function (shelfAssignments) {
+        ServerActions.receiveAllShelfAssignments(shelfAssignments);
+      }
+    });
+  },
+
+  fetchShelfAssignment: function (id) {
+    $.ajax({
+      url: "api/shelf_assignments/" + id,
+      success: function (shelfAssignment) {
+        ServerActions.receiveSingleShelfAssignment(shelfAssignment);
+      }
+    });
+  },
+
+  createShelfAssignment: function (data) {
+    // debugger;
+    $.ajax({
+      url: "api/shelf_assignments",
+      type: "POST",
+      data: { shelf_assignment: data },
+      success: function (shelfAssignment) {
+        ServerActions.receiveSingleShelfAssignment(shelfAssignment);
+      }
+    });
+  },
+
+  removeShelfAssignment: function (id, redirectToHome) {
+    $.ajax({
+      url: "api/shelf_assignments/" + id,
+      type: "DELETE",
+      success: function (shelfAssignment) {
+        ServerActions.removeShelfAssignment(shelfAssignment);
+      }
+    });
   }
 };
 

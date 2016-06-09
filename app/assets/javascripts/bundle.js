@@ -59,12 +59,12 @@
 	var GoogleUtil = __webpack_require__(276);
 	
 	var Header = __webpack_require__(277);
-	var Homepage = __webpack_require__(298);
-	var AllBookIndex = __webpack_require__(300);
-	var BookShow = __webpack_require__(301);
-	var BookForm = __webpack_require__(299);
+	var Homepage = __webpack_require__(299);
+	var AllBookIndex = __webpack_require__(301);
+	var BookShow = __webpack_require__(302);
+	var BookForm = __webpack_require__(300);
 	var ShelvesView = __webpack_require__(295);
-	var ShelfForm = __webpack_require__(305);
+	var ShelfForm = __webpack_require__(308);
 	var ShelfEdit = __webpack_require__(297);
 	
 	var routes = React.createElement(
@@ -34809,34 +34809,10 @@
 	var SignupForm = __webpack_require__(281);
 	var Dashboard = __webpack_require__(282);
 	var ShelvesView = __webpack_require__(295);
-	var Homepage = __webpack_require__(298);
-	var BookForm = __webpack_require__(299);
+	var Homepage = __webpack_require__(299);
+	var BookForm = __webpack_require__(300);
 	
-	var modalStyle = {
-	  overlay: {
-	    position: 'fixed',
-	    top: 0,
-	    left: 0,
-	    right: 0,
-	    bottom: 0,
-	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
-	  },
-	  content: {
-	    // position                   : 'absolute',
-	    top: '50%',
-	    left: '50%',
-	    transform: 'translateX(-50%) translateY(-50%)',
-	    border: '1px solid #ccc',
-	    background: '#fff',
-	    overflow: 'auto',
-	    WebkitOverflowScrolling: 'touch',
-	    borderRadius: '4px',
-	    outline: 'none',
-	    padding: '20px',
-	    width: '300px',
-	    height: '230px'
-	  }
-	};
+	var modalStyle = __webpack_require__(298);
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
@@ -34969,7 +34945,7 @@
 	          style: modalStyle },
 	        React.createElement(
 	          'button',
-	          { onClick: this.onModalClose },
+	          { onClick: this.onModalClose, className: 'modal-close left' },
 	          React.createElement(
 	            'strong',
 	            null,
@@ -35551,6 +35527,41 @@
 	        React.createElement('br', null),
 	        React.createElement(
 	          'ul',
+	          { className: 'status-index' },
+	          React.createElement(
+	            'li',
+	            null,
+	            ' ',
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'Want to Read'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            ' ',
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'Currently Reading'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            ' ',
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'Read '
+	            )
+	          )
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'ul',
 	          null,
 	          this.state.shelves.map(function (shelf) {
 	            return React.createElement(ShelfIndexItem, { key: shelf.id, shelf: shelf });
@@ -35612,6 +35623,22 @@
 	  },
 	  updateShelf: function (data, onModalClose) {
 	    ApiUtil.updateShelf(data, onModalClose);
+	  },
+	
+	  fetchShelfAssignments: function () {
+	    ApiUtil.fetchShelfAssignments();
+	  },
+	  fetchShelfAssignment: function (id) {
+	    ApiUtil.fetchShelfAssignment(id);
+	  },
+	  createShelfAssignment: function (data) {
+	    ApiUtil.createShelfAssignment(data);
+	  },
+	  removeShelfAssignment: function (id) {
+	    ApiUtil.removeShelfAssignment(id);
+	  },
+	  updateShelfAssignment: function (data, onModalClose) {
+	    ApiUtil.updateShelfAssignment(data, onModalClose);
 	  }
 	};
 	
@@ -35742,6 +35769,46 @@
 	        }
 	      }
 	    });
+	  },
+	
+	  fetchShelfAssignments: function () {
+	    $.ajax({
+	      url: "api/shelf_assignments",
+	      success: function (shelfAssignments) {
+	        ServerActions.receiveAllShelfAssignments(shelfAssignments);
+	      }
+	    });
+	  },
+	
+	  fetchShelfAssignment: function (id) {
+	    $.ajax({
+	      url: "api/shelf_assignments/" + id,
+	      success: function (shelfAssignment) {
+	        ServerActions.receiveSingleShelfAssignment(shelfAssignment);
+	      }
+	    });
+	  },
+	
+	  createShelfAssignment: function (data) {
+	    // debugger;
+	    $.ajax({
+	      url: "api/shelf_assignments",
+	      type: "POST",
+	      data: { shelf_assignment: data },
+	      success: function (shelfAssignment) {
+	        ServerActions.receiveSingleShelfAssignment(shelfAssignment);
+	      }
+	    });
+	  },
+	
+	  removeShelfAssignment: function (id, redirectToHome) {
+	    $.ajax({
+	      url: "api/shelf_assignments/" + id,
+	      type: "DELETE",
+	      success: function (shelfAssignment) {
+	        ServerActions.removeShelfAssignment(shelfAssignment);
+	      }
+	    });
 	  }
 	};
 	
@@ -35754,6 +35821,7 @@
 	var AppDispatcher = __webpack_require__(250);
 	var BookConstants = __webpack_require__(284);
 	var ShelfConstants = __webpack_require__(290);
+	var ShelfAssignmentConstants = __webpack_require__(310);
 	
 	var ServerActions = {
 	  receiveAllBooks: function (books) {
@@ -35795,6 +35863,27 @@
 	    AppDispatcher.dispatch({
 	      actionType: ShelfConstants.SHELF_REMOVED,
 	      shelf: shelf
+	    });
+	  },
+	
+	  receiveAllShelfAssignments: function (shelfAssignments) {
+	    AppDispatcher.dispatch({
+	      actionType: ShelfAssignmentConstants.SHELF_ASSIGNMENTS_RECEIVED,
+	      shelfAssignments: shelfAssignments
+	    });
+	  },
+	
+	  receiveSingleShelfAssignment: function (shelfAssignment) {
+	    AppDispatcher.dispatch({
+	      actionType: ShelfAssignmentConstants.SHELF_ASSIGNMENT_RECEIVED,
+	      shelfAssignment: shelfAssignment
+	    });
+	  },
+	
+	  removeShelfAssignment: function (shelfAssignment) {
+	    AppDispatcher.dispatch({
+	      actionType: ShelfAssignmentConstants.SHELF_ASSIGNMENT_REMOVED,
+	      shelfAssignment: shelfAssignment
 	    });
 	  }
 	};
@@ -35943,6 +36032,7 @@
 	
 	  render: function () {
 	    if (SessionStore.currentUserHasBeenFetched()) {
+	      // debugger;
 	      return React.createElement(
 	        'div',
 	        { className: 'book-index' },
@@ -36054,31 +36144,7 @@
 	var BookIndex = __webpack_require__(293);
 	var ShelfEdit = __webpack_require__(297);
 	
-	var modalStyle = {
-	  overlay: {
-	    position: 'fixed',
-	    top: 0,
-	    left: 0,
-	    right: 0,
-	    bottom: 0,
-	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
-	  },
-	  content: {
-	    // position                   : 'absolute',
-	    top: '50%',
-	    left: '50%',
-	    transform: 'translateX(-50%) translateY(-50%)',
-	    border: '1px solid #ccc',
-	    background: '#fff',
-	    overflow: 'auto',
-	    WebkitOverflowScrolling: 'touch',
-	    borderRadius: '4px',
-	    outline: 'none',
-	    padding: '20px',
-	    width: '400px',
-	    height: '250px'
-	  }
-	};
+	var modalStyle = __webpack_require__(298);
 	
 	var ShelfDetail = React.createClass({
 	  displayName: 'ShelfDetail',
@@ -36174,7 +36240,7 @@
 	          style: modalStyle },
 	        React.createElement(
 	          'button',
-	          { onClick: this.onModalClose },
+	          { onClick: this.onModalClose, className: 'modal-close left' },
 	          React.createElement(
 	            'strong',
 	            null,
@@ -36300,6 +36366,38 @@
 
 /***/ },
 /* 298 */
+/***/ function(module, exports) {
+
+	var modalStyle = {
+	  overlay: {
+	    position: 'fixed',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(255, 255, 255, 0.8)'
+	  },
+	  content: {
+	    // position                   : 'absolute',
+	    top: '50%',
+	    left: '50%',
+	    transform: 'translateX(-50%) translateY(-50%)',
+	    border: '1px solid #ccc',
+	    background: '#fff',
+	    overflow: 'auto',
+	    WebkitOverflowScrolling: 'touch',
+	    borderRadius: '4px',
+	    outline: 'none',
+	    padding: '20px',
+	    width: '300px',
+	    height: '200px'
+	  }
+	};
+	
+	module.exports = modalStyle;
+
+/***/ },
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36347,7 +36445,7 @@
 	module.exports = Homepage;
 
 /***/ },
-/* 299 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36410,7 +36508,7 @@
 	        { className: 'book-form', onSubmit: this.handleSubmit },
 	        React.createElement(
 	          'h1',
-	          null,
+	          { className: 'modal-header' },
 	          'Add a new Book'
 	        ),
 	        React.createElement('br', null),
@@ -36425,7 +36523,7 @@
 	        React.createElement('input', { type: 'text', value: this.state.author_lname, onChange: this.authorLNameChange }),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
-	        React.createElement('input', { type: 'submit', value: 'Create Book' })
+	        React.createElement('input', { type: 'submit', value: 'Create Book', className: 'small-button' })
 	      )
 	    );
 	  }
@@ -36434,7 +36532,7 @@
 	module.exports = BookForm;
 
 /***/ },
-/* 300 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36475,7 +36573,7 @@
 	module.exports = AllBookIndex;
 
 /***/ },
-/* 301 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36487,36 +36585,13 @@
 	
 	var BookStore = __webpack_require__(283);
 	var BookIndexItem = __webpack_require__(294);
-	var BookEdit = __webpack_require__(302);
+	var BookEdit = __webpack_require__(303);
 	var Sidebar = __webpack_require__(285);
-	var DeleteBookEnsure = __webpack_require__(303);
-	var BookStatusEdit = __webpack_require__(304);
+	var DeleteBookEnsure = __webpack_require__(304);
+	var BookStatusEdit = __webpack_require__(305);
+	var AddBookToShelf = __webpack_require__(306);
 	
-	var modalStyle = {
-	  overlay: {
-	    position: 'fixed',
-	    top: 0,
-	    left: 0,
-	    right: 0,
-	    bottom: 0,
-	    backgroundColor: 'rgba(255, 255, 255, 0.8)'
-	  },
-	  content: {
-	    // position                   : 'absolute',
-	    top: '50%',
-	    left: '50%',
-	    transform: 'translateX(-50%) translateY(-50%)',
-	    border: '1px solid #ccc',
-	    background: '#fff',
-	    overflow: 'auto',
-	    WebkitOverflowScrolling: 'touch',
-	    borderRadius: '4px',
-	    outline: 'none',
-	    padding: '20px',
-	    width: '300px',
-	    height: '230px'
-	  }
-	};
+	var modalStyle = __webpack_require__(298);
 	
 	var BookShow = React.createClass({
 	  displayName: 'BookShow',
@@ -36579,10 +36654,16 @@
 	  },
 	
 	  getModal: function () {
+	    // debugger;
+	    var user = SessionStore.currentUser();
 	    if (this.state.modalSelect === "delete") {
 	      return React.createElement(DeleteBookEnsure, { removeBook: this.removeBook, onModalClose: this.onModalClose });
 	    } else if (this.state.modalSelect === "edit") {
 	      return React.createElement(BookEdit, { book: this.state.book, onModalClose: this.onModalClose });
+	    } else if (this.state.modalSelect === "shelf") {
+	      return React.createElement(AddBookToShelf, { book: this.state.book,
+	        user: user,
+	        onModalClose: this.onModalClose });
 	    } else {
 	      return React.createElement(BookStatusEdit, {
 	        book: this.state.book,
@@ -36640,7 +36721,7 @@
 	              React.createElement('br', null),
 	              React.createElement(
 	                'button',
-	                { className: 'add-book-button', onClick: this.__handleClick.bind(this, "status") },
+	                { className: 'add-book-button', onClick: this.__handleClick.bind(this, "shelf") },
 	                'Add to my Shelves'
 	              )
 	            )
@@ -36676,7 +36757,7 @@
 	          style: modalStyle },
 	        React.createElement(
 	          'button',
-	          { onClick: this.onModalClose, className: 'left' },
+	          { onClick: this.onModalClose, className: 'modal-close left' },
 	          React.createElement(
 	            'strong',
 	            null,
@@ -36692,7 +36773,7 @@
 	module.exports = BookShow;
 
 /***/ },
-/* 302 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36779,7 +36860,7 @@
 	          { className: 'shelf-form', onSubmit: this.handleSubmit },
 	          React.createElement(
 	            'h1',
-	            null,
+	            { className: 'modal-header' },
 	            'Edit Book'
 	          ),
 	          React.createElement('br', null),
@@ -36791,10 +36872,10 @@
 	            React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange }),
 	            React.createElement('br', null),
 	            'Author First Name: ',
-	            React.createElement('textarea', { value: this.state.author_fname, onChange: this.authorFNameChange }),
+	            React.createElement('input', { type: 'text', value: this.state.author_fname, onChange: this.authorFNameChange }),
 	            React.createElement('br', null),
 	            'Author Last Name: ',
-	            React.createElement('textarea', { value: this.state.author_lname, onChange: this.authorLNameChange }),
+	            React.createElement('input', { type: 'text', value: this.state.author_lname, onChange: this.authorLNameChange }),
 	            React.createElement('br', null),
 	            React.createElement('br', null),
 	            React.createElement('input', { type: 'submit', value: 'Update Book', className: 'small-button' })
@@ -36810,7 +36891,7 @@
 	module.exports = BookEdit;
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36848,7 +36929,7 @@
 	module.exports = DeleteBookEnsure;
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36928,7 +37009,138 @@
 	module.exports = BookStatusEdit;
 
 /***/ },
-/* 305 */
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(249);
+	var ShelfStore = __webpack_require__(291);
+	
+	var ShelfStatus = __webpack_require__(307);
+	
+	var AddBookToShelf = React.createClass({
+	  displayName: 'AddBookToShelf',
+	
+	
+	  getInitialState: function () {
+	    return { shelves: ShelfStore.all() };
+	  },
+	
+	  render: function () {
+	    if (this.state.shelves) {
+	      return React.createElement(
+	        'div',
+	        { className: 'edit-main' },
+	        React.createElement(
+	          'h3',
+	          { className: 'modal-header' },
+	          'Add to your shelves'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'ul',
+	          { className: 'add-book-to-shelves' },
+	          this.state.shelves.map(function (shelf) {
+	            return React.createElement(ShelfStatus, { shelf: shelf, key: shelf.id, book: this.props.book });
+	          }.bind(this))
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'button',
+	          { className: 'login-button', onClick: this.props.onModalClose },
+	          'Done'
+	        )
+	      );
+	    } else {
+	      return React.createElement('div', null);
+	    }
+	  }
+	});
+	
+	module.exports = AddBookToShelf;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ClientActions = __webpack_require__(287);
+	// var SessionStore = require('./../stores/session_store');
+	var ShelfStore = __webpack_require__(291);
+	var ShelfAssignmentStore = __webpack_require__(309);
+	
+	var ShelfStatus = React.createClass({
+	  displayName: 'ShelfStatus',
+	
+	
+	  getInitialState: function () {
+	    return { shelf: ShelfStore.find(this.props.shelf.id) };
+	  },
+	
+	  toRender: function () {
+	    var inner = "☐ " + this.props.shelf.title;
+	
+	    if (this.hasBook()) {
+	      inner = "☑ " + this.props.shelf.title;
+	    }
+	
+	    return inner;
+	  },
+	
+	  hasBook: function () {
+	    return this.props.shelf.books.forEach(function (book) {
+	      if (book.id === this.props.book.id) {
+	        return true;
+	      } else {
+	        return false;
+	      }
+	    }.bind(this));
+	  },
+	
+	  componentDidMount: function () {
+	    this.shelfListener = ShelfStore.addListener(this.getShelves);
+	    ClientActions.fetchShelves();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.shelfListener.remove();
+	  },
+	
+	  getShelves: function () {
+	    this.setState({ shelf: ShelfStore.find(this.props.shelf.id) });
+	  },
+	
+	  __handleChange: function (e) {
+	    e.preventDefault();
+	    // debugger;
+	    var shelfAssignmentData = {
+	      shelf_id: this.state.shelf.id,
+	      book_id: this.props.book.id
+	    };
+	    if (this.hasBook()) {
+	      ClientActions.removeShelfAssignment(shelfAssignmentData);
+	    } else {
+	      ClientActions.createShelfAssignment(shelfAssignmentData);
+	    }
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'li',
+	      { className: 'shelf-select-item' },
+	      React.createElement(
+	        'div',
+	        { onClick: this.__handleChange },
+	        this.toRender()
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ShelfStatus;
+
+/***/ },
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36993,13 +37205,79 @@
 	        React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange }),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
-	        React.createElement('input', { type: 'submit', value: 'Create Shelf' })
+	        React.createElement('input', { type: 'submit', value: 'Create Shelf', className: 'small-button' })
 	      )
 	    );
 	  }
 	});
 	
 	module.exports = ShelfForm;
+
+/***/ },
+/* 309 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(250);
+	var Store = __webpack_require__(254).Store;
+	var ShelfAssignmentConstants = __webpack_require__(310);
+	
+	var ShelfAssignmentStore = new Store(AppDispatcher);
+	
+	var _shelfAssignments = {};
+	
+	var resetShelfAssignments = function (shelfAssignments) {
+	  _shelfAssignments = {};
+	  shelfAssignments.forEach(function (shelfAssignment) {
+	    _shelfAssignments[shelfAssignment.id] = shelfAssignment;
+	  });
+	};
+	
+	var setShelfAssignment = function (shelfAssignment) {
+	  _shelfAssignments[shelfAssignment.id] = shelfAssignment;
+	};
+	
+	var removeShelfAssignment = function (shelfAssignment) {
+	  delete _shelfAssignments[shelfAssignment.id];
+	};
+	
+	ShelfAssignmentStore.find = function (id) {
+	  return _shelfAssignments[id];
+	};
+	
+	ShelfAssignmentStore.all = function () {
+	  return Object.keys(_shelfAssignments).map(function (shelfAssignmentId) {
+	    return _shelfAssignments[shelfAssignmentId];
+	  });
+	};
+	
+	ShelfAssignmentStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case ShelfAssignmentConstants.SHELF_ASSIGNMENTS_RECEIVED:
+	      resetShelfAssignments(payload.shelfAssignments);
+	      this.__emitChange();
+	      break;
+	    case ShelfAssignmentConstants.SHELF_ASSIGNMENT_RECEIVED:
+	      setShelfAssignment(payload.shelfAssignment);
+	      this.__emitChange();
+	      break;
+	    case ShelfAssignmentConstants.SHELF_ASSIGNMENT_REMOVED:
+	      removeShelfAssignment(payload.shelfAssignment);
+	      this.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = ShelfAssignmentStore;
+
+/***/ },
+/* 310 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  SHELF_ASSIGNMENTS_RECEIVED: "SHELF_ASSIGNMENTS_RECEIVED",
+	  SHELF_ASSIGNMENT_RECEIVED: "SHELF_ASSIGNMENT_RECEIVED",
+	  SHELF_ASSIGNMENT_REMOVED: "SHELF_ASSIGNMENT_REMOVED"
+	};
 
 /***/ }
 /******/ ]);

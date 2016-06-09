@@ -31,6 +31,12 @@ var ShelfIndex = React.createClass({
 
         <div className="shelf-index">
           My Shelves <br/><br/>
+          <ul className="status-index">
+            <li> <a href="#">Want to Read</a></li>
+            <li> <a href="#">Currently Reading</a></li>
+            <li> <a href="#">Read </a></li>
+          </ul><br/>
+
           <ul>
             {
               this.state.shelves.map(function (shelf) {

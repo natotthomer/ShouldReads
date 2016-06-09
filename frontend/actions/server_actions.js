@@ -1,6 +1,7 @@
 var AppDispatcher = require('./../dispatcher/dispatcher');
 var BookConstants = require('./../constants/book_constants');
 var ShelfConstants = require('./../constants/shelf_constants');
+var ShelfAssignmentConstants = require('./../constants/shelf_assignment_constants');
 
 var ServerActions = {
   receiveAllBooks: function (books) {
@@ -42,6 +43,27 @@ var ServerActions = {
     AppDispatcher.dispatch({
       actionType: ShelfConstants.SHELF_REMOVED,
       shelf: shelf
+    });
+  },
+
+  receiveAllShelfAssignments: function (shelfAssignments) {
+    AppDispatcher.dispatch({
+      actionType: ShelfAssignmentConstants.SHELF_ASSIGNMENTS_RECEIVED,
+      shelfAssignments: shelfAssignments
+    });
+  },
+
+  receiveSingleShelfAssignment: function (shelfAssignment) {
+    AppDispatcher.dispatch({
+      actionType: ShelfAssignmentConstants.SHELF_ASSIGNMENT_RECEIVED,
+      shelfAssignment: shelfAssignment
+    });
+  },
+
+  removeShelfAssignment: function (shelfAssignment) {
+    AppDispatcher.dispatch({
+      actionType: ShelfAssignmentConstants.SHELF_ASSIGNMENT_REMOVED,
+      shelfAssignment: shelfAssignment
     });
   }
 };

@@ -102,3 +102,23 @@ a {
 .right {
   float: right;
 }
+
+.modal-close:hover {
+  color: #409d69;
+  cursor: pointer;
+}
+
+.add-book-to-shelves {
+  overflow-y: scroll;
+  /*padding: 5px;*/
+  height: 100px;
+}
+
+.shelf-select-item-selected {
+  background: #409d69;
+}
+
+.shelf-select-item:hover {
+  background: #5bd482;
+  cursor: pointer;
+}

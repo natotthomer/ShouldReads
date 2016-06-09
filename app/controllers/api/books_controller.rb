@@ -44,6 +44,12 @@ class Api::BooksController < ApplicationController
     end
   end
 
+  def update_shelves
+    @book = Book.find(params[:id])
+
+    
+  end
+
   def book_params
     params.require(:book).permit(:title, :author_fname, :author_lname, :cover, :description, :status)
   end

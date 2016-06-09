@@ -1,6 +1,8 @@
-class Api::ShelfAssignmentController < ApplicationController
+class Api::ShelfAssignmentsController < ApplicationController
   def create
+    debugger;
     @shelf_assignment = ShelfAssignment.create!(shelf_assignment_params)
+    render :show
   end
 
   def destroy

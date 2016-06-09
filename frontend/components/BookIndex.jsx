@@ -39,6 +39,7 @@ var BookIndex = React.createClass({
 
   render: function () {
     if (SessionStore.currentUserHasBeenFetched()) {
+      // debugger;
       return (
         <div className="book-index">
           <ul className="clearfix">

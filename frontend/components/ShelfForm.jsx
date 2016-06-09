@@ -46,7 +46,7 @@ var ShelfForm = React.createClass({
           <br/>
           Description: <textarea value={this.state.description} onChange={this.descriptionChange}/>
           <br/><br/>
-          <input type="submit" value="Create Shelf"/>
+          <input type="submit" value="Create Shelf" className="small-button"/>
         </form>
       </div>
     );

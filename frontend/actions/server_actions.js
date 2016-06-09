@@ -46,13 +46,6 @@ var ServerActions = {
     });
   },
 
-  receiveAllShelfAssignments: function (shelfAssignments) {
-    AppDispatcher.dispatch({
-      actionType: ShelfAssignmentConstants.SHELF_ASSIGNMENTS_RECEIVED,
-      shelfAssignments: shelfAssignments
-    });
-  },
-
   receiveSingleShelfAssignment: function (shelfAssignment) {
     AppDispatcher.dispatch({
       actionType: ShelfAssignmentConstants.SHELF_ASSIGNMENT_RECEIVED,

@@ -16,7 +16,7 @@ var BookEdit = React.createClass({
       title: book.title,
       author_fname: book.author_fname,
       author_lname: book.author_lname,
-      id: book.id,
+      id: book.id
     });
   },
 

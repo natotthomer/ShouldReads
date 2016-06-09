@@ -1,7 +1,6 @@
 var React = require('react');
 var ClientActions = require('./../actions/client_actions');
 var ShelfStore = require('./../stores/shelf_store');
-var ShelfAssignmentStore = require('./../stores/shelf_assignment_store');
 
 var ShelfStatus = React.createClass({
 

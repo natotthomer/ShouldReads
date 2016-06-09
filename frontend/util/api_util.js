@@ -121,41 +121,26 @@ var ApiUtil = {
     });
   },
 
-  fetchShelfAssignments: function () {
-    $.ajax({
-      url: "api/shelf_assignments",
-      success: function (shelfAssignments) {
-        ServerActions.receiveAllShelfAssignments(shelfAssignments);
-      }
-    });
-  },
-
-  fetchShelfAssignment: function (id) {
-    $.ajax({
-      url: "api/shelf_assignments/" + id,
-      success: function (shelfAssignment) {
-        ServerActions.receiveSingleShelfAssignment(shelfAssignment);
-      }
-    });
-  },
-
   createShelfAssignment: function (data) {
     $.ajax({
       url: "api/shelf_assignments",
       type: "POST",
       data: { shelf_assignment: data },
-      success: function (shelfAssignment) {
-        ServerActions.receiveSingleShelfAssignment(shelfAssignment);
+      success: function (shelf) {
+        ServerActions.receiveSingleShelf(shelf);
       }
     });
   },
 
-  removeShelfAssignment: function (id, redirectToHome) {
+  removeShelfAssignment: function (id) {
     $.ajax({
       url: "api/shelf_assignments/" + id,
       type: "DELETE",
-      success: function (shelfAssignment) {
-        ServerActions.removeShelfAssignment(shelfAssignment);
+      success: function (shelf) {
+        ServerActions.receiveSingleShelf(shelf);
+      },
+      error: function (shelf) {
+        ServerActions.receiveSingleShelf(shelf);
       }
     });
   }

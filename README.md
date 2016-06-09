@@ -16,10 +16,10 @@ at a minimum, satisfy the following criteria by the end of Week 9:
 - [x] Hosting on Heroku
 - [ ] Visually-appealing (and matching) CSS styling
 - [ ] A production README
-- [ ] Bare-minimum features to be a GoodReads clone:
+- [x] Bare-minimum features to be a GoodReads clone:
   - [x] Book creation
   - [x] Book editing
-  - [ ] Create Book Ratings, Reviews, Shelves
+  - [x] Create Book Shelves
   - [x] Mark Books as "want to read", "read", and "currently reading"
 
 ** Product Goals and Priorities **

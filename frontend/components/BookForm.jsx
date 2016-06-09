@@ -14,6 +14,14 @@ var BookForm = React.createClass({
     return ({ title: "", author_fname: "", author_lname: ""});
   },
 
+  componentDidMount: function () {
+    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
+  },
+
+  componentWillUnmount: function () {
+    this.errorListener.remove();
+  },
+
   titleChange: function (e) {
     var newTitle = e.target.value;
     this.setState({ title: newTitle });
@@ -47,6 +55,17 @@ var BookForm = React.createClass({
     ClientActions.fetchBook(bookId);
   },
 
+  fieldErrors: function (field) {
+    var errors = ErrorStore.formErrors("Add Book");
+    if (!errors[field]) { return; }
+
+    var messages = errors[field].map(function (errorMsg, i) {
+      return <li key={ i }>{ errorMsg }</li>;
+    });
+
+    return <ul>{ messages }</ul>;
+  },
+
   render: function () {
     return (
       <div>
@@ -59,6 +78,9 @@ var BookForm = React.createClass({
         <br/>
         Author Last Name: <input type="text" value={this.state.author_lname} onChange={this.authorLNameChange}/>
         <br/><br/>
+        <div className="login-errors-div">
+          { this.fieldErrors("base") }
+        </div>
         <input type="submit" value="Create Book" className="small-button"/>
         </form>
       </div>

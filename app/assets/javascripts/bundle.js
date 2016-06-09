@@ -66,7 +66,6 @@
 	var ShelvesView = __webpack_require__(296);
 	var ShelfForm = __webpack_require__(310);
 	var ShelfEdit = __webpack_require__(298);
-	var StatusShow = __webpack_require__(311);
 	var ReadShow = __webpack_require__(312);
 	var WantShow = __webpack_require__(313);
 	var CurrentlyShow = __webpack_require__(314);
@@ -35630,20 +35629,11 @@
 	    ApiUtil.updateShelf(data, onModalClose);
 	  },
 	
-	  fetchShelfAssignments: function () {
-	    ApiUtil.fetchShelfAssignments();
-	  },
-	  fetchShelfAssignment: function (id) {
-	    ApiUtil.fetchShelfAssignment(id);
-	  },
 	  createShelfAssignment: function (data) {
 	    ApiUtil.createShelfAssignment(data);
 	  },
 	  removeShelfAssignment: function (id) {
 	    ApiUtil.removeShelfAssignment(id);
-	  },
-	  updateShelfAssignment: function (data, onModalClose) {
-	    ApiUtil.updateShelfAssignment(data, onModalClose);
 	  }
 	};
 	
@@ -35776,41 +35766,26 @@
 	    });
 	  },
 	
-	  fetchShelfAssignments: function () {
-	    $.ajax({
-	      url: "api/shelf_assignments",
-	      success: function (shelfAssignments) {
-	        ServerActions.receiveAllShelfAssignments(shelfAssignments);
-	      }
-	    });
-	  },
-	
-	  fetchShelfAssignment: function (id) {
-	    $.ajax({
-	      url: "api/shelf_assignments/" + id,
-	      success: function (shelfAssignment) {
-	        ServerActions.receiveSingleShelfAssignment(shelfAssignment);
-	      }
-	    });
-	  },
-	
 	  createShelfAssignment: function (data) {
 	    $.ajax({
 	      url: "api/shelf_assignments",
 	      type: "POST",
 	      data: { shelf_assignment: data },
-	      success: function (shelfAssignment) {
-	        ServerActions.receiveSingleShelfAssignment(shelfAssignment);
+	      success: function (shelf) {
+	        ServerActions.receiveSingleShelf(shelf);
 	      }
 	    });
 	  },
 	
-	  removeShelfAssignment: function (id, redirectToHome) {
+	  removeShelfAssignment: function (id) {
 	    $.ajax({
 	      url: "api/shelf_assignments/" + id,
 	      type: "DELETE",
-	      success: function (shelfAssignment) {
-	        ServerActions.removeShelfAssignment(shelfAssignment);
+	      success: function (shelf) {
+	        ServerActions.receiveSingleShelf(shelf);
+	      },
+	      error: function (shelf) {
+	        ServerActions.receiveSingleShelf(shelf);
 	      }
 	    });
 	  }
@@ -35867,13 +35842,6 @@
 	    AppDispatcher.dispatch({
 	      actionType: ShelfConstants.SHELF_REMOVED,
 	      shelf: shelf
-	    });
-	  },
-	
-	  receiveAllShelfAssignments: function (shelfAssignments) {
-	    AppDispatcher.dispatch({
-	      actionType: ShelfAssignmentConstants.SHELF_ASSIGNMENTS_RECEIVED,
-	      shelfAssignments: shelfAssignments
 	    });
 	  },
 	
@@ -36479,6 +36447,14 @@
 	    return { title: "", author_fname: "", author_lname: "" };
 	  },
 	
+	  componentDidMount: function () {
+	    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.errorListener.remove();
+	  },
+	
 	  titleChange: function (e) {
 	    var newTitle = e.target.value;
 	    this.setState({ title: newTitle });
@@ -36512,6 +36488,27 @@
 	    ClientActions.fetchBook(bookId);
 	  },
 	
+	  fieldErrors: function (field) {
+	    var errors = ErrorStore.formErrors("Add Book");
+	    if (!errors[field]) {
+	      return;
+	    }
+	
+	    var messages = errors[field].map(function (errorMsg, i) {
+	      return React.createElement(
+	        'li',
+	        { key: i },
+	        errorMsg
+	      );
+	    });
+	
+	    return React.createElement(
+	      'ul',
+	      null,
+	      messages
+	    );
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -36536,6 +36533,11 @@
 	        React.createElement('input', { type: 'text', value: this.state.author_lname, onChange: this.authorLNameChange }),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
+	        React.createElement(
+	          'div',
+	          { className: 'login-errors-div' },
+	          this.fieldErrors("base")
+	        ),
 	        React.createElement('input', { type: 'submit', value: 'Create Book', className: 'small-button' })
 	      )
 	    );
@@ -37092,7 +37094,6 @@
 	var React = __webpack_require__(1);
 	var ClientActions = __webpack_require__(287);
 	var ShelfStore = __webpack_require__(292);
-	var ShelfAssignmentStore = __webpack_require__(309);
 	
 	var ShelfStatus = React.createClass({
 	  displayName: 'ShelfStatus',
@@ -37158,62 +37159,7 @@
 	module.exports = ShelfStatus;
 
 /***/ },
-/* 309 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(250);
-	var Store = __webpack_require__(254).Store;
-	var ShelfAssignmentConstants = __webpack_require__(291);
-	
-	var ShelfAssignmentStore = new Store(AppDispatcher);
-	
-	var _shelfAssignments = {};
-	
-	var resetShelfAssignments = function (shelfAssignments) {
-	  _shelfAssignments = {};
-	  shelfAssignments.forEach(function (shelfAssignment) {
-	    _shelfAssignments[shelfAssignment.id] = shelfAssignment;
-	  });
-	};
-	
-	var setShelfAssignment = function (shelfAssignment) {
-	  _shelfAssignments[shelfAssignment.id] = shelfAssignment;
-	};
-	
-	var removeShelfAssignment = function (shelfAssignment) {
-	  delete _shelfAssignments[shelfAssignment.id];
-	};
-	
-	ShelfAssignmentStore.find = function (id) {
-	  return _shelfAssignments[id];
-	};
-	
-	ShelfAssignmentStore.all = function () {
-	  return Object.keys(_shelfAssignments).map(function (shelfAssignmentId) {
-	    return _shelfAssignments[shelfAssignmentId];
-	  });
-	};
-	
-	ShelfAssignmentStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case ShelfAssignmentConstants.SHELF_ASSIGNMENTS_RECEIVED:
-	      resetShelfAssignments(payload.shelfAssignments);
-	      this.__emitChange();
-	      break;
-	    case ShelfAssignmentConstants.SHELF_ASSIGNMENT_RECEIVED:
-	      setShelfAssignment(payload.shelfAssignment);
-	      this.__emitChange();
-	      break;
-	    case ShelfAssignmentConstants.SHELF_ASSIGNMENT_REMOVED:
-	      removeShelfAssignment(payload.shelfAssignment);
-	      this.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = ShelfAssignmentStore;
-
-/***/ },
+/* 309 */,
 /* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -37288,33 +37234,7 @@
 	module.exports = ShelfForm;
 
 /***/ },
-/* 311 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Sidebar = __webpack_require__(285);
-	var BookIndex = __webpack_require__(294);
-	var ShelfIndex = __webpack_require__(286);
-	
-	var StatusShow = React.createClass({
-	  displayName: 'StatusShow',
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'div',
-	        { className: 'shelf-index-left' },
-	        React.createElement(ShelfIndex, null)
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = StatusShow;
-
-/***/ },
+/* 311 */,
 /* 312 */
 /***/ function(module, exports, __webpack_require__) {
 

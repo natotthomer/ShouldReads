@@ -36,20 +36,11 @@ var ClientActions = {
     ApiUtil.updateShelf(data, onModalClose);
   },
 
-  fetchShelfAssignments: function () {
-    ApiUtil.fetchShelfAssignments();
-  },
-  fetchShelfAssignment: function (id) {
-    ApiUtil.fetchShelfAssignment(id);
-  },
   createShelfAssignment: function (data) {
     ApiUtil.createShelfAssignment(data);
   },
   removeShelfAssignment: function (id) {
     ApiUtil.removeShelfAssignment(id);
-  },
-  updateShelfAssignment: function (data, onModalClose) {
-    ApiUtil.updateShelfAssignment(data, onModalClose);
   }
 };
 

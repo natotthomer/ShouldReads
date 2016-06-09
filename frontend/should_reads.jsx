@@ -20,7 +20,6 @@ var BookForm = require('./components/BookForm');
 var ShelvesView = require('./components/ShelvesView');
 var ShelfForm = require('./components/ShelfForm');
 var ShelfEdit = require('./components/ShelfEdit');
-var StatusShow = require('./components/StatusShow');
 var ReadShow = require('./components/ReadShow');
 var WantShow = require('./components/WantShow');
 var CurrentlyShow = require('./components/CurrentlyShow');

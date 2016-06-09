@@ -6,7 +6,8 @@ class Api::BooksController < ApplicationController
     if @book.save
       render "api/books/show"
     else
-      render json: @book.errors, status: 422
+
+      render json: { base: ["Fields cannot be blank"] }, status: 422
     end
   end
 
@@ -47,7 +48,7 @@ class Api::BooksController < ApplicationController
   def update_shelves
     @book = Book.find(params[:id])
 
-    
+
   end
 
   def book_params

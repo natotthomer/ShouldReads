@@ -1,8 +1,22 @@
-.modal-header {
-  text-align: center;
-}
+
 
 .shelf-select {
   height: 100px;
   /*border:*/
+}
+
+/* General */
+
+.modal-header {
+  text-align: center;
+}
+
+/* Form */
+
+.modal-form {
+  padding: 10px;
+}
+
+.modal-form > input, textarea {
+  box-sizing: border-box;
 }

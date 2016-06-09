@@ -5,8 +5,11 @@ class Api::ShelfAssignmentsController < ApplicationController
     render 'api/shelves/show'
   end
 
-  def destroy
-    shelf_assignment = ShelfAssignment.find(params[:id])
+  def remove
+    shelf_assignment = ShelfAssignment.find_by(
+      book_id: params[:shelf_assignment][:book_id],
+      shelf_id: params[:shelf_assignment][:shelf_id]
+    )
     @shelf = shelf_assignment.shelf
     if shelf_assignment.destroy
       render 'api/shelves/show'

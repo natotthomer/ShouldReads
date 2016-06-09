@@ -7,8 +7,8 @@ var _errors = {};
 var _form = "";
 
 ErrorStore.formErrors = function (form) {
-
   if (form !== _form) {
+
     return {};
   }
 
@@ -19,7 +19,6 @@ ErrorStore.formErrors = function (form) {
     errors = _errors[field];
     result[field] = errors.slice();
   });
-
   return result;
 };
 

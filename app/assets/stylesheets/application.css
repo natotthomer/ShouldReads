@@ -65,7 +65,7 @@ a:hover {
 .main-background {
   margin: auto;
   width: 900px;
-  min-height: 500px;
+  min-height: 450px;
 }
 
 form > h1 {
@@ -109,4 +109,18 @@ a {
 .shelf-select-item:hover {
   background: #5bd482;
   cursor: pointer;
+}
+
+.form-errors-div {
+  margin: auto;
+  text-align: center;
+  font-size: 10px;
+  display: block;
+  padding-bottom: 4px;
+  height: 12px;
+}
+
+.form-label {
+  text-align: right;
+  display: inline-block;
 }

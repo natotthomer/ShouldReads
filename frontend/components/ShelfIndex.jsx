@@ -1,15 +1,19 @@
 var React = require('react');
 var Link = require('react-router').Link;
+var Modal = require('react-modal');
 
 var ClientActions = require('./../actions/client_actions');
 var SessionStore = require('./../stores/session_store');
 var ShelfStore = require('./../stores/shelf_store');
 
 var ShelfIndexItem = require('./ShelfIndexItem');
+var ShelfForm = require('./ShelfForm');
+
+var modalStyle = require('./../constants/modal_style_constants');
 
 var ShelfIndex = React.createClass({
   getInitialState: function () {
-    return ({ shelves: [] });
+    return ({ shelves: [], modalOpen: false });
   },
 
   componentDidMount: function () {
@@ -25,6 +29,14 @@ var ShelfIndex = React.createClass({
     this.setState({ shelves: ShelfStore.all() });
   },
 
+  __handleModalOpen: function () {
+    this.setState({ modalOpen: true });
+  },
+
+  onModalClose: function () {
+    this.setState({ modalOpen: false });
+  },
+
   render: function () {
     if (SessionStore.currentUserHasBeenFetched()) {
       return (
@@ -35,8 +47,8 @@ var ShelfIndex = React.createClass({
             <li> <a href="#/books/want">Want to Read</a></li>
             <li> <a href="#/books/currently">Currently Reading</a></li>
             <li> <a href="#/books/read">Read </a></li>
-          </ul><br/>
-
+          </ul>
+          <br/>
           <ul>
             {
               this.state.shelves.map(function (shelf) {
@@ -44,8 +56,16 @@ var ShelfIndex = React.createClass({
               })
             }
           </ul><br/><br/>
-          <Link to={"shelves/new"}>create a new shelf...</Link>
-
+          <button className="sidebar-new-shelf-button"onClick={this.__handleModalOpen} >
+            create a new shelf...
+          </button>
+          <Modal
+            isOpen={this.state.modalOpen}
+            onRequestClose={this.onModalClose}
+            style={modalStyle}>
+            <button onClick={this.onModalClose} className="modal-close left"><strong>X</strong></button>
+            <ShelfForm onModalClose={this.onModalClose}/>
+          </Modal>
         </div>
       );
     } else {

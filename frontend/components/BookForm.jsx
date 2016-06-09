@@ -56,32 +56,38 @@ var BookForm = React.createClass({
   },
 
   fieldErrors: function (field) {
-    var errors = ErrorStore.formErrors("Add Book");
+    var errors = ErrorStore.formErrors("bookadd");
     if (!errors[field]) { return; }
+    var messages = errors[field][0]
 
-    var messages = errors[field].map(function (errorMsg, i) {
-      return <li key={ i }>{ errorMsg }</li>;
-    });
-
-    return <ul>{ messages }</ul>;
+    return <div>{ messages }</div>;
   },
 
   render: function () {
     return (
       <div>
-        <form className="book-form" onSubmit={this.handleSubmit}>
-        <h1 className="modal-header">Add a new Book</h1><br/><br/>
-        Title: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="text" value={this.state.title} onChange={this.titleChange}/>
-        <br/>
-        Author First Name: <input type="text" value={this.state.author_fname} onChange={this.authorFNameChange}/>
-        <br/>
-        Author Last Name: <input type="text" value={this.state.author_lname} onChange={this.authorLNameChange}/>
-        <br/><br/>
-        <div className="login-errors-div">
-          { this.fieldErrors("base") }
-        </div>
-        <input type="submit" value="Create Book" className="small-button"/>
+        <form className="modal-form" onSubmit={this.handleSubmit}>
+          <h1 className="modal-header">
+            Add a new Book
+          </h1>
+          <br/><br/>
+          <label className="form-label">
+            Title:
+            <input type="text" value={this.state.title} onChange={this.titleChange}/>
+          </label>
+          <br/>
+          <label className="form-label">
+            Author First Name: <input type="text" value={this.state.author_fname} onChange={this.authorFNameChange}/>
+          </label>
+          <br/>
+          <label className="form-label">
+            Author Last Name: <input type="text" value={this.state.author_lname} onChange={this.authorLNameChange}/>
+          </label>
+          <br/>
+          <div className="form-errors-div">
+            { this.fieldErrors("base") }
+          </div>
+          <input type="submit" value="Create Book" className="small-button"/>
         </form>
       </div>
     );

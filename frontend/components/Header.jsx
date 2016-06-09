@@ -60,7 +60,7 @@ var Header = React.createClass({
     return (
       <div className="left">
         <button className="header-nav-button left" onClick={this.__handleOpenModal}>Add a book</button>
-        <Link className="header-nav-button left" to="books/">Browse books</Link>
+        <Link className="header-nav-button left" to="books/" id="header-a">Browse books</Link>
       </div>
     );
   },

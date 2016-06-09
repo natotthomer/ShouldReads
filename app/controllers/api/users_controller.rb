@@ -6,7 +6,7 @@ class Api::UsersController < ApplicationController
       login!(@user)
       render "api/users/show"
     else
-      render json: @user.errors, status: 422
+      render json: { base: ["Fields cannot be blank"] }, status: 422
     end
   end
 

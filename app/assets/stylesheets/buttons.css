@@ -36,6 +36,7 @@
   height: 20px;
   width: 80px;
   cursor: pointer;
+  text-align: center;
 }
 
 .login-button:hover, .signup-button:hover {

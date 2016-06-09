@@ -64,8 +64,6 @@
 	var BookShow = __webpack_require__(303);
 	var BookForm = __webpack_require__(301);
 	var ShelvesView = __webpack_require__(296);
-	var ShelfForm = __webpack_require__(310);
-	var ShelfEdit = __webpack_require__(298);
 	var ReadShow = __webpack_require__(312);
 	var WantShow = __webpack_require__(313);
 	var CurrentlyShow = __webpack_require__(314);
@@ -74,7 +72,6 @@
 	  Route,
 	  { path: '/', component: Header },
 	  React.createElement(IndexRoute, { component: Homepage }),
-	  React.createElement(Route, { path: 'shelves/new', component: ShelfForm, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: '(users/:userId/)shelves/:shelfId', component: ShelvesView, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: 'books', component: AllBookIndex, onEnter: _ensureLoggedIn }),
 	  React.createElement(Route, { path: 'books/new', component: BookForm, onEnter: _ensureLoggedIn }),
@@ -34882,7 +34879,7 @@
 	      ),
 	      React.createElement(
 	        Link,
-	        { className: 'header-nav-button left', to: 'books/' },
+	        { className: 'header-nav-button left', to: 'books/', id: 'header-a' },
 	        'Browse books'
 	      )
 	    );
@@ -35134,8 +35131,8 @@
 	var _form = "";
 	
 	ErrorStore.formErrors = function (form) {
-	
 	  if (form !== _form) {
+	
 	    return {};
 	  }
 	
@@ -35146,7 +35143,6 @@
 	    errors = _errors[field];
 	    result[field] = errors.slice();
 	  });
-	
 	  return result;
 	};
 	
@@ -35261,16 +35257,10 @@
 	      return;
 	    }
 	
-	    var messages = errors[field].map(function (errorMsg, i) {
-	      return React.createElement(
-	        'li',
-	        { key: i },
-	        errorMsg
-	      );
-	    });
+	    var messages = errors[field][0];
 	
 	    return React.createElement(
-	      'ul',
+	      'div',
 	      null,
 	      messages
 	    );
@@ -35296,41 +35286,39 @@
 	      null,
 	      React.createElement(
 	        'form',
-	        { onSubmit: this.handleSubmit },
+	        { onSubmit: this.handleSubmit, 'class': 'signup-form' },
 	        React.createElement(
 	          'h1',
-	          null,
+	          { className: 'signup-welcome' },
 	          'Welcome to Shouldreads!'
 	        ),
 	        ' ',
 	        React.createElement('br', null),
-	        this.fieldErrors("base"),
 	        React.createElement(
 	          'div',
 	          { className: 'signup-form' },
 	          React.createElement(
-	            'section',
-	            { className: 'login-fields' },
-	            React.createElement(
-	              'label',
-	              null,
-	              'Username:',
-	              React.createElement('input', { type: 'text', value: this.state.username, onChange: this.usernameChange }),
-	              ' ',
-	              React.createElement('br', null),
-	              this.fieldErrors("username")
-	            ),
-	            React.createElement(
-	              'label',
-	              null,
-	              'Password:',
-	              React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange }),
-	              ' ',
-	              React.createElement('br', null),
-	              this.fieldErrors("password")
-	            )
+	            'label',
+	            null,
+	            'Username:',
+	            React.createElement('input', { type: 'text', value: this.state.username, onChange: this.usernameChange }),
+	            ' ',
+	            React.createElement('br', null)
+	          ),
+	          React.createElement(
+	            'label',
+	            null,
+	            'Password:',
+	            React.createElement('input', { type: 'password', value: this.state.password, onChange: this.passwordChange }),
+	            ' ',
+	            React.createElement('br', null)
 	          ),
 	          React.createElement('br', null),
+	          React.createElement(
+	            'div',
+	            { className: 'form-errors-div' },
+	            this.fieldErrors("base")
+	          ),
 	          React.createElement(
 	            'div',
 	            { className: 'signup-button' },
@@ -35343,8 +35331,21 @@
 	        { className: 'omni-auth-main' },
 	        React.createElement(
 	          'a',
-	          { href: 'auth/twitter/' },
-	          'Sign in with Twitter'
+	          { href: 'auth/twitter/', className: 'clearfix' },
+	          React.createElement(
+	            'div',
+	            { className: 'omni-auth-sub' },
+	            React.createElement(
+	              'div',
+	              { className: 'twitter-icon left' },
+	              React.createElement('img', { src: 'https://s3.amazonaws.com/shouldreads-dev/homepage_signin_twitter-9922ba9506d10862d03a558f4424c026.png' })
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'twitter-signin-text right' },
+	              'Sign in with Twitter'
+	            )
+	          )
 	        )
 	      )
 	    );
@@ -35494,18 +35495,22 @@
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
+	var Modal = __webpack_require__(229);
 	
 	var ClientActions = __webpack_require__(287);
 	var SessionStore = __webpack_require__(249);
 	var ShelfStore = __webpack_require__(292);
 	
 	var ShelfIndexItem = __webpack_require__(293);
+	var ShelfForm = __webpack_require__(310);
+	
+	var modalStyle = __webpack_require__(299);
 	
 	var ShelfIndex = React.createClass({
 	  displayName: 'ShelfIndex',
 	
 	  getInitialState: function () {
-	    return { shelves: [] };
+	    return { shelves: [], modalOpen: false };
 	  },
 	
 	  componentDidMount: function () {
@@ -35519,6 +35524,14 @@
 	
 	  getShelves: function () {
 	    this.setState({ shelves: ShelfStore.all() });
+	  },
+	
+	  __handleModalOpen: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  onModalClose: function () {
+	    this.setState({ modalOpen: false });
 	  },
 	
 	  render: function () {
@@ -35574,9 +35587,26 @@
 	        React.createElement('br', null),
 	        React.createElement('br', null),
 	        React.createElement(
-	          Link,
-	          { to: "shelves/new" },
+	          'button',
+	          { className: 'sidebar-new-shelf-button', onClick: this.__handleModalOpen },
 	          'create a new shelf...'
+	        ),
+	        React.createElement(
+	          Modal,
+	          {
+	            isOpen: this.state.modalOpen,
+	            onRequestClose: this.onModalClose,
+	            style: modalStyle },
+	          React.createElement(
+	            'button',
+	            { onClick: this.onModalClose, className: 'modal-close left' },
+	            React.createElement(
+	              'strong',
+	              null,
+	              'X'
+	            )
+	          ),
+	          React.createElement(ShelfForm, { onModalClose: this.onModalClose })
 	        )
 	      );
 	    } else {
@@ -35644,6 +35674,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var ServerActions = __webpack_require__(289);
+	var ErrorActions = __webpack_require__(274);
 	
 	var ApiUtil = {
 	  fetchBooks: function () {
@@ -35672,6 +35703,10 @@
 	      success: function (book) {
 	        ServerActions.receiveSingleBook(book);
 	        redirectToBook(book.id);
+	      },
+	      error: function (xhr) {
+	        var errors = xhr.responseJSON;
+	        ErrorActions.setErrors("bookadd", errors);
 	      }
 	    });
 	  },
@@ -35695,6 +35730,10 @@
 	      success: function (book) {
 	        ServerActions.receiveSingleBook(book);
 	        onModalClose();
+	      },
+	      error: function (xhr) {
+	        var errors = xhr.responseJSON;
+	        ErrorActions.setErrors("bookedit", errors);
 	      }
 	    });
 	  },
@@ -35737,6 +35776,10 @@
 	      success: function (shelf) {
 	        ServerActions.receiveSingleShelf(shelf);
 	        redirectToShelf(shelf.id);
+	      },
+	      error: function (xhr) {
+	        var errors = xhr.responseJSON;
+	        ErrorActions.setErrors("shelfadd", errors);
 	      }
 	    });
 	  },
@@ -35749,6 +35792,10 @@
 	      success: function (shelf) {
 	        ServerActions.receiveSingleShelf(shelf);
 	        onModalClose();
+	      },
+	      error: function (xhr) {
+	        var errors = xhr.responseJSON;
+	        ErrorActions.setErrors("shelfedit", errors);
 	      }
 	    });
 	  },
@@ -35777,9 +35824,10 @@
 	    });
 	  },
 	
-	  removeShelfAssignment: function (id) {
+	  removeShelfAssignment: function (data) {
 	    $.ajax({
-	      url: "api/shelf_assignments/" + id,
+	      url: "api/shelf_assignment/remove",
+	      data: { shelf_assignment: { shelf_id: data.shelf_id, book_id: data.book_id } },
 	      type: "DELETE",
 	      success: function (shelf) {
 	        ServerActions.receiveSingleShelf(shelf);
@@ -36265,11 +36313,13 @@
 	
 	  componentDidMount: function () {
 	    this.shelfListener = ShelfStore.addListener(this.getShelf);
+	    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
 	    ClientActions.fetchShelf(this.props.shelf.id);
 	  },
 	
 	  componentWillUnmount: function () {
 	    this.shelfListener.remove();
+	    this.errorListener.remove();
 	  },
 	
 	  getShelf: function () {
@@ -36305,6 +36355,20 @@
 	    this.context.router.push("shelves/" + shelfId);
 	  },
 	
+	  fieldErrors: function (field) {
+	    var errors = ErrorStore.formErrors("shelfedit");
+	    if (!errors[field]) {
+	      return;
+	    }
+	    var messages = errors[field][0];
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      messages
+	    );
+	  },
+	
 	  render: function () {
 	    if (this.state.title === undefined) {
 	      return React.createElement('div', null);
@@ -36318,7 +36382,7 @@
 	          { className: 'shelf-form', onSubmit: this.handleSubmit },
 	          React.createElement(
 	            'h1',
-	            null,
+	            { className: 'modal-header' },
 	            'Edit Shelf'
 	          ),
 	          React.createElement('br', null),
@@ -36326,14 +36390,26 @@
 	          React.createElement(
 	            'div',
 	            { className: 'clearfix' },
-	            'Title: ',
-	            React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange }),
+	            React.createElement(
+	              'label',
+	              { className: 'form-label' },
+	              'Title: ',
+	              React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange })
+	            ),
 	            React.createElement('br', null),
-	            'Description: ',
-	            React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange }),
+	            React.createElement(
+	              'label',
+	              { className: 'form-label' },
+	              'Description: ',
+	              React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange })
+	            ),
 	            React.createElement('br', null),
-	            React.createElement('br', null),
-	            React.createElement('input', { type: 'submit', value: 'Update Shelf', className: 'login-button' })
+	            React.createElement(
+	              'div',
+	              { className: 'form-errors-div' },
+	              this.fieldErrors("base")
+	            ),
+	            React.createElement('input', { type: 'submit', value: 'Update Shelf', className: 'small-button' })
 	          )
 	        )
 	      );
@@ -36489,21 +36565,14 @@
 	  },
 	
 	  fieldErrors: function (field) {
-	    var errors = ErrorStore.formErrors("Add Book");
+	    var errors = ErrorStore.formErrors("bookadd");
 	    if (!errors[field]) {
 	      return;
 	    }
-	
-	    var messages = errors[field].map(function (errorMsg, i) {
-	      return React.createElement(
-	        'li',
-	        { key: i },
-	        errorMsg
-	      );
-	    });
+	    var messages = errors[field][0];
 	
 	    return React.createElement(
-	      'ul',
+	      'div',
 	      null,
 	      messages
 	    );
@@ -36515,7 +36584,7 @@
 	      null,
 	      React.createElement(
 	        'form',
-	        { className: 'book-form', onSubmit: this.handleSubmit },
+	        { className: 'modal-form', onSubmit: this.handleSubmit },
 	        React.createElement(
 	          'h1',
 	          { className: 'modal-header' },
@@ -36523,19 +36592,30 @@
 	        ),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
-	        'Title:             ',
-	        React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange }),
+	        React.createElement(
+	          'label',
+	          { className: 'form-label' },
+	          'Title:',
+	          React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange })
+	        ),
 	        React.createElement('br', null),
-	        'Author First Name: ',
-	        React.createElement('input', { type: 'text', value: this.state.author_fname, onChange: this.authorFNameChange }),
+	        React.createElement(
+	          'label',
+	          { className: 'form-label' },
+	          'Author First Name: ',
+	          React.createElement('input', { type: 'text', value: this.state.author_fname, onChange: this.authorFNameChange })
+	        ),
 	        React.createElement('br', null),
-	        'Author Last Name: ',
-	        React.createElement('input', { type: 'text', value: this.state.author_lname, onChange: this.authorLNameChange }),
-	        React.createElement('br', null),
+	        React.createElement(
+	          'label',
+	          { className: 'form-label' },
+	          'Author Last Name: ',
+	          React.createElement('input', { type: 'text', value: this.state.author_lname, onChange: this.authorLNameChange })
+	        ),
 	        React.createElement('br', null),
 	        React.createElement(
 	          'div',
-	          { className: 'login-errors-div' },
+	          { className: 'form-errors-div' },
 	          this.fieldErrors("base")
 	        ),
 	        React.createElement('input', { type: 'submit', value: 'Create Book', className: 'small-button' })
@@ -36816,11 +36896,13 @@
 	
 	  componentDidMount: function () {
 	    this.bookListener = BookStore.addListener(this.getBook);
+	    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
 	    ClientActions.fetchBook(this.props.book.id);
 	  },
 	
 	  componentWillUnmount: function () {
 	    this.bookListener.remove();
+	    this.errorListener.remove();
 	  },
 	
 	  getBook: function () {
@@ -36860,6 +36942,20 @@
 	    this.context.router.push("books/" + bookId);
 	  },
 	
+	  fieldErrors: function (field) {
+	    var errors = ErrorStore.formErrors("bookedit");
+	    if (!errors[field]) {
+	      return;
+	    }
+	    var messages = errors[field][0];
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      messages
+	    );
+	  },
+	
 	  render: function () {
 	    if (this.state.title === undefined) {
 	      return React.createElement('div', null);
@@ -36882,16 +36978,32 @@
 	          React.createElement(
 	            'div',
 	            { className: 'clearfix' },
-	            'Title: ',
-	            React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange }),
+	            React.createElement(
+	              'label',
+	              { className: 'form-label' },
+	              'Title: ',
+	              React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange })
+	            ),
 	            React.createElement('br', null),
-	            'Author First Name: ',
-	            React.createElement('input', { type: 'text', value: this.state.author_fname, onChange: this.authorFNameChange }),
+	            React.createElement(
+	              'label',
+	              { className: 'form-label' },
+	              'Author First Name: ',
+	              React.createElement('input', { type: 'text', value: this.state.author_fname, onChange: this.authorFNameChange })
+	            ),
 	            React.createElement('br', null),
-	            'Author Last Name: ',
-	            React.createElement('input', { type: 'text', value: this.state.author_lname, onChange: this.authorLNameChange }),
+	            React.createElement(
+	              'label',
+	              { className: 'form-label' },
+	              'Author Last Name: ',
+	              React.createElement('input', { type: 'text', value: this.state.author_lname, onChange: this.authorLNameChange })
+	            ),
 	            React.createElement('br', null),
-	            React.createElement('br', null),
+	            React.createElement(
+	              'div',
+	              { className: 'form-errors-div' },
+	              this.fieldErrors("base")
+	            ),
 	            React.createElement('input', { type: 'submit', value: 'Update Book', className: 'small-button' })
 	          )
 	        )
@@ -37099,15 +37211,12 @@
 	  displayName: 'ShelfStatus',
 	
 	
-	  shelfAssignmentId: [],
-	
 	  toRender: function () {
 	    var inner = "☐ " + this.props.shelf.title;
 	
 	    this.props.shelf.shelf_assignments.forEach(function (shelfAssignment) {
 	      if (shelfAssignment.book_id === this.props.book.id) {
 	        inner = "☑ " + this.props.shelf.title;
-	        this.shelfAssignmentId.push(shelfAssignment.id);
 	      }
 	    }.bind(this));
 	
@@ -37132,8 +37241,7 @@
 	    };
 	    var iHasBook = this.hasBook();
 	    if (iHasBook) {
-	      ClientActions.removeShelfAssignment(this.shelfAssignmentId[0]);
-	      this.shelfAssignmentId = [];
+	      ClientActions.removeShelfAssignment(shelfAssignmentData);
 	    } else {
 	      ClientActions.createShelfAssignment(shelfAssignmentData);
 	    }
@@ -37180,6 +37288,14 @@
 	    return { title: "", description: "", user: SessionStore.currentUser().id };
 	  },
 	
+	  componentDidMount: function () {
+	    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.errorListener.remove();
+	  },
+	
 	  titleChange: function (e) {
 	    var newTitle = e.target.value;
 	    this.setState({ title: newTitle });
@@ -37200,6 +37316,20 @@
 	    ClientActions.createShelf(shelfData, this.redirectToShelf);
 	  },
 	
+	  fieldErrors: function (field) {
+	    var errors = ErrorStore.formErrors("shelfadd");
+	    if (!errors[field]) {
+	      return;
+	    }
+	    var messages = errors[field][0];
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      messages
+	    );
+	  },
+	
 	  redirectToShelf: function (shelfId) {
 	    this.context.router.push("shelves/" + shelfId);
 	  },
@@ -37210,21 +37340,33 @@
 	      null,
 	      React.createElement(
 	        'form',
-	        { className: 'shelf-form', onSubmit: this.handleSubmit },
+	        { className: 'modal-form', onSubmit: this.handleSubmit },
 	        React.createElement(
 	          'h1',
-	          null,
+	          { className: 'modal-header' },
 	          'Create a new Shelf'
 	        ),
 	        React.createElement('br', null),
 	        React.createElement('br', null),
-	        'Title: ',
-	        React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange }),
+	        React.createElement(
+	          'label',
+	          { className: 'form-label' },
+	          'Title: ',
+	          React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange })
+	        ),
 	        React.createElement('br', null),
-	        'Description: ',
-	        React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange }),
+	        React.createElement(
+	          'label',
+	          { className: 'form-label' },
+	          'Description: ',
+	          React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange })
+	        ),
 	        React.createElement('br', null),
-	        React.createElement('br', null),
+	        React.createElement(
+	          'div',
+	          { className: 'form-errors-div' },
+	          this.fieldErrors("base")
+	        ),
 	        React.createElement('input', { type: 'submit', value: 'Create Shelf', className: 'small-button' })
 	      )
 	    );

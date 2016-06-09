@@ -43,8 +43,8 @@ img {
   border-radius: 3px;
   color: #fff;
   font-size: 13px;
-  /*font-weight: lighter;*/
   cursor: pointer;
+  text-align: center;
 }
 
 .add-book-button:hover {

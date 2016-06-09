@@ -53,11 +53,9 @@ var LoginForm = React.createClass({
     var errors = ErrorStore.formErrors(this.formType());
     if (!errors[field]) { return; }
 
-    var messages = errors[field].map(function (errorMsg, i) {
-      return <li key={ i }>{ errorMsg }</li>;
-    });
+    var messages = errors[field][0];
 
-    return <ul>{ messages }</ul>;
+    return <div>{ messages }</div>;
   },
 
   formType: function () {
@@ -77,30 +75,39 @@ var LoginForm = React.createClass({
 	render: function () {
 		return (
       <div>
-  			<form onSubmit={this.handleSubmit}>
-          <h1>Welcome to Shouldreads!</h1> <br/>
+  			<form onSubmit={this.handleSubmit} class="signup-form">
+          <h1 className="signup-welcome">Welcome to Shouldreads!</h1> <br/>
 
-          { this.fieldErrors("base") }
           <div className="signup-form">
-            <section className="login-fields">
-      				<label>
-                  Username:
-        					<input type="text" value={this.state.username} onChange={this.usernameChange}/> <br/>
-                  { this.fieldErrors("username") }
-      				</label>
-      				<label>
-                Password:
-          				<input type="password" value={this.state.password} onChange={this.passwordChange}/> <br/>
-                  { this.fieldErrors("password") }
-      				</label>
-            </section><br/>
+    				<label>
+              Username:
+    					<input type="text" value={this.state.username} onChange={this.usernameChange}/> <br/>
+    				</label>
+    				<label>
+              Password:
+      				<input type="password" value={this.state.password} onChange={this.passwordChange}/> <br/>
+    				</label>
+            <br/>
+            <div className="form-errors-div">
+              { this.fieldErrors("base") }
+            </div>
             <div className="signup-button">
               <input className="login-button" type="submit" value="Sign up!" />
             </div>
           </div>
   			</form>
         <div className="omni-auth-main">
-          <a href="auth/twitter/">Sign in with Twitter</a>
+
+        <a href="auth/twitter/" className="clearfix">
+          <div className="omni-auth-sub">
+              <div className="twitter-icon left">
+                <img src="https://s3.amazonaws.com/shouldreads-dev/homepage_signin_twitter-9922ba9506d10862d03a558f4424c026.png"/>
+              </div>
+              <div className="twitter-signin-text right">
+                Sign in with Twitter
+              </div>
+          </div>
+          </a>
         </div>
       </div>
 		);

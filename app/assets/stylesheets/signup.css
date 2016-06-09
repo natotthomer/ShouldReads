@@ -10,7 +10,42 @@
   cursor: pointer;
 }
 
-.main form {
+.signup-form {
   margin: auto;
   text-align: center;
+  height: 130px;
 }
+
+.signup-welcome {
+  text-align: center;
+}
+
+.omni-auth-main {
+  margin: auto;
+  text-align: center;
+  background: #55acef;
+  /*padding: 12px;*/
+  width: 180px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding-bottom: 15px;
+}
+
+.omni-auth-sub {
+  margin: auto;
+  padding: 12px;
+}
+
+.twitter-icon {
+  height: 25px;
+  width: 25px;
+}
+
+.twitter-signin-text {
+  padding-top: 3px;
+}
+/*
+.clickable {
+  background: red;
+  padding: 10px;
+}*/

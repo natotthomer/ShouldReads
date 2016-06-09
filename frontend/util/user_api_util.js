@@ -14,6 +14,7 @@ var UserApiUtil = {
       error: function (xhr) {
         var errors = xhr.responseJSON;
         ErrorActions.setErrors("signup", errors);
+
       }
     });
   }

@@ -4,15 +4,12 @@ var ShelfStore = require('./../stores/shelf_store');
 
 var ShelfStatus = React.createClass({
 
-  shelfAssignmentId: [],
-
   toRender: function () {
     var inner = "☐ " + this.props.shelf.title;
 
     this.props.shelf.shelf_assignments.forEach(function (shelfAssignment) {
       if (shelfAssignment.book_id === this.props.book.id) {
         inner = "☑ " + this.props.shelf.title;
-        this.shelfAssignmentId.push(shelfAssignment.id);
       }
     }.bind(this));
 
@@ -37,8 +34,7 @@ var ShelfStatus = React.createClass({
     };
     var iHasBook = this.hasBook();
     if (iHasBook) {
-      ClientActions.removeShelfAssignment(this.shelfAssignmentId[0]);
-      this.shelfAssignmentId = [];
+      ClientActions.removeShelfAssignment(shelfAssignmentData);
     } else {
       ClientActions.createShelfAssignment(shelfAssignmentData);
     }

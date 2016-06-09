@@ -4,7 +4,7 @@ class Api::ShelvesController < ApplicationController
     if @shelf.save
       render "api/shelves/show"
     else
-      render json: @shelf.errors, status: 422
+      render json: { base: ["Fields cannot be blank"] }, status: 422
     end
   end
 
@@ -23,6 +23,8 @@ class Api::ShelvesController < ApplicationController
 
     if @shelf.update(shelf_params)
       render :show
+    else
+      render json: { base: ["Fields cannot be blank"] }, status: 422
     end
   end
 

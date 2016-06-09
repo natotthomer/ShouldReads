@@ -13,6 +13,14 @@ var ShelfForm = React.createClass({
     return ({ title: "", description: "", user: SessionStore.currentUser().id });
   },
 
+  componentDidMount: function () {
+    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
+  },
+
+  componentWillUnmount: function () {
+    this.errorListener.remove();
+  },
+
   titleChange: function (e) {
     var newTitle = e.target.value;
     this.setState({ title: newTitle });
@@ -33,6 +41,14 @@ var ShelfForm = React.createClass({
     ClientActions.createShelf(shelfData, this.redirectToShelf);
   },
 
+  fieldErrors: function (field) {
+    var errors = ErrorStore.formErrors("shelfadd");
+    if (!errors[field]) { return; }
+    var messages = errors[field][0]
+
+    return <div>{ messages }</div>;
+  },
+
   redirectToShelf: function (shelfId) {
     this.context.router.push("shelves/" + shelfId);
   },
@@ -40,12 +56,19 @@ var ShelfForm = React.createClass({
   render: function () {
     return (
       <div>
-        <form className="shelf-form" onSubmit={this.handleSubmit}>
-          <h1>Create a new Shelf</h1><br/><br/>
-          Title: <input type="text" value={this.state.title} onChange={this.titleChange}/>
+        <form className="modal-form" onSubmit={this.handleSubmit}>
+          <h1 className="modal-header">Create a new Shelf</h1><br/><br/>
+          <label className="form-label">
+            Title: <input type="text" value={this.state.title} onChange={this.titleChange}/>
+          </label>
           <br/>
-          Description: <textarea value={this.state.description} onChange={this.descriptionChange}/>
-          <br/><br/>
+          <label className="form-label">
+            Description: <textarea value={this.state.description} onChange={this.descriptionChange}/>
+          </label>
+          <br/>
+          <div className="form-errors-div">
+            { this.fieldErrors("base") }
+          </div>
           <input type="submit" value="Create Shelf" className="small-button"/>
         </form>
       </div>

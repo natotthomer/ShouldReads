@@ -1,4 +1,5 @@
-var ServerActions = require('./../actions/server_actions.js');
+var ServerActions = require('./../actions/server_actions');
+var ErrorActions = require('./../actions/error_actions');
 
 var ApiUtil = {
   fetchBooks: function () {
@@ -27,6 +28,10 @@ var ApiUtil = {
       success: function (book) {
         ServerActions.receiveSingleBook(book);
         redirectToBook(book.id);
+      },
+      error: function (xhr) {
+        var errors = xhr.responseJSON;
+        ErrorActions.setErrors("bookadd", errors);
       }
     });
   },
@@ -50,6 +55,10 @@ var ApiUtil = {
       success: function (book) {
         ServerActions.receiveSingleBook(book);
         onModalClose();
+      },
+      error: function (xhr) {
+        var errors = xhr.responseJSON;
+        ErrorActions.setErrors("bookedit", errors);
       }
     });
   },
@@ -92,6 +101,10 @@ var ApiUtil = {
       success: function (shelf) {
         ServerActions.receiveSingleShelf(shelf);
         redirectToShelf(shelf.id);
+      },
+      error: function (xhr) {
+        var errors = xhr.responseJSON;
+        ErrorActions.setErrors("shelfadd", errors);
       }
     });
   },
@@ -104,6 +117,10 @@ var ApiUtil = {
       success: function (shelf) {
         ServerActions.receiveSingleShelf(shelf);
         onModalClose();
+      },
+      error: function (xhr) {
+        var errors = xhr.responseJSON;
+        ErrorActions.setErrors("shelfedit", errors);
       }
     });
   },
@@ -132,9 +149,10 @@ var ApiUtil = {
     });
   },
 
-  removeShelfAssignment: function (id) {
+  removeShelfAssignment: function (data) {
     $.ajax({
-      url: "api/shelf_assignments/" + id,
+      url: "api/shelf_assignment/remove",
+      data: { shelf_assignment: { shelf_id: data.shelf_id, book_id: data.book_id } },
       type: "DELETE",
       success: function (shelf) {
         ServerActions.receiveSingleShelf(shelf);

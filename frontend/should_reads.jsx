@@ -18,8 +18,6 @@ var AllBookIndex = require('./components/AllBookIndex');
 var BookShow = require('./components/BookShow');
 var BookForm = require('./components/BookForm');
 var ShelvesView = require('./components/ShelvesView');
-var ShelfForm = require('./components/ShelfForm');
-var ShelfEdit = require('./components/ShelfEdit');
 var ReadShow = require('./components/ReadShow');
 var WantShow = require('./components/WantShow');
 var CurrentlyShow = require('./components/CurrentlyShow');
@@ -27,7 +25,6 @@ var CurrentlyShow = require('./components/CurrentlyShow');
 var routes = (
   <Route path="/" component={Header}>
     <IndexRoute component={Homepage}/>
-    <Route path="shelves/new" component={ShelfForm} onEnter={_ensureLoggedIn}/>
     <Route path="(users/:userId/)shelves/:shelfId" component={ShelvesView} onEnter={_ensureLoggedIn}/>
     <Route path="books" component={AllBookIndex} onEnter={_ensureLoggedIn}/>
     <Route path="books/new" component={BookForm} onEnter={_ensureLoggedIn}/>

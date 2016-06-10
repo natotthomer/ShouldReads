@@ -53,10 +53,10 @@ API to seed the database with any information not provided by the user.
 
 ### To-Do:
 
-* Flashier, cleaner CSS
-* Book reviews & ratings
-* Genre tags
-* User community, profiles and user-uploaded profile pictures
-* Pagination with Kaminari
-* Auto-focus for forms
-* Google & Facebook OmniAuth
+[ ] Flashier, cleaner CSS
+[ ] Book reviews & ratings
+[ ] Genre tags
+[ ] User community, profiles and user-uploaded profile pictures
+[ ] Pagination with Kaminari
+[ ] Auto-focus for forms
+[ ] Google & Facebook OmniAuth

@@ -98,14 +98,14 @@ var LoginForm = React.createClass({
   			</form>
         <div className="omni-auth-main">
 
-        <a href="auth/twitter/" className="clearfix">
+        <a href="auth/twitter/" className="clickable clearfix">
           <div className="omni-auth-sub">
-              <div className="twitter-icon left">
-                <img src="https://s3.amazonaws.com/shouldreads-dev/homepage_signin_twitter-9922ba9506d10862d03a558f4424c026.png"/>
-              </div>
-              <div className="twitter-signin-text right">
-                Sign in with Twitter
-              </div>
+            <div className="twitter-icon left">
+              <img src="https://s3.amazonaws.com/shouldreads-dev/homepage_signin_twitter-9922ba9506d10862d03a558f4424c026.png"/>
+            </div>
+            <div className="twitter-signin-text right">
+              Sign in with Twitter
+            </div>
           </div>
           </a>
         </div>

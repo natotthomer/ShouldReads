@@ -13,6 +13,7 @@ var Homepage = require('./Homepage');
 var BookForm = require('./BookForm');
 
 var modalStyle = require('./../constants/modal_style_constants');
+var _backgroundClass = "login-background";
 
 var Header = React.createClass({
 
@@ -21,20 +22,26 @@ var Header = React.createClass({
   },
 
   getInitialState: function () {
-    return ({ modalOpen: false, isLoggedIn: SessionStore.isUserLoggedIn() });
+    return ({ modalOpen: false,
+              isLoggedIn: SessionStore.isUserLoggedIn()
+           });
   },
 
   componentDidMount: function () {
-    SessionStore.addListener(this.hasUser);
+
+    this.sessionListener = SessionStore.addListener(this.hasUser);
     SessionApiUtil.fetchCurrentUser();
+  },
+
+  componentWillUnmount: function () {
+    this.sessionListener.remove();
   },
 
   hasUser: function () {
     if (!this.state.isLoggedIn && SessionStore.currentUserHasBeenFetched()) {
-
       this.context.router.push("/");
     }
-    this.setState({ isLoggedIn: false })
+    this.setState({ isLoggedIn: false})
   },
 
   __handleOpenModal: function () {
@@ -76,14 +83,16 @@ var Header = React.createClass({
     } else {
       return (
         <LoginForm/>
-
       );
     }
   },
 
   render: function () {
-    if (!SessionStore.currentUser()) {
-      return (<div/>)
+    var user = SessionStore.currentUser();
+    if (user.username) {
+      _backgroundClass = 'main-background'
+    } else {
+      _backgroundClass = 'login-background';
     }
 
     return (
@@ -98,7 +107,7 @@ var Header = React.createClass({
             { this.restOfHeader() }
           </div>
         </header>
-        <section className="main-background">
+        <section className={_backgroundClass}>
           <div className="main">
             {this.props.children}
           </div>
@@ -112,6 +121,8 @@ var Header = React.createClass({
         </Modal>
       </div>
     )
+
+
   }
 })
 

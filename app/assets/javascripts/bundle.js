@@ -34814,6 +34814,7 @@
 	var BookForm = __webpack_require__(301);
 	
 	var modalStyle = __webpack_require__(299);
+	var _backgroundClass = "login-background";
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
@@ -34824,17 +34825,23 @@
 	  },
 	
 	  getInitialState: function () {
-	    return { modalOpen: false, isLoggedIn: SessionStore.isUserLoggedIn() };
+	    return { modalOpen: false,
+	      isLoggedIn: SessionStore.isUserLoggedIn()
+	    };
 	  },
 	
 	  componentDidMount: function () {
-	    SessionStore.addListener(this.hasUser);
+	
+	    this.sessionListener = SessionStore.addListener(this.hasUser);
 	    SessionApiUtil.fetchCurrentUser();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.sessionListener.remove();
 	  },
 	
 	  hasUser: function () {
 	    if (!this.state.isLoggedIn && SessionStore.currentUserHasBeenFetched()) {
-	
 	      this.context.router.push("/");
 	    }
 	    this.setState({ isLoggedIn: false });
@@ -34899,8 +34906,11 @@
 	  },
 	
 	  render: function () {
-	    if (!SessionStore.currentUser()) {
-	      return React.createElement('div', null);
+	    var user = SessionStore.currentUser();
+	    if (user.username) {
+	      _backgroundClass = 'main-background';
+	    } else {
+	      _backgroundClass = 'login-background';
 	    }
 	
 	    return React.createElement(
@@ -34931,7 +34941,7 @@
 	      ),
 	      React.createElement(
 	        'section',
-	        { className: 'main-background' },
+	        { className: _backgroundClass },
 	        React.createElement(
 	          'div',
 	          { className: 'main' },
@@ -35331,7 +35341,7 @@
 	        { className: 'omni-auth-main' },
 	        React.createElement(
 	          'a',
-	          { href: 'auth/twitter/', className: 'clearfix' },
+	          { href: 'auth/twitter/', className: 'clickable clearfix' },
 	          React.createElement(
 	            'div',
 	            { className: 'omni-auth-sub' },
@@ -36069,7 +36079,11 @@
 	          'ul',
 	          { className: 'clearfix' },
 	          this.props.books.map(function (book) {
-	            return React.createElement(BookIndexItem, { book: book, key: book.id });
+	            if (book) {
+	              return React.createElement(BookIndexItem, { book: book, key: book.id });
+	            } else {
+	              return React.createElement('div', null);
+	            }
 	          })
 	        )
 	      );
@@ -36095,7 +36109,7 @@
 	  render: function () {
 	
 	    var cover_path = this.props.book ? this.props.book.cover_url : this.props.book.cover_file_name;
-	
+	    console.log(this.props.book);
 	    return React.createElement(
 	      'li',
 	      { className: 'book-index-item left' },
@@ -36229,6 +36243,12 @@
 	    this.setState({ modalOpen: false });
 	  },
 	
+	  displayBookIndex: function () {
+	    // if (this.state.shelf.books[0].cover_url) {
+	    return React.createElement(BookIndex, { books: this.state.shelf.books });
+	    // }
+	  },
+	
 	  render: function () {
 	    if (!SessionStore.currentUserHasBeenFetched() || this.state.shelf === undefined) {
 	      return React.createElement('div', null);
@@ -36260,7 +36280,7 @@
 	      ),
 	      ' ',
 	      React.createElement('br', null),
-	      React.createElement(BookIndex, { books: this.state.shelf.books }),
+	      this.displayBookIndex(),
 	      React.createElement(
 	        Modal,
 	        {

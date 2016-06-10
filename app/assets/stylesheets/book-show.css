@@ -35,6 +35,7 @@ img {
 }
 
 .add-book-button {
+  margin: 0 21.5px;
   margin-top: 4px;
   background: #409d69;
   width: 120px;
@@ -52,5 +53,6 @@ img {
 }
 
 .book-status-buttons {
-
+  width: 164px;
+  /*text-align: center;*/
 }

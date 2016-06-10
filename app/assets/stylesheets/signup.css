@@ -18,22 +18,23 @@
 
 .signup-welcome {
   text-align: center;
+  font-size: 36px;
 }
 
 .omni-auth-main {
   margin: auto;
   text-align: center;
   background: #55acef;
-  /*padding: 12px;*/
-  width: 180px;
+  font-weight: bolder;
+  width: 190px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  padding-bottom: 15px;
 }
 
 .omni-auth-sub {
   margin: auto;
   padding: 12px;
+  margin-top: 2px;
 }
 
 .twitter-icon {
@@ -44,8 +45,9 @@
 .twitter-signin-text {
   padding-top: 3px;
 }
-/*
+
 .clickable {
-  background: red;
-  padding: 10px;
-}*/
+  display: block;
+  padding-bottom: 15px;
+  /*height: 100px;*/
+}

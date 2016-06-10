@@ -66,6 +66,12 @@ var ShelfDetail = React.createClass({
     this.setState({ modalOpen: false });
   },
 
+  displayBookIndex: function () {
+    // if (this.state.shelf.books[0].cover_url) {
+      return (<BookIndex books={this.state.shelf.books}/>);
+    // }
+  },
+
   render: function () {
     if (!SessionStore.currentUserHasBeenFetched() || this.state.shelf === undefined) {
       return (<div/>);
@@ -82,7 +88,8 @@ var ShelfDetail = React.createClass({
           </form>
         </div>
         <div className="shelf-description">{this.state.shelf.description}</div> <br/>
-        <BookIndex books={this.state.shelf.books}/>
+
+        {this.displayBookIndex()}
         <Modal
           isOpen={this.state.modalOpen}
           onRequestClose={this.onModalClose}

@@ -44,7 +44,11 @@ var BookIndex = React.createClass({
           <ul className="clearfix">
             {
               this.props.books.map(function (book) {
-                return (<BookIndexItem book={book} key={book.id}/>);
+                if (book) {
+                  return (<BookIndexItem book={book} key={book.id}/>);
+                } else {
+                  return <div/>
+                }
               })
             }
           </ul>

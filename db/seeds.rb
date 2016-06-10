@@ -28,6 +28,9 @@ shelves = Shelf.create([
     augue sagittis in. Fusce et velit non lacus placerat vehicula."},
   { title: "Fiction", user_id: User.where(username: "nat")[0].id, description: "Lorem ipsum dolor
     sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
+    augue sagittis in. Fusce et velit non lacus placerat vehicula."},
+  { title: "Comics & Graphic Novels", user_id: User.where(username: "nat")[0].id, description: "Lorem ipsum dolor
+    sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
     augue sagittis in. Fusce et velit non lacus placerat vehicula."}
 ])
 
@@ -78,7 +81,7 @@ Few science fiction sagas have achieved the level of critical acclaim-and best-s
   { title: "Ayako", author_fname: "Osamu", author_lname: "Tezuka", description: "Long considered as one of Osamu Tezuka's most political narratives, Ayako is also considered to be one of his most challenging as it defies the conventions of his manga by utilizing a completely original cast and relying solely on historical drama to drive the plot.  Ayako, pulls no punches, and does not allow for gimmicks as science-fiction or fantasy may.  Instead Tezuka weaves together a tale which its core simply focuses on a single family, a family that could be considered a metaphor for a rapidly developing superpower.", cover: "https://s3.amazonaws.com/shouldreads-dev/ayako.jpeg"},
   { title: "Watchmen", author_fname: "Alan", author_lname: "Moore", description: "Considered the greatest graphic novel in the history of the medium, the Hugo Award-winning story chronicles the fall from grace of a group of super-heroes plagued by all-too-human failings. Along the way, the concept of the super-hero is dissected as the heroes are stalked by an unknown assassin.", cover: "https://s3.amazonaws.com/shouldreads-dev/watchmen.jpeg"},
   { title: "The Incal", author_fname: "Alejandro", author_lname: "Jodorowsky", description: "John Difool, a low-class detective in a degenerate dystopian world, finds his life turned upside down when he discovers an ancient, mystical artefact called The Incal. Difool's adventures bring him into conflict with the galaxy's greatest warrior, the Metabaron, and pit him against the awesome powers of the Technopope. These encounters and many more make up a tale of comic and cosmic proportions. Visionary storyteller Jodorowsky's epic mythology and the late Moebius's incredible art blend perfectly for this legendary spiritual space adventure series.", cover: "https://s3.amazonaws.com/shouldreads-dev/incal.png"},
-  { title: "From Hell", author_fname: "Alan", author_lname: "Moore", description: "", cover: "https://s3.amazonaws.com/shouldreads-dev/from+hell.jpeg"},
+  { title: "From Hell", author_fname: "Alan", author_lname: "Moore", description: "", cover: "https://s3.amazonaws.com/shouldreads-dev/from+hell.jpeg"}
 ])
 
 shelf_assignments = ShelfAssignment.create([
@@ -120,7 +123,7 @@ shelf_assignments = ShelfAssignment.create([
   { book_id: Book.where(title: "Harry Potter and the Goblet of Fire")[0].id, shelf_id: Shelf.where(title: "Harry Potter")[0].id },
   { book_id: Book.where(title: "Harry Potter and the Order of the Phoenix")[0].id, shelf_id: Shelf.where(title: "Harry Potter")[0].id },
   { book_id: Book.where(title: "Harry Potter and the Half Blood Prince")[0].id, shelf_id: Shelf.where(title: "Harry Potter")[0].id },
-  { book_id: Book.where(title: "Harry Potter and the Deathly Hallows")[0].id, shelf_id: Shelf.where(title: "Harry Potter")[0].id },
+  { book_id: Book.where(title: "Harry Potter and the Deathly Hallows")[0].id, shelf_id: Shelf.where(title: "Harry Potter")[0].id }
 ])
 
 # books = Book.create([

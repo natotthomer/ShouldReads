@@ -31,10 +31,13 @@ var CurrentlyShow = React.createClass({
   render: function () {
     return(
       <div>
-        <div className="shelf-index-left">
+        <div className="shelf-index-left left">
           <ShelfIndex/>
         </div>
-        <BookIndex books={this.state.books}/>
+        <div className="shelf-detail">
+          <h1 className="status-header">Books I'm Reading</h1>
+          <BookIndex books={this.state.books}/>
+        </div>
       </div>
     )
   }

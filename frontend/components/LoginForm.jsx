@@ -19,6 +19,7 @@ var LoginForm = React.createClass({
   },
 
   componentDidMount: function () {
+    this.refs.autofocus.focus();
     this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
     this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
   },
@@ -93,7 +94,7 @@ var LoginForm = React.createClass({
 
     				<label className="login-form-el">
                 Username:
-      					<input className="header-input" type="text" value={this.state.username} onChange={this.usernameChange}/>
+      					<input ref="autofocus" className="header-input" type="text" value={this.state.username} onChange={this.usernameChange}/>
     				</label>&nbsp;
             <label className="login-form-el">
               Password:

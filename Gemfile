@@ -31,6 +31,8 @@ gem 'aws-sdk', '>= 2.0'
 
 gem 'omniauth-twitter'
 
+gem 'kaminari'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

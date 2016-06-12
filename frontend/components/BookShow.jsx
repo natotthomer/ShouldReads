@@ -33,6 +33,7 @@ var BookShow = React.createClass({
 
   componentDidMount: function () {
     this.bookListener = BookStore.addListener(this.getBook);
+
     ClientActions.fetchBook(this.props.params.bookId);
   },
 
@@ -98,7 +99,7 @@ var BookShow = React.createClass({
       <div className="book-show clearfix">
         <div className="book-detail clearfix left">
           <div className="book-cover left">
-            <img src={this.state.book.cover_url}/>
+            <img src={this.state.book.cover_url} className="book-shadow"/>
           </div>
           <div className="book-details clearfix left">
             <div className="book-show-title left">

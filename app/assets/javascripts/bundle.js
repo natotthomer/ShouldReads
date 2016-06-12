@@ -59,14 +59,14 @@
 	var GoogleUtil = __webpack_require__(276);
 	
 	var Header = __webpack_require__(277);
-	var Homepage = __webpack_require__(300);
-	var AllBookIndex = __webpack_require__(302);
-	var BookShow = __webpack_require__(303);
-	var BookForm = __webpack_require__(301);
-	var ShelvesView = __webpack_require__(296);
-	var ReadShow = __webpack_require__(312);
-	var WantShow = __webpack_require__(313);
-	var CurrentlyShow = __webpack_require__(314);
+	var Homepage = __webpack_require__(301);
+	var AllBookIndex = __webpack_require__(303);
+	var BookShow = __webpack_require__(304);
+	var BookForm = __webpack_require__(302);
+	var ShelvesView = __webpack_require__(298);
+	var ReadShow = __webpack_require__(310);
+	var WantShow = __webpack_require__(311);
+	var CurrentlyShow = __webpack_require__(312);
 	
 	var routes = React.createElement(
 	  Route,
@@ -34809,11 +34809,11 @@
 	var LoginForm = __webpack_require__(278);
 	var SignupForm = __webpack_require__(281);
 	var Dashboard = __webpack_require__(282);
-	var ShelvesView = __webpack_require__(296);
-	var Homepage = __webpack_require__(300);
-	var BookForm = __webpack_require__(301);
+	var ShelvesView = __webpack_require__(298);
+	var Homepage = __webpack_require__(301);
+	var BookForm = __webpack_require__(302);
 	
-	var modalStyle = __webpack_require__(299);
+	var modalStyle = __webpack_require__(295);
 	var _backgroundClass = "login-background";
 	
 	var Header = React.createClass({
@@ -34998,6 +34998,7 @@
 	  },
 	
 	  componentDidMount: function () {
+	    this.refs.autofocus.focus();
 	    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
 	    this.sessionListener = SessionStore.addListener(this.redirectIfLoggedIn);
 	  },
@@ -35086,7 +35087,7 @@
 	            'label',
 	            { className: 'login-form-el' },
 	            'Username:',
-	            React.createElement('input', { className: 'header-input', type: 'text', value: this.state.username, onChange: this.usernameChange })
+	            React.createElement('input', { ref: 'autofocus', className: 'header-input', type: 'text', value: this.state.username, onChange: this.usernameChange })
 	          ),
 	          ' ',
 	          React.createElement(
@@ -35374,7 +35375,7 @@
 	var BookStore = __webpack_require__(283);
 	var SessionApiUtil = __webpack_require__(272);
 	var Sidebar = __webpack_require__(285);
-	var BookIndex = __webpack_require__(294);
+	var BookIndex = __webpack_require__(296);
 	
 	var Dashboard = React.createClass({
 	  displayName: 'Dashboard',
@@ -35512,9 +35513,9 @@
 	var ShelfStore = __webpack_require__(292);
 	
 	var ShelfIndexItem = __webpack_require__(293);
-	var ShelfForm = __webpack_require__(310);
+	var ShelfForm = __webpack_require__(294);
 	
-	var modalStyle = __webpack_require__(299);
+	var modalStyle = __webpack_require__(295);
 	
 	var ShelfIndex = React.createClass({
 	  displayName: 'ShelfIndex',
@@ -36030,12 +36031,152 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(249);
+	var ErrorStore = __webpack_require__(279);
+	var ClientActions = __webpack_require__(287);
+	var ShelfStore = __webpack_require__(292);
+	
+	var ShelfForm = React.createClass({
+	  displayName: 'ShelfForm',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return { title: "", description: "", user: SessionStore.currentUser().id };
+	  },
+	
+	  componentDidMount: function () {
+	    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.errorListener.remove();
+	  },
+	
+	  titleChange: function (e) {
+	    var newTitle = e.target.value;
+	    this.setState({ title: newTitle });
+	  },
+	
+	  descriptionChange: function (e) {
+	    var newDescription = e.target.value;
+	    this.setState({ description: newDescription });
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var shelfData = {
+	      title: this.state.title,
+	      description: this.state.description,
+	      user_id: SessionStore.currentUser().id
+	    };
+	    ClientActions.createShelf(shelfData, this.redirectToShelf);
+	  },
+	
+	  fieldErrors: function (field) {
+	    var errors = ErrorStore.formErrors("shelfadd");
+	    if (!errors[field]) {
+	      return;
+	    }
+	    var messages = errors[field][0];
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      messages
+	    );
+	  },
+	
+	  redirectToShelf: function (shelfId) {
+	    this.context.router.push("shelves/" + shelfId);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'form',
+	        { className: 'modal-form', onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'h1',
+	          { className: 'modal-header' },
+	          'Create a new Shelf'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'label',
+	          { className: 'form-label' },
+	          'Title: ',
+	          React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange })
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'label',
+	          { className: 'form-label' },
+	          'Description: ',
+	          React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange })
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'div',
+	          { className: 'form-errors-div' },
+	          this.fieldErrors("base")
+	        ),
+	        React.createElement('input', { type: 'submit', value: 'Create Shelf', className: 'small-button' })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ShelfForm;
+
+/***/ },
+/* 295 */
+/***/ function(module, exports) {
+
+	var modalStyle = {
+	  overlay: {
+	    position: 'fixed',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(255, 255, 255, 0.8)'
+	  },
+	  content: {
+	    // position                   : 'absolute',
+	    top: '50%',
+	    left: '50%',
+	    transform: 'translateX(-50%) translateY(-50%)',
+	    border: '1px solid #ccc',
+	    background: '#fff',
+	    overflow: 'auto',
+	    WebkitOverflowScrolling: 'touch',
+	    borderRadius: '4px',
+	    outline: 'none',
+	    padding: '20px',
+	    width: '300px',
+	    height: '200px'
+	  }
+	};
+	
+	module.exports = modalStyle;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
 	var Link = __webpack_require__(168).Link;
 	
 	var SessionStore = __webpack_require__(249);
 	var BookStore = __webpack_require__(283);
 	
-	var BookIndexItem = __webpack_require__(295);
+	var BookIndexItem = __webpack_require__(297);
 	
 	var BookIndex = React.createClass({
 	  displayName: 'BookIndex',
@@ -36096,7 +36237,7 @@
 	module.exports = BookIndex;
 
 /***/ },
-/* 295 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36139,7 +36280,7 @@
 	module.exports = BookIndexItem;
 
 /***/ },
-/* 296 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36148,7 +36289,7 @@
 	var SessionApiUtil = __webpack_require__(272);
 	var ShelfIndex = __webpack_require__(286);
 	var ShelfIndexItem = __webpack_require__(293);
-	var ShelfDetail = __webpack_require__(297);
+	var ShelfDetail = __webpack_require__(299);
 	
 	var ShelvesView = React.createClass({
 	  displayName: 'ShelvesView',
@@ -36170,7 +36311,7 @@
 	module.exports = ShelvesView;
 
 /***/ },
-/* 297 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36184,10 +36325,10 @@
 	var ShelfStore = __webpack_require__(292);
 	var ShelfIndex = __webpack_require__(286);
 	var ShelfIndexItem = __webpack_require__(293);
-	var BookIndex = __webpack_require__(294);
-	var ShelfEdit = __webpack_require__(298);
+	var BookIndex = __webpack_require__(296);
+	var ShelfEdit = __webpack_require__(300);
 	
-	var modalStyle = __webpack_require__(299);
+	var modalStyle = __webpack_require__(295);
 	
 	var ShelfDetail = React.createClass({
 	  displayName: 'ShelfDetail',
@@ -36305,7 +36446,7 @@
 	module.exports = ShelfDetail;
 
 /***/ },
-/* 298 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36442,39 +36583,7 @@
 	module.exports = ShelfEdit;
 
 /***/ },
-/* 299 */
-/***/ function(module, exports) {
-
-	var modalStyle = {
-	  overlay: {
-	    position: 'fixed',
-	    top: 0,
-	    left: 0,
-	    right: 0,
-	    bottom: 0,
-	    backgroundColor: 'rgba(255, 255, 255, 0.8)'
-	  },
-	  content: {
-	    // position                   : 'absolute',
-	    top: '50%',
-	    left: '50%',
-	    transform: 'translateX(-50%) translateY(-50%)',
-	    border: '1px solid #ccc',
-	    background: '#fff',
-	    overflow: 'auto',
-	    WebkitOverflowScrolling: 'touch',
-	    borderRadius: '4px',
-	    outline: 'none',
-	    padding: '20px',
-	    width: '300px',
-	    height: '200px'
-	  }
-	};
-	
-	module.exports = modalStyle;
-
-/***/ },
-/* 300 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36484,7 +36593,7 @@
 	var LoginForm = __webpack_require__(278);
 	var SignupForm = __webpack_require__(281);
 	var Dashboard = __webpack_require__(282);
-	var ShelvesView = __webpack_require__(296);
+	var ShelvesView = __webpack_require__(298);
 	
 	var Homepage = React.createClass({
 	  displayName: 'Homepage',
@@ -36522,7 +36631,7 @@
 	module.exports = Homepage;
 
 /***/ },
-/* 301 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36647,7 +36756,7 @@
 	module.exports = BookForm;
 
 /***/ },
-/* 302 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36657,7 +36766,7 @@
 	var SessionStore = __webpack_require__(249);
 	var BookStore = __webpack_require__(283);
 	
-	var BookIndex = __webpack_require__(294);
+	var BookIndex = __webpack_require__(296);
 	
 	var AllBookIndex = React.createClass({
 	  displayName: 'AllBookIndex',
@@ -36688,7 +36797,7 @@
 	module.exports = AllBookIndex;
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36699,14 +36808,14 @@
 	var ClientActions = __webpack_require__(287);
 	
 	var BookStore = __webpack_require__(283);
-	var BookIndexItem = __webpack_require__(295);
-	var BookEdit = __webpack_require__(304);
+	var BookIndexItem = __webpack_require__(297);
+	var BookEdit = __webpack_require__(305);
 	var Sidebar = __webpack_require__(285);
-	var DeleteBookEnsure = __webpack_require__(305);
-	var BookStatusEdit = __webpack_require__(306);
-	var AddBookToShelf = __webpack_require__(307);
+	var DeleteBookEnsure = __webpack_require__(306);
+	var BookStatusEdit = __webpack_require__(307);
+	var AddBookToShelf = __webpack_require__(308);
 	
-	var modalStyle = __webpack_require__(299);
+	var modalStyle = __webpack_require__(295);
 	
 	var BookShow = React.createClass({
 	  displayName: 'BookShow',
@@ -36728,6 +36837,7 @@
 	
 	  componentDidMount: function () {
 	    this.bookListener = BookStore.addListener(this.getBook);
+	
 	    ClientActions.fetchBook(this.props.params.bookId);
 	  },
 	
@@ -36798,7 +36908,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'book-cover left' },
-	          React.createElement('img', { src: this.state.book.cover_url })
+	          React.createElement('img', { src: this.state.book.cover_url, className: 'book-shadow' })
 	        ),
 	        React.createElement(
 	          'div',
@@ -36887,7 +36997,7 @@
 	module.exports = BookShow;
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37037,7 +37147,7 @@
 	module.exports = BookEdit;
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37075,7 +37185,7 @@
 	module.exports = DeleteBookEnsure;
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37155,7 +37265,7 @@
 	module.exports = BookStatusEdit;
 
 /***/ },
-/* 307 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37163,7 +37273,7 @@
 	var ShelfStore = __webpack_require__(292);
 	var ClientActions = __webpack_require__(287);
 	
-	var ShelfStatus = __webpack_require__(308);
+	var ShelfStatus = __webpack_require__(309);
 	
 	var AddBookToShelf = React.createClass({
 	  displayName: 'AddBookToShelf',
@@ -37220,7 +37330,7 @@
 	module.exports = AddBookToShelf;
 
 /***/ },
-/* 308 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37287,125 +37397,16 @@
 	module.exports = ShelfStatus;
 
 /***/ },
-/* 309 */,
 /* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(249);
-	var ErrorStore = __webpack_require__(279);
-	var ClientActions = __webpack_require__(287);
-	var ShelfStore = __webpack_require__(292);
-	
-	var ShelfForm = React.createClass({
-	  displayName: 'ShelfForm',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    return { title: "", description: "", user: SessionStore.currentUser().id };
-	  },
-	
-	  componentDidMount: function () {
-	    this.errorListener = ErrorStore.addListener(this.forceUpdate.bind(this));
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.errorListener.remove();
-	  },
-	
-	  titleChange: function (e) {
-	    var newTitle = e.target.value;
-	    this.setState({ title: newTitle });
-	  },
-	
-	  descriptionChange: function (e) {
-	    var newDescription = e.target.value;
-	    this.setState({ description: newDescription });
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var shelfData = {
-	      title: this.state.title,
-	      description: this.state.description,
-	      user_id: SessionStore.currentUser().id
-	    };
-	    ClientActions.createShelf(shelfData, this.redirectToShelf);
-	  },
-	
-	  fieldErrors: function (field) {
-	    var errors = ErrorStore.formErrors("shelfadd");
-	    if (!errors[field]) {
-	      return;
-	    }
-	    var messages = errors[field][0];
-	
-	    return React.createElement(
-	      'div',
-	      null,
-	      messages
-	    );
-	  },
-	
-	  redirectToShelf: function (shelfId) {
-	    this.context.router.push("shelves/" + shelfId);
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'form',
-	        { className: 'modal-form', onSubmit: this.handleSubmit },
-	        React.createElement(
-	          'h1',
-	          { className: 'modal-header' },
-	          'Create a new Shelf'
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'label',
-	          { className: 'form-label' },
-	          'Title: ',
-	          React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange })
-	        ),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'label',
-	          { className: 'form-label' },
-	          'Description: ',
-	          React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange })
-	        ),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'div',
-	          { className: 'form-errors-div' },
-	          this.fieldErrors("base")
-	        ),
-	        React.createElement('input', { type: 'submit', value: 'Create Shelf', className: 'small-button' })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = ShelfForm;
-
-/***/ },
-/* 311 */,
-/* 312 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
 	var Sidebar = __webpack_require__(285);
-	var BookIndex = __webpack_require__(294);
+	var BookIndex = __webpack_require__(296);
 	var ShelfIndex = __webpack_require__(286);
 	var SessionStore = __webpack_require__(249);
 	var BookStore = __webpack_require__(283);
+	var SessionApiUtil = __webpack_require__(272);
 	var ClientActions = __webpack_require__(287);
 	
 	var ReadShow = React.createClass({
@@ -37417,14 +37418,22 @@
 	
 	  componentDidMount: function () {
 	    this.bookListener = BookStore.addListener(this.getBooks);
+	    // this.sessionListener = SessionStore.addListener(this.username);
+	    // SessionApiUtil.fetchCurrentUser();
 	    ClientActions.fetchBooks();
 	  },
+	  //
+	  // username: function() {
+	  //   this.setState({ user: SessionStore.currentUser() });
+	  // },
 	
 	  componentWillUnmount: function () {
 	    this.bookListener.remove();
+	    // this.sessionListener.remove();
 	  },
 	
 	  getBooks: function () {
+	    // debugger;
 	    var books = [];
 	    this.state.user.read.forEach(function (readBooks) {
 	      books.push(BookStore.find(readBooks.book_id));
@@ -37438,10 +37447,19 @@
 	      null,
 	      React.createElement(
 	        'div',
-	        { className: 'shelf-index-left' },
+	        { className: 'shelf-index-left left' },
 	        React.createElement(ShelfIndex, null)
 	      ),
-	      React.createElement(BookIndex, { books: this.state.books })
+	      React.createElement(
+	        'div',
+	        { className: 'shelf-detail' },
+	        React.createElement(
+	          'h1',
+	          { className: 'status-header' },
+	          'Books I\'ve Read'
+	        ),
+	        React.createElement(BookIndex, { books: this.state.books })
+	      )
 	    );
 	  }
 	});
@@ -37449,12 +37467,12 @@
 	module.exports = ReadShow;
 
 /***/ },
-/* 313 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Sidebar = __webpack_require__(285);
-	var BookIndex = __webpack_require__(294);
+	var BookIndex = __webpack_require__(296);
 	var ShelfIndex = __webpack_require__(286);
 	var SessionStore = __webpack_require__(249);
 	var BookStore = __webpack_require__(283);
@@ -37490,10 +37508,19 @@
 	      null,
 	      React.createElement(
 	        'div',
-	        { className: 'shelf-index-left' },
+	        { className: 'shelf-index-left left' },
 	        React.createElement(ShelfIndex, null)
 	      ),
-	      React.createElement(BookIndex, { books: this.state.books })
+	      React.createElement(
+	        'div',
+	        { className: 'shelf-detail' },
+	        React.createElement(
+	          'h1',
+	          { className: 'status-header' },
+	          'Books I Want to Read'
+	        ),
+	        React.createElement(BookIndex, { books: this.state.books })
+	      )
 	    );
 	  }
 	});
@@ -37501,12 +37528,12 @@
 	module.exports = WantShow;
 
 /***/ },
-/* 314 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Sidebar = __webpack_require__(285);
-	var BookIndex = __webpack_require__(294);
+	var BookIndex = __webpack_require__(296);
 	var ShelfIndex = __webpack_require__(286);
 	var SessionStore = __webpack_require__(249);
 	var BookStore = __webpack_require__(283);
@@ -37542,10 +37569,19 @@
 	      null,
 	      React.createElement(
 	        'div',
-	        { className: 'shelf-index-left' },
+	        { className: 'shelf-index-left left' },
 	        React.createElement(ShelfIndex, null)
 	      ),
-	      React.createElement(BookIndex, { books: this.state.books })
+	      React.createElement(
+	        'div',
+	        { className: 'shelf-detail' },
+	        React.createElement(
+	          'h1',
+	          { className: 'status-header' },
+	          'Books I\'m Reading'
+	        ),
+	        React.createElement(BookIndex, { books: this.state.books })
+	      )
 	    );
 	  }
 	});

@@ -14,24 +14,12 @@ User.create(username: 'guest', password: 'password1')
 User.create(username: 'nat', password: 'password')
 
 shelves = Shelf.create([
-  { title: "Fantasy & Science Fiction", user_id: User.where(username: "nat")[0].id, description: "Lorem ipsum dolor
-    sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
-    augue sagittis in. Fusce et velit non lacus placerat vehicula."},
-  { title: "Philosophy & Theory", user_id: User.where(username: "nat")[0].id, description: "Lorem ipsum dolor
-    sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
-    augue sagittis in. Fusce et velit non lacus placerat vehicula."},
-  { title: "Goosebumps", user_id: User.where(username: "nat")[0].id, description: "Lorem ipsum dolor
-    sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
-    augue sagittis in. Fusce et velit non lacus placerat vehicula."},
-  { title: "Harry Potter", user_id: User.where(username: "nat")[0].id, description: "Lorem ipsum dolor
-    sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
-    augue sagittis in. Fusce et velit non lacus placerat vehicula."},
-  { title: "Fiction", user_id: User.where(username: "nat")[0].id, description: "Lorem ipsum dolor
-    sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
-    augue sagittis in. Fusce et velit non lacus placerat vehicula."},
-  { title: "Comics & Graphic Novels", user_id: User.where(username: "nat")[0].id, description: "Lorem ipsum dolor
-    sit amet, consectetur adipiscing elit. Phasellus gravida est tortor, quis varius
-    augue sagittis in. Fusce et velit non lacus placerat vehicula."}
+  { title: "Fantasy & Science Fiction", user_id: User.where(username: "nat")[0].id, description: "Probably my favorite genre. Books of epic proportion, set in worlds far away"},
+  { title: "Philosophy & Theory", user_id: User.where(username: "nat")[0].id, description: "What I like to think I read, but I only get a couple of these a year."},
+  { title: "Goosebumps", user_id: User.where(username: "nat")[0].id, description: "I was truly, truly terrified by these books as a kid."},
+  { title: "Harry Potter", user_id: User.where(username: "nat")[0].id, description: "The perfect feel-good series. I wish this stuff was real."},
+  { title: "Fiction", user_id: User.where(username: "nat")[0].id, description: "I really don't know why I made this shelf, I hadly read much actual fiction."},
+  { title: "Comics & Graphic Novels", user_id: User.where(username: "nat")[0].id, description: "I don't love the term graphic novel, but it seems to be a source for much in-fighting between people who like visual paper-based storytelling."}
 ])
 
 books = Book.create([

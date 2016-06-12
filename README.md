@@ -62,3 +62,4 @@ API to seed the database with any information not provided by the user.
 [ ] Auto-focus for modals
 [ ] Google, Facebook & GitHub OmniAuth
 [ ] Add Options for Google API results
+[ ] 

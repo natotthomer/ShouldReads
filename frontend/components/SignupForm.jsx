@@ -98,16 +98,24 @@ var LoginForm = React.createClass({
   			</form>
         <div className="omni-auth-main">
 
-        <a href="auth/twitter/" className="clickable clearfix">
-          <div className="omni-auth-sub">
-            <div className="twitter-icon left">
-              <img src="https://s3.amazonaws.com/shouldreads-dev/homepage_signin_twitter-9922ba9506d10862d03a558f4424c026.png"/>
+          <a href="auth/twitter/" className="clickable clearfix">
+            <div className="omni-auth-sub">
+              <div className="twitter-icon left">
+                <img src="https://s3.amazonaws.com/shouldreads-dev/homepage_signin_twitter-9922ba9506d10862d03a558f4424c026.png"/>
+              </div>
+              <div className="twitter-signin-text right">
+                Sign in with Twitter
+              </div>
             </div>
-            <div className="twitter-signin-text right">
-              Sign in with Twitter
-            </div>
-          </div>
           </a>
+        </div>
+        <br/>
+        <div className="app-description">
+          <p>
+            ShouldReads is a web application , based on GoodReads.com, using React.js, Flux, & Ruby on Rails. <br/>
+            It's a great way to organize the books you've read, want to read and maybe find your next favorite book!<br/>
+            Make an account to get started, or sign in with Twitter!
+          </p>
         </div>
       </div>
 		);

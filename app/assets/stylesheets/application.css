@@ -150,3 +150,10 @@ a {
   padding-left: 200px;
   font-size: 20px;
 }
+
+.app-description {
+  font-size: 13px;
+  width: 400px;
+  text-align: center;
+  margin: auto;
+}

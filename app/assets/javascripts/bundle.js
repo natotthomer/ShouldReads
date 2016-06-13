@@ -35358,6 +35358,20 @@
 	            )
 	          )
 	        )
+	      ),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'div',
+	        { className: 'app-description' },
+	        React.createElement(
+	          'p',
+	          null,
+	          'ShouldReads is a web application , based on GoodReads.com, using React.js, Flux, & Ruby on Rails. ',
+	          React.createElement('br', null),
+	          'It\'s a great way to organize the books you\'ve read, want to read and maybe find your next favorite book!',
+	          React.createElement('br', null),
+	          'Make an account to get started, or sign in with Twitter!'
+	        )
 	      )
 	    );
 	  }

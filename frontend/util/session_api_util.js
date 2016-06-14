@@ -8,12 +8,10 @@ var SessionApiUtil = {
       type: "POST",
       data: { user: credentials },
       success: function (currentUser) {
-        console.log("Login success ()");
         SessionActions.receiveCurrentUser(currentUser);
         callback();
       },
       error: function (xhr) {
-        console.log("Login error");
         var errors = xhr.responseJSON;
         ErrorActions.setErrors("login", errors);
       }
@@ -25,11 +23,9 @@ var SessionApiUtil = {
       url: "/api/session",
       type: "DELETE",
       success: function () {
-        console.log("Logout success");
         SessionActions.removeCurrentUser();
       },
       error: function () {
-        console.log("Logout error");
 
       }
     });
@@ -45,7 +41,6 @@ var SessionApiUtil = {
         callback();
       },
       error: function (xhr) {
-        console.log("Fetch error");
       }
     });
   }

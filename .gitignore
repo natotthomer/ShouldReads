@@ -15,3 +15,6 @@
 
 # Ignore application configuration
 /config/application.yml
+
+# Ignore byebug_history
+.byebug_history

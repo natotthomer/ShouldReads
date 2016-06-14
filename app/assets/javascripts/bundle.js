@@ -34667,12 +34667,10 @@
 	      type: "POST",
 	      data: { user: credentials },
 	      success: function (currentUser) {
-	        console.log("Login success ()");
 	        SessionActions.receiveCurrentUser(currentUser);
 	        callback();
 	      },
 	      error: function (xhr) {
-	        console.log("Login error");
 	        var errors = xhr.responseJSON;
 	        ErrorActions.setErrors("login", errors);
 	      }
@@ -34684,12 +34682,9 @@
 	      url: "/api/session",
 	      type: "DELETE",
 	      success: function () {
-	        console.log("Logout success");
 	        SessionActions.removeCurrentUser();
 	      },
-	      error: function () {
-	        console.log("Logout error");
-	      }
+	      error: function () {}
 	    });
 	  },
 	
@@ -34702,9 +34697,7 @@
 	        callback = callback || function () {};
 	        callback();
 	      },
-	      error: function (xhr) {
-	        console.log("Fetch error");
-	      }
+	      error: function (xhr) {}
 	    });
 	  }
 	};
@@ -37447,7 +37440,6 @@
 	  },
 	
 	  getBooks: function () {
-	    // debugger;
 	    var books = [];
 	    this.state.user.read.forEach(function (readBooks) {
 	      books.push(BookStore.find(readBooks.book_id));

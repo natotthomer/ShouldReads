@@ -29,7 +29,6 @@ var ReadShow = React.createClass({
   },
 
   getBooks: function () {
-    // debugger;
     var books = [];
     this.state.user.read.forEach(function (readBooks) {
       books.push(BookStore.find(readBooks.book_id));

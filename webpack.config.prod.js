@@ -12,6 +12,18 @@ module.exports = {
   "scripts": {
    "heroku-postbuild": "webpack --config webpack.config.prod.js"
   },
+  plugins:[
+    new webpack.DefinePlugin({
+      'process.env':{
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress:{
+        warnings: true
+      }
+    })
+  ],
   module: {
     loaders: [
       {

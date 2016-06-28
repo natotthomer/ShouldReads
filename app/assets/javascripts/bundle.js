@@ -35383,6 +35383,7 @@
 	var SessionApiUtil = __webpack_require__(272);
 	var Sidebar = __webpack_require__(285);
 	var BookIndex = __webpack_require__(296);
+	var PopularBooks = __webpack_require__(313);
 	
 	var Dashboard = React.createClass({
 	  displayName: 'Dashboard',
@@ -35391,8 +35392,6 @@
 	  getInitialState: function () {
 	    return { shelves: [], user: {} };
 	  },
-	
-	  componentDidMount: function () {},
 	
 	  render: function () {
 	    return React.createElement(
@@ -35404,6 +35403,7 @@
 	        this.props.user.username,
 	        '\'s Dashboard'
 	      ),
+	      React.createElement(PopularBooks, { user: this.props.user }),
 	      React.createElement(Sidebar, null)
 	    );
 	  }
@@ -36257,7 +36257,6 @@
 	  render: function () {
 	
 	    var cover_path = this.props.book ? this.props.book.cover_url : this.props.book.cover_file_name;
-	    console.log(this.props.book);
 	    return React.createElement(
 	      'li',
 	      { className: 'book-index-item left' },
@@ -37593,6 +37592,31 @@
 	});
 	
 	module.exports = CurrentlyShow;
+
+/***/ },
+/* 313 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var PopularBooks = React.createClass({
+	  displayName: "PopularBooks",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "popular-books" },
+	      React.createElement(
+	        "div",
+	        { className: "popular-books-title" },
+	        "Popular Books"
+	      ),
+	      React.createElement("div", { className: "book-index" })
+	    );
+	  }
+	});
+	
+	module.exports = PopularBooks;
 
 /***/ }
 /******/ ]);

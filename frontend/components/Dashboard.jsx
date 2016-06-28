@@ -5,6 +5,7 @@ var BookStore = require('./../stores/book_store');
 var SessionApiUtil = require('./../util/session_api_util');
 var Sidebar = require('./Sidebar');
 var BookIndex = require('./BookIndex');
+var PopularBooks = require('./PopularBooks');
 
 var Dashboard = React.createClass({
 
@@ -12,13 +13,11 @@ var Dashboard = React.createClass({
     return ({ shelves: [], user: {} });
   },
 
-  componentDidMount: function () {
-  },
-
   render: function () {
     return (
       <div className="clearfix">
         <h1 className="dashboard-main">{this.props.user.username}'s Dashboard</h1>
+        <PopularBooks user={this.props.user}/>
         <Sidebar/>
       </div>
     );

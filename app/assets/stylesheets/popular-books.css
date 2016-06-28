@@ -1,0 +1,12 @@
+.popular-books {
+  /*border: 1px solid black;*/
+  float: left;
+  padding: 20px;
+  width: 620px;
+  min-height: 400px;
+  color: #555555;
+}
+
+.popular-books-title {
+  
+}

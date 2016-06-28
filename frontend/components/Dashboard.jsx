@@ -7,13 +7,13 @@ var Sidebar = require('./Sidebar');
 var BookIndex = require('./BookIndex');
 
 var Dashboard = React.createClass({
-
-  getInitialState: function () {
-    return ({ shelves: [], user: {} });
-  },
-
-  componentDidMount: function () {
-  },
+  // 
+  // getInitialState: function () {
+  //   return ({ shelves: [], user: {} });
+  // },
+  //
+  // componentDidMount: function () {
+  // },
 
   render: function () {
     return (

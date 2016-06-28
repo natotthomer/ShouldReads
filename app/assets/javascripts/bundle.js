@@ -35387,12 +35387,13 @@
 	var Dashboard = React.createClass({
 	  displayName: 'Dashboard',
 	
-	
-	  getInitialState: function () {
-	    return { shelves: [], user: {} };
-	  },
-	
-	  componentDidMount: function () {},
+	  //
+	  // getInitialState: function () {
+	  //   return ({ shelves: [], user: {} });
+	  // },
+	  //
+	  // componentDidMount: function () {
+	  // },
 	
 	  render: function () {
 	    return React.createElement(

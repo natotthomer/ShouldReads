@@ -59,14 +59,14 @@
 	var GoogleUtil = __webpack_require__(276);
 	
 	var Header = __webpack_require__(277);
-	var Homepage = __webpack_require__(301);
-	var AllBookIndex = __webpack_require__(303);
-	var BookShow = __webpack_require__(304);
-	var BookForm = __webpack_require__(302);
-	var ShelvesView = __webpack_require__(298);
-	var ReadShow = __webpack_require__(310);
-	var WantShow = __webpack_require__(311);
-	var CurrentlyShow = __webpack_require__(312);
+	var Homepage = __webpack_require__(302);
+	var AllBookIndex = __webpack_require__(304);
+	var BookShow = __webpack_require__(305);
+	var BookForm = __webpack_require__(303);
+	var ShelvesView = __webpack_require__(299);
+	var ReadShow = __webpack_require__(311);
+	var WantShow = __webpack_require__(312);
+	var CurrentlyShow = __webpack_require__(313);
 	
 	var routes = React.createElement(
 	  Route,
@@ -34802,9 +34802,9 @@
 	var LoginForm = __webpack_require__(278);
 	var SignupForm = __webpack_require__(281);
 	var Dashboard = __webpack_require__(282);
-	var ShelvesView = __webpack_require__(298);
-	var Homepage = __webpack_require__(301);
-	var BookForm = __webpack_require__(302);
+	var ShelvesView = __webpack_require__(299);
+	var Homepage = __webpack_require__(302);
+	var BookForm = __webpack_require__(303);
 	
 	var modalStyle = __webpack_require__(295);
 	var _backgroundClass = "login-background";
@@ -36288,7 +36288,8 @@
 	module.exports = BookIndexItem;
 
 /***/ },
-/* 298 */
+/* 298 */,
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36297,7 +36298,7 @@
 	var SessionApiUtil = __webpack_require__(272);
 	var ShelfIndex = __webpack_require__(286);
 	var ShelfIndexItem = __webpack_require__(293);
-	var ShelfDetail = __webpack_require__(299);
+	var ShelfDetail = __webpack_require__(300);
 	
 	var ShelvesView = React.createClass({
 	  displayName: 'ShelvesView',
@@ -36319,7 +36320,7 @@
 	module.exports = ShelvesView;
 
 /***/ },
-/* 299 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36334,7 +36335,7 @@
 	var ShelfIndex = __webpack_require__(286);
 	var ShelfIndexItem = __webpack_require__(293);
 	var BookIndex = __webpack_require__(296);
-	var ShelfEdit = __webpack_require__(300);
+	var ShelfEdit = __webpack_require__(301);
 	
 	var modalStyle = __webpack_require__(295);
 	
@@ -36454,7 +36455,7 @@
 	module.exports = ShelfDetail;
 
 /***/ },
-/* 300 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36591,7 +36592,7 @@
 	module.exports = ShelfEdit;
 
 /***/ },
-/* 301 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36601,7 +36602,7 @@
 	var LoginForm = __webpack_require__(278);
 	var SignupForm = __webpack_require__(281);
 	var Dashboard = __webpack_require__(282);
-	var ShelvesView = __webpack_require__(298);
+	var ShelvesView = __webpack_require__(299);
 	
 	var Homepage = React.createClass({
 	  displayName: 'Homepage',
@@ -36639,7 +36640,7 @@
 	module.exports = Homepage;
 
 /***/ },
-/* 302 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36764,7 +36765,7 @@
 	module.exports = BookForm;
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36805,7 +36806,7 @@
 	module.exports = AllBookIndex;
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36817,11 +36818,11 @@
 	
 	var BookStore = __webpack_require__(283);
 	var BookIndexItem = __webpack_require__(297);
-	var BookEdit = __webpack_require__(305);
+	var BookEdit = __webpack_require__(306);
 	var Sidebar = __webpack_require__(285);
-	var DeleteBookEnsure = __webpack_require__(306);
-	var BookStatusEdit = __webpack_require__(307);
-	var AddBookToShelf = __webpack_require__(308);
+	var DeleteBookEnsure = __webpack_require__(307);
+	var BookStatusEdit = __webpack_require__(308);
+	var AddBookToShelf = __webpack_require__(309);
 	
 	var modalStyle = __webpack_require__(295);
 	
@@ -37005,7 +37006,7 @@
 	module.exports = BookShow;
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37155,7 +37156,7 @@
 	module.exports = BookEdit;
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37193,7 +37194,7 @@
 	module.exports = DeleteBookEnsure;
 
 /***/ },
-/* 307 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37273,7 +37274,7 @@
 	module.exports = BookStatusEdit;
 
 /***/ },
-/* 308 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37281,7 +37282,7 @@
 	var ShelfStore = __webpack_require__(292);
 	var ClientActions = __webpack_require__(287);
 	
-	var ShelfStatus = __webpack_require__(309);
+	var ShelfStatus = __webpack_require__(310);
 	
 	var AddBookToShelf = React.createClass({
 	  displayName: 'AddBookToShelf',
@@ -37338,7 +37339,7 @@
 	module.exports = AddBookToShelf;
 
 /***/ },
-/* 309 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37405,7 +37406,7 @@
 	module.exports = ShelfStatus;
 
 /***/ },
-/* 310 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37474,7 +37475,7 @@
 	module.exports = ReadShow;
 
 /***/ },
-/* 311 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37535,7 +37536,7 @@
 	module.exports = WantShow;
 
 /***/ },
-/* 312 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);

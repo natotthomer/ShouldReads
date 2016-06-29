@@ -35359,7 +35359,7 @@
 	        React.createElement(
 	          'p',
 	          null,
-	          'ShouldReads is a web application , based on GoodReads.com, using React.js, Flux, & Ruby on Rails. ',
+	          'Shouldreads is a web application , based on GoodReads.com, using React.js, Flux, & Ruby on Rails. ',
 	          React.createElement('br', null),
 	          'It\'s a great way to organize the books you\'ve read, want to read and maybe find your next favorite book!',
 	          React.createElement('br', null),
@@ -35383,17 +35383,15 @@
 	var SessionApiUtil = __webpack_require__(272);
 	var Sidebar = __webpack_require__(285);
 	var BookIndex = __webpack_require__(296);
+	var PopularBooks = __webpack_require__(298);
 	
 	var Dashboard = React.createClass({
 	  displayName: 'Dashboard',
 	
-	  //
-	  // getInitialState: function () {
-	  //   return ({ shelves: [], user: {} });
-	  // },
-	  //
-	  // componentDidMount: function () {
-	  // },
+	
+	  getInitialState: function () {
+	    return { shelves: [], user: {} };
+	  },
 	
 	  render: function () {
 	    return React.createElement(
@@ -35405,10 +35403,10 @@
 	        this.props.user.username,
 	        '\'s Dashboard'
 	      ),
+	      React.createElement(PopularBooks, { user: this.props.user }),
 	      React.createElement(Sidebar, null)
 	    );
 	  }
-	  // <BookIndex/>
 	
 	});
 	
@@ -35439,6 +35437,14 @@
 	
 	var removeBook = function (book) {
 	  delete _books[book.id];
+	};
+	
+	BookStore.sixRandomBooks = function () {
+	  var six = [];
+	  for (var i = 0; i < 6; i++) {
+	    six.push(_books[Math.floor(Math.random() * _books.length)]);
+	  }
+	  debugger;
 	};
 	
 	BookStore.find = function (id) {
@@ -36258,7 +36264,6 @@
 	  render: function () {
 	
 	    var cover_path = this.props.book ? this.props.book.cover_url : this.props.book.cover_file_name;
-	    console.log(this.props.book);
 	    return React.createElement(
 	      'li',
 	      { className: 'book-index-item left' },
@@ -36288,7 +36293,71 @@
 	module.exports = BookIndexItem;
 
 /***/ },
-/* 298 */,
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var BookStore = __webpack_require__(283);
+	var BookIndex = __webpack_require__(296);
+	var ClientActions = __webpack_require__(287);
+	
+	var PopularBooks = React.createClass({
+	  displayName: 'PopularBooks',
+	
+	  getInitialState: function () {
+	    return { books: this.getSixBooks() };
+	  },
+	
+	  getSixBooks: function () {
+	    var all = BookStore.all();
+	    var sixBooks = [];
+	    if (all.length > 0) {
+	      while (sixBooks.length < 8) {
+	        var randBook = all[Math.floor(Math.random() * all.length)];
+	        if (!sixBooks.includes(randBook)) {
+	          sixBooks.push(randBook);
+	        }
+	      }
+	    }
+	    return sixBooks;
+	  },
+	
+	  componentDidMount: function () {
+	    this.bookListener = BookStore.addListener(this.getBooks);
+	    ClientActions.fetchBooks();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.bookListener.remove();
+	  },
+	
+	  getBooks: function () {
+	    this.setState({ books: this.getSixBooks() });
+	  },
+	
+	  render: function () {
+	    // debugger;
+	    return React.createElement(
+	      'div',
+	      { className: 'popular-books' },
+	      React.createElement(
+	        'div',
+	        { className: 'popular-books-title' },
+	        'Popular Books'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'book-index' },
+	        React.createElement(BookIndex, { books: this.state.books })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = PopularBooks;
+
+/***/ },
 /* 299 */
 /***/ function(module, exports, __webpack_require__) {
 

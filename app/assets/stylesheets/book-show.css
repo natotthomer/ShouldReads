@@ -52,10 +52,12 @@ img {
   font-size: 13px;
   cursor: pointer;
   text-align: center;
+  transition: 0.3s;
 }
 
 .add-book-button:hover {
-  background: #00985E;
+  background: #008558;
+  transition: 0.3s;
 }
 
 .book-status-buttons {

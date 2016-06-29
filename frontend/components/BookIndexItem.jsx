@@ -6,7 +6,6 @@ var BookIndexItem = React.createClass({
   render: function () {
 
     var cover_path = this.props.book ? this.props.book.cover_url : this.props.book.cover_file_name;
-    console.log(this.props.book);
     return (
       <li className="book-index-item left">
         <Link to={"books/" + this.props.book.id}>

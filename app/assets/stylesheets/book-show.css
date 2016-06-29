@@ -35,9 +35,9 @@ img {
 }
 
 .book-shadow {
-  -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-  box-shadow: -5px 5px 5px 0px rgba(0,0,0,0.6);
+  -webkit-box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.3);
+  box-shadow: -3px 3px 3px 0px rgba(0,0,0,0.3);
 }
 
 .add-book-button {
@@ -52,10 +52,12 @@ img {
   font-size: 13px;
   cursor: pointer;
   text-align: center;
+  transition: 0.3s;
 }
 
 .add-book-button:hover {
-  background: #00985E;
+  background: #008558;
+  transition: 0.3s;
 }
 
 .book-status-buttons {

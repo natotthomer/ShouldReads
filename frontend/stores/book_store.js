@@ -21,6 +21,14 @@ var removeBook = function (book) {
   delete _books[book.id];
 };
 
+BookStore.sixRandomBooks = function () {
+  var six = [];
+  for(var i = 0; i < 6; i++) {
+    six.push(_books[Math.floor(Math.random() * _books.length)]);
+  }
+  debugger;
+};
+
 BookStore.find = function (id) {
   return _books[id];
 };

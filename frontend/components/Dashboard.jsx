@@ -22,7 +22,6 @@ var Dashboard = React.createClass({
       </div>
     );
   }
-  // <BookIndex/>
 
 });
 

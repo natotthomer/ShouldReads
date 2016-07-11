@@ -53,16 +53,16 @@ API to seed the database with any information not provided by the user.
 
 ### To-Do:
 
-[ ] Search bar
-[ ] Flashier, cleaner CSS
-[ ] Book reviews & ratings
-[ ] Genre tags
-[ ] User community, profiles and user-uploaded profile pictures
-[ ] Pagination with Kaminari
-[ ] Auto-focus for modals
-[ ] Google, Facebook & GitHub OmniAuth
-[ ] Add Options for Google API results
-[ ] Hosting
-[ ] Update Seed data
-[ ] Update Home page with a small blurb
-[ ] Visual feedback upon creation
+- [ ] Search bar
+- [ ] Flashier, cleaner CSS
+- [ ] Book reviews & ratings
+- [ ] Genre tags
+- [ ] User community, profiles and user-uploaded profile pictures
+- [ ] Pagination with Kaminari
+- [ ] Auto-focus for modals
+- [ ] Google, Facebook & GitHub OmniAuth
+- [ ] Add Options for Google API results
+- [ ] Hosting
+- [ ] Update Seed data
+- [ ] Update Home page with a small blurb
+- [ ] Visual feedback upon creation

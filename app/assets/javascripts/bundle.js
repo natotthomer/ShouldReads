@@ -60,13 +60,13 @@
 	
 	var Header = __webpack_require__(277);
 	var Homepage = __webpack_require__(302);
-	var AllBookIndex = __webpack_require__(305);
-	var BookShow = __webpack_require__(306);
+	var AllBookIndex = __webpack_require__(304);
+	var BookShow = __webpack_require__(305);
 	var BookForm = __webpack_require__(303);
 	var ShelvesView = __webpack_require__(299);
-	var ReadShow = __webpack_require__(312);
-	var WantShow = __webpack_require__(313);
-	var CurrentlyShow = __webpack_require__(314);
+	var ReadShow = __webpack_require__(311);
+	var WantShow = __webpack_require__(312);
+	var CurrentlyShow = __webpack_require__(313);
 	
 	var routes = React.createElement(
 	  Route,
@@ -34813,7 +34813,6 @@
 	var ShelvesView = __webpack_require__(299);
 	var Homepage = __webpack_require__(302);
 	var BookForm = __webpack_require__(303);
-	var SearchBar = __webpack_require__(304);
 	
 	var modalStyle = __webpack_require__(295);
 	var _backgroundClass = "login-background";
@@ -34891,14 +34890,6 @@
 	        { className: 'header-nav-button left', to: 'books/', id: 'header-a' },
 	        'Browse books'
 	      )
-	    );
-	  },
-	
-	  searchBar: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'search-bar-wrapper' },
-	      React.createElement(SearchBar, null)
 	    );
 	  },
 	
@@ -36142,19 +36133,25 @@
 	        React.createElement('br', null),
 	        React.createElement('br', null),
 	        React.createElement(
-	          'label',
-	          { className: 'form-label' },
-	          'Title: ',
-	          React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange })
+	          'div',
+	          { className: 'modal-form-field' },
+	          React.createElement(
+	            'label',
+	            null,
+	            'Title: ',
+	            React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange, className: 'modal-form-input modal-shelf-title' })
+	          )
 	        ),
-	        React.createElement('br', null),
 	        React.createElement(
-	          'label',
-	          { className: 'form-label' },
-	          'Description: ',
-	          React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange })
+	          'div',
+	          { className: 'modal-form-field' },
+	          React.createElement(
+	            'label',
+	            null,
+	            'Description: ',
+	            React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange, className: 'modal-form-input modal-textarea' })
+	          )
 	        ),
-	        React.createElement('br', null),
 	        React.createElement(
 	          'div',
 	          { className: 'form-errors-div' },
@@ -36634,43 +36631,41 @@
 	    }
 	    if (SessionStore.isUserLoggedIn()) {
 	      return React.createElement(
-	        'div',
-	        { className: 'edit-main' },
+	        'form',
+	        { className: 'modal-form', onSubmit: this.handleSubmit },
 	        React.createElement(
-	          'form',
-	          { className: 'shelf-form', onSubmit: this.handleSubmit },
+	          'h1',
+	          { className: 'modal-header' },
+	          'Edit Shelf'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'div',
+	          { className: 'modal-form-field' },
 	          React.createElement(
-	            'h1',
-	            { className: 'modal-header' },
-	            'Edit Shelf'
-	          ),
-	          React.createElement('br', null),
-	          React.createElement('br', null),
-	          React.createElement(
-	            'div',
-	            { className: 'clearfix' },
-	            React.createElement(
-	              'label',
-	              { className: 'form-label' },
-	              'Title: ',
-	              React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange })
-	            ),
-	            React.createElement('br', null),
-	            React.createElement(
-	              'label',
-	              { className: 'form-label' },
-	              'Description: ',
-	              React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange })
-	            ),
-	            React.createElement('br', null),
-	            React.createElement(
-	              'div',
-	              { className: 'form-errors-div' },
-	              this.fieldErrors("base")
-	            ),
-	            React.createElement('input', { type: 'submit', value: 'Update Shelf', className: 'small-button' })
+	            'label',
+	            null,
+	            'Title: ',
+	            React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange, className: 'modal-form-input' })
 	          )
-	        )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'modal-form-field' },
+	          React.createElement(
+	            'label',
+	            null,
+	            'Description: ',
+	            React.createElement('textarea', { value: this.state.description, onChange: this.descriptionChange, className: 'modal-form-input' })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'form-errors-div' },
+	          this.fieldErrors("base")
+	        ),
+	        React.createElement('input', { type: 'submit', value: 'Update Shelf', className: 'small-button' })
 	      );
 	    } else {
 	      return React.createElement('div', null);
@@ -36820,24 +36815,34 @@
 	        React.createElement('br', null),
 	        React.createElement('br', null),
 	        React.createElement(
-	          'label',
-	          { className: 'form-label' },
-	          'Title:',
-	          React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange })
+	          'div',
+	          { className: 'modal-form-field' },
+	          React.createElement(
+	            'label',
+	            { className: 'form-label' },
+	            'Title: ',
+	            React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange, className: 'modal-form-input modal-book-title' })
+	          )
 	        ),
-	        React.createElement('br', null),
 	        React.createElement(
-	          'label',
-	          { className: 'form-label' },
-	          'Author First Name: ',
-	          React.createElement('input', { type: 'text', value: this.state.author_fname, onChange: this.authorFNameChange })
+	          'div',
+	          { className: 'modal-form-field' },
+	          React.createElement(
+	            'label',
+	            { className: 'form-label' },
+	            'Author First Name: ',
+	            React.createElement('input', { type: 'text', value: this.state.author_fname, onChange: this.authorFNameChange, className: 'modal-form-input' })
+	          )
 	        ),
-	        React.createElement('br', null),
 	        React.createElement(
-	          'label',
-	          { className: 'form-label' },
-	          'Author Last Name: ',
-	          React.createElement('input', { type: 'text', value: this.state.author_lname, onChange: this.authorLNameChange })
+	          'div',
+	          { className: 'modal-form-field' },
+	          React.createElement(
+	            'label',
+	            { className: 'form-label' },
+	            'Author Last Name: ',
+	            React.createElement('input', { type: 'text', value: this.state.author_lname, onChange: this.authorLNameChange, className: 'modal-form-input' })
+	          )
 	        ),
 	        React.createElement('br', null),
 	        React.createElement(
@@ -36855,50 +36860,6 @@
 
 /***/ },
 /* 304 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var SearchBar = React.createClass({
-	  displayName: "SearchBar",
-	
-	  getInitialState: function () {
-	    return { inputVal: "" };
-	  },
-	
-	  handleInput: function (e) {
-	    this.setState({ inputVal: e.currentTarget.value });
-	  },
-	
-	  matches: function () {
-	    var matches = [];
-	
-	    if (this.state.inputVal.length === 0) {
-	      return this.props.books;
-	    }
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      "div",
-	      null,
-	      React.createElement(
-	        "form",
-	        { onSubmit: this.handleSubmit },
-	        React.createElement("input", { type: "text" })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = SearchBar;
-
-/***/ },
-/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36939,7 +36900,7 @@
 	module.exports = AllBookIndex;
 
 /***/ },
-/* 306 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36951,11 +36912,11 @@
 	
 	var BookStore = __webpack_require__(278);
 	var BookIndexItem = __webpack_require__(297);
-	var BookEdit = __webpack_require__(307);
+	var BookEdit = __webpack_require__(306);
 	var Sidebar = __webpack_require__(285);
-	var DeleteBookEnsure = __webpack_require__(308);
-	var BookStatusEdit = __webpack_require__(309);
-	var AddBookToShelf = __webpack_require__(310);
+	var DeleteBookEnsure = __webpack_require__(307);
+	var BookStatusEdit = __webpack_require__(308);
+	var AddBookToShelf = __webpack_require__(309);
 	
 	var modalStyle = __webpack_require__(295);
 	
@@ -37139,7 +37100,7 @@
 	module.exports = BookShow;
 
 /***/ },
-/* 307 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37235,50 +37196,51 @@
 	
 	    if (SessionStore.isUserLoggedIn()) {
 	      return React.createElement(
-	        'div',
-	        { className: 'edit-main' },
+	        'form',
+	        { className: 'modal-form', onSubmit: this.handleSubmit },
 	        React.createElement(
-	          'form',
-	          { className: 'shelf-form', onSubmit: this.handleSubmit },
+	          'h1',
+	          { className: 'modal-header' },
+	          'Edit Book'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'div',
+	          { className: 'modal-form-field' },
 	          React.createElement(
-	            'h1',
-	            { className: 'modal-header' },
-	            'Edit Book'
-	          ),
-	          React.createElement('br', null),
-	          React.createElement('br', null),
-	          React.createElement(
-	            'div',
-	            { className: 'clearfix' },
-	            React.createElement(
-	              'label',
-	              { className: 'form-label' },
-	              'Title: ',
-	              React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange })
-	            ),
-	            React.createElement('br', null),
-	            React.createElement(
-	              'label',
-	              { className: 'form-label' },
-	              'Author First Name: ',
-	              React.createElement('input', { type: 'text', value: this.state.author_fname, onChange: this.authorFNameChange })
-	            ),
-	            React.createElement('br', null),
-	            React.createElement(
-	              'label',
-	              { className: 'form-label' },
-	              'Author Last Name: ',
-	              React.createElement('input', { type: 'text', value: this.state.author_lname, onChange: this.authorLNameChange })
-	            ),
-	            React.createElement('br', null),
-	            React.createElement(
-	              'div',
-	              { className: 'form-errors-div' },
-	              this.fieldErrors("base")
-	            ),
-	            React.createElement('input', { type: 'submit', value: 'Update Book', className: 'small-button' })
+	            'label',
+	            { className: 'form-label' },
+	            'Title: ',
+	            React.createElement('input', { type: 'text', value: this.state.title, onChange: this.titleChange, className: 'modal-form-input modal-book-title' })
 	          )
-	        )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'modal-form-field' },
+	          React.createElement(
+	            'label',
+	            { className: 'form-label' },
+	            'Author First Name: ',
+	            React.createElement('input', { type: 'text', value: this.state.author_fname, onChange: this.authorFNameChange, className: 'modal-form-input' })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'modal-form-field' },
+	          React.createElement(
+	            'label',
+	            { className: 'form-label' },
+	            'Author Last Name: ',
+	            React.createElement('input', { type: 'text', value: this.state.author_lname, onChange: this.authorLNameChange, className: 'modal-form-input' })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'form-errors-div' },
+	          this.fieldErrors("base")
+	        ),
+	        React.createElement('input', { type: 'submit', value: 'Update Book', className: 'small-button' })
 	      );
 	    } else {
 	      return React.createElement('div', null);
@@ -37289,7 +37251,7 @@
 	module.exports = BookEdit;
 
 /***/ },
-/* 308 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37327,7 +37289,7 @@
 	module.exports = DeleteBookEnsure;
 
 /***/ },
-/* 309 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37407,7 +37369,7 @@
 	module.exports = BookStatusEdit;
 
 /***/ },
-/* 310 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37415,7 +37377,7 @@
 	var ShelfStore = __webpack_require__(292);
 	var ClientActions = __webpack_require__(287);
 	
-	var ShelfStatus = __webpack_require__(311);
+	var ShelfStatus = __webpack_require__(310);
 	
 	var AddBookToShelf = React.createClass({
 	  displayName: 'AddBookToShelf',
@@ -37472,7 +37434,7 @@
 	module.exports = AddBookToShelf;
 
 /***/ },
-/* 311 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37539,7 +37501,7 @@
 	module.exports = ShelfStatus;
 
 /***/ },
-/* 312 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37608,7 +37570,7 @@
 	module.exports = ReadShow;
 
 /***/ },
-/* 313 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37669,7 +37631,7 @@
 	module.exports = WantShow;
 
 /***/ },
-/* 314 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);

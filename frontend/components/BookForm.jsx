@@ -67,22 +67,22 @@ var BookForm = React.createClass({
     return (
       <div>
         <form className="modal-form" onSubmit={this.handleSubmit}>
-          <h1 className="modal-header">
-            Add a new Book
-          </h1>
-          <br/><br/>
-          <label className="form-label">
-            Title:
-            <input type="text" value={this.state.title} onChange={this.titleChange}/>
-          </label>
-          <br/>
-          <label className="form-label">
-            Author First Name: <input type="text" value={this.state.author_fname} onChange={this.authorFNameChange}/>
-          </label>
-          <br/>
-          <label className="form-label">
-            Author Last Name: <input type="text" value={this.state.author_lname} onChange={this.authorLNameChange}/>
-          </label>
+          <h1 className="modal-header">Add a new Book</h1><br/><br/>
+          <div className="modal-form-field">
+            <label className="form-label">
+              Title: <input type="text" value={this.state.title} onChange={this.titleChange} className="modal-form-input modal-book-title"/>
+            </label>
+          </div>
+          <div className="modal-form-field">
+            <label className="form-label">
+              Author First Name: <input type="text" value={this.state.author_fname} onChange={this.authorFNameChange} className="modal-form-input"/>
+            </label>
+          </div>
+          <div className="modal-form-field">
+            <label className="form-label">
+              Author Last Name: <input type="text" value={this.state.author_lname} onChange={this.authorLNameChange} className="modal-form-input"/>
+            </label>
+          </div>
           <br/>
           <div className="form-errors-div">
             { this.fieldErrors("base") }

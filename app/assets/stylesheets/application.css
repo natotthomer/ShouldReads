@@ -113,11 +113,6 @@ a {
   float: right;
 }
 
-.modal-close:hover {
-  color: #409d69;
-  cursor: pointer;
-}
-
 .add-book-to-shelves {
   overflow-y: scroll;
   height: 100px;
@@ -141,10 +136,10 @@ a {
   height: 12px;
 }
 
-.form-label {
+/*.form-label {
   text-align: right;
   display: inline-block;
-}
+}*/
 
 .status-header {
   padding-left: 200px;

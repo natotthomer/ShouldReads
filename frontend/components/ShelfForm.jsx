@@ -58,14 +58,17 @@ var ShelfForm = React.createClass({
       <div>
         <form className="modal-form" onSubmit={this.handleSubmit}>
           <h1 className="modal-header">Create a new Shelf</h1><br/><br/>
-          <label className="form-label">
-            Title: <input type="text" value={this.state.title} onChange={this.titleChange}/>
-          </label>
-          <br/>
-          <label className="form-label">
-            Description: <textarea value={this.state.description} onChange={this.descriptionChange}/>
-          </label>
-          <br/>
+          <div className="modal-form-field">
+            <label>
+              Title: <input type="text" value={this.state.title} onChange={this.titleChange} className="modal-form-input modal-shelf-title"/>
+            </label>
+          </div>
+          <div className="modal-form-field">
+            <label>
+              Description: <textarea value={this.state.description} onChange={this.descriptionChange} className="modal-form-input modal-textarea"/>
+            </label>
+          </div>
+
           <div className="form-errors-div">
             { this.fieldErrors("base") }
           </div>

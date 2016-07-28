@@ -12,7 +12,6 @@ var Dashboard = require('./Dashboard');
 var ShelvesView = require('./ShelvesView');
 var Homepage = require('./Homepage');
 var BookForm = require('./BookForm');
-var SearchBar = require('./SearchBar');
 
 var modalStyle = require('./../constants/modal_style_constants');
 var _backgroundClass = "login-background";
@@ -74,14 +73,6 @@ var Header = React.createClass({
     );
   },
 
-  searchBar: function () {
-    return (
-      <div className="search-bar-wrapper">
-        <SearchBar />
-      </div>
-    );
-  },
-
   restOfHeader: function () {
     if (SessionStore.isUserLoggedIn()) {
       return (
@@ -131,8 +122,6 @@ var Header = React.createClass({
         </Modal>
       </div>
     )
-
-
   }
 })
 
